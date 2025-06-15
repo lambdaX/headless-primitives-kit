@@ -272,3 +272,4 @@ export abstract class HeadlessComponent<TState extends BaseComponentState> exten
         super.notifyObservers(event, data);
     }
 }
+
