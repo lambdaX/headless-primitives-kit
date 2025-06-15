@@ -65,6 +65,12 @@ class HeadlessCheckbox extends headless_component_1.HeadlessComponent {
             ...(this.state.error && { 'data-error': 'true' }),
         };
     }
+    /**
+     * Explicitly define notifyObservers to aid type resolution, calling the superclass implementation.
+     */
+    notifyObservers(event, data) {
+        super.notifyObservers(event, data);
+    }
     // --- Public API methods ---
     /**
      * Toggles the checkbox state.
