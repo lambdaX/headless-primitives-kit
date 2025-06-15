@@ -61,7 +61,11 @@ class HeadlessButton extends headless_component_1.HeadlessComponent {
      * @returns A record of data attributes (e.g., `data-disabled`, `data-loading`).
      */
     getDataAttributes() {
-        return Object.assign({ 'data-disabled': String(this.state.isDisabled), 'data-loading': String(this.state.isLoading) }, (this.state.error && { 'data-error': 'true' }));
+        return {
+            'data-disabled': String(this.state.isDisabled),
+            'data-loading': String(this.state.isLoading),
+            ...(this.state.error && { 'data-error': 'true' }),
+        };
     }
     // --- Public API methods ---
     /**

@@ -50,7 +50,12 @@ class HeadlessInput extends headless_component_1.HeadlessComponent {
      * @returns A record of data attributes including `data-readonly`, `data-valid`.
      */
     getDataAttributes() {
-        return Object.assign({ 'data-disabled': String(this.state.isDisabled), 'data-readonly': String(this.state.isReadOnly), 'data-valid': String(this.state.isValid) }, (this.state.error && { 'data-error': 'true' }));
+        return {
+            'data-disabled': String(this.state.isDisabled),
+            'data-readonly': String(this.state.isReadOnly),
+            'data-valid': String(this.state.isValid), // Reflects validity state
+            ...(this.state.error && { 'data-error': 'true' }),
+        };
     }
     // --- Public API methods ---
     /**
