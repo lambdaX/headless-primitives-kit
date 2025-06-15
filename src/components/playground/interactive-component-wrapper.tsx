@@ -247,7 +247,7 @@ export const ToggleRenderer: InteractiveComponentWrapperProps<HeadlessToggle, To
     onMouseLeave={(e) => component.hover(false, e)}
     onFocus={(e) => component.focus(true, e)}
     onBlur={(e) => component.focus(false, e)}
-    onKeyDown={(e) => component.keydown(e)}
+    onKeyDown={(e) => component.keydown(e.nativeEvent)}
     onMouseDown={() => component.press(true)}
     onMouseUp={() => component.press(false)}
     className={cn(
@@ -280,7 +280,7 @@ export const ButtonRenderer: InteractiveComponentWrapperProps<HeadlessButton, Bu
     onMouseLeave={(e) => component.hover(false, e)}
     onFocus={(e) => component.focus(true, e)}
     onBlur={(e) => component.focus(false, e)}
-    onKeyDown={(e) => component.keydown(e)}
+    onKeyDown={(e) => component.keydown(e.nativeEvent)}
     onMouseDown={() => component.press(true)}
     onMouseUp={() => component.press(false)}
     disabled={componentState.isDisabled || componentState.isLoading}
@@ -333,7 +333,7 @@ export const CheckboxRenderer: InteractiveComponentWrapperProps<HeadlessCheckbox
     onMouseLeave={(e) => component.hover(false, e)}
     onFocus={(e) => component.focus(true, e)}
     onBlur={(e) => component.focus(false, e)}
-    onKeyDown={(e) => component.keydown(e)}
+    onKeyDown={(e) => component.keydown(e.nativeEvent)}
     onMouseDown={() => component.press(true)}
     onMouseUp={() => component.press(false)}
     disabled={componentState.isDisabled}
