@@ -1,5 +1,5 @@
 
-import { EventEmitter } from './event-emitter';
+import { EventEmitter, type EventCallback } from './event-emitter';
 import { Command, CommandInvoker, type CommandData, type CommandHistoryState } from './command';
 import { ComponentState, IdleState, HoveredState, FocusedState, PressedState, DisabledState, LoadingState, ErrorState } from './component-states';
 import type { InteractionStrategy, InteractionPayload, InteractionResult } from './interaction-strategies';
@@ -125,12 +125,12 @@ export abstract class HeadlessComponent<TState extends BaseComponentState> exten
         this.currentState = newStateInstance;
         this.currentState.enter();
         
-        this.notifyObservers('stateTransition', {
+        this.notifyObservers('stateTransition', { // Relies on notifyObservers being available
             stateName: stateName,
-            state: this.getState() // Pass current data state
+            state: this.getState() 
         });
         
-        this.notifyObservers('cssStateChanged', this.getCSSState());
+        this.notifyObservers('cssStateChanged', this.getCSSState()); // Relies on notifyObservers
     }
     
     /**
@@ -144,7 +144,6 @@ export abstract class HeadlessComponent<TState extends BaseComponentState> exten
         const previousState = { ...this.state };
         const nextState = { ...this.state, ...newState };
         
-        // Avoid unnecessary updates if the state hasn't actually changed.
         if (JSON.stringify(previousState) === JSON.stringify(nextState)) {
             return false; 
         }
@@ -152,15 +151,15 @@ export abstract class HeadlessComponent<TState extends BaseComponentState> exten
         const command = new Command(
             () => { // Execute action
                 this.state = nextState;
-                this.updateCurrentStateBasedOnData(this.state); // Reflect data change in visual state
-                this.notifyObservers('stateChanged', this.getState());
+                this.updateCurrentStateBasedOnData(this.state); 
+                this.notifyObservers('stateChanged', this.getState()); // Relies on notifyObservers
             },
             () => { // Undo action
                 this.state = previousState;
-                this.updateCurrentStateBasedOnData(this.state); // Reflect data change in visual state
-                this.notifyObservers('stateChanged', this.getState());
+                this.updateCurrentStateBasedOnData(this.state); 
+                this.notifyObservers('stateChanged', this.getState()); // Relies on notifyObservers
             },
-            { previousState, nextState } as CommandData // Data for the command
+            { previousState, nextState } as CommandData
         );
         
         this.commandInvoker.execute(command);
@@ -191,7 +190,6 @@ export abstract class HeadlessComponent<TState extends BaseComponentState> exten
     getCSSState(): CssState {
         const baseClasses = ['headless-component'];
         const stateClasses = this.currentState ? this.currentState.getCSSClasses() : [];
-        // Add component-specific class, e.g., "button" from "HeadlessButton"
         const componentTypeClass = this.constructor.name.toLowerCase().replace('headless', '');
         
         const dataAttributes = this.getDataAttributes();
@@ -208,7 +206,6 @@ export abstract class HeadlessComponent<TState extends BaseComponentState> exten
      * @returns A record of data attributes.
      */
     getDataAttributes(): Record<string, string> {
-        // Base implementation, typically overridden by subclasses.
         return {
             'data-disabled': String(!!this.state.isDisabled),
             'data-loading': String(!!this.state.isLoading),
@@ -238,7 +235,7 @@ export abstract class HeadlessComponent<TState extends BaseComponentState> exten
      */
     undo(): boolean {
         const result = this.commandInvoker.undo();
-        if (result) this.notifyObservers('historyChanged', this.getHistory());
+        if (result) this.notifyObservers('historyChanged', this.getHistory()); // Relies on notifyObservers
         return result;
     }
     
@@ -249,7 +246,7 @@ export abstract class HeadlessComponent<TState extends BaseComponentState> exten
      */
     redo(): boolean {
         const result = this.commandInvoker.redo();
-        if (result) this.notifyObservers('historyChanged', this.getHistory());
+        if (result) this.notifyObservers('historyChanged', this.getHistory()); // Relies on notifyObservers
         return result;
     }
     
@@ -260,4 +257,16 @@ export abstract class HeadlessComponent<TState extends BaseComponentState> exten
     getHistory(): CommandHistoryState {
         return this.commandInvoker.getHistory();
     }
+
+    /**
+     * Explicitly re-declares notifyObservers to ensure it's part of HeadlessComponent's direct API.
+     * This can aid type resolution in some build environments.
+     * @param event The name of the event to notify observers about.
+     * @param data Optional data to pass to the event callbacks.
+     */
+    public notifyObservers(event: string, data?: any): void {
+        super.notifyObservers(event, data);
+    }
 }
+
+    
