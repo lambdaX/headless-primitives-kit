@@ -4,8 +4,11 @@ import type { HeadlessToggle, ToggleState } from './headless-toggle';
 import type { HeadlessButton } from './headless-button';
 import type { HeadlessInput, InputState } from './headless-input';
 import type { HeadlessCheckbox, CheckboxState } from './headless-checkbox';
-import type { HeadlessRadioGroup, RadioGroupState, RadioOption } from './headless-radio-group';
+import type { HeadlessRadioGroup, RadioGroupState } from './headless-radio-group';
 import type { HeadlessSlider, SliderState } from './headless-slider';
+import type { HeadlessAccordion, AccordionState } from './headless-accordion';
+import type { HeadlessTabs, TabsState } from './headless-tabs';
+
 
 export interface InteractionPayload {
     originalEvent?: Event | React.SyntheticEvent;
@@ -278,4 +281,67 @@ export class SliderKeyboardStrategy extends InteractionStrategy {
     }
 }
 
-    
+
+export class AccordionToggleItemStrategy extends InteractionStrategy {
+    handle(context: HeadlessAccordion, payload: InteractionPayload & { itemId: string; itemDisabled?: boolean }): InteractionResult {
+        const state = context.getState();
+        const { itemId, itemDisabled } = payload;
+
+        if (state.isDisabled || itemDisabled) {
+            return { prevented: true, reason: itemDisabled ? 'item disabled' : 'group disabled' };
+        }
+
+        let newOpenItems = [...state.openItems];
+        const isOpen = newOpenItems.includes(itemId);
+
+        if (state.type === 'single') {
+            if (isOpen) {
+                if (state.collapsible) {
+                    newOpenItems = []; // Close the item
+                }
+                // If not collapsible and already open, do nothing
+            } else {
+                newOpenItems = [itemId]; // Open the item, close others
+            }
+        } else { // type === 'multiple'
+            if (isOpen) {
+                newOpenItems = newOpenItems.filter(id => id !== itemId); // Close the item
+            } else {
+                newOpenItems.push(itemId); // Open the item
+            }
+        }
+
+        if (JSON.stringify(state.openItems) !== JSON.stringify(newOpenItems)) {
+            context.setState({ openItems: newOpenItems });
+            context.notifyObservers('itemToggled', {
+                itemId,
+                isOpen: newOpenItems.includes(itemId),
+                openItems: newOpenItems,
+                originalEvent: payload.originalEvent,
+            });
+        }
+        
+        return { prevented: false, handled: true };
+    }
+}
+
+export class TabsActivateTabStrategy extends InteractionStrategy {
+    handle(context: HeadlessTabs, payload: InteractionPayload & { tabId: string; tabDisabled?: boolean }): InteractionResult {
+        const state = context.getState();
+        const { tabId, tabDisabled } = payload;
+
+        if (state.isDisabled || tabDisabled) {
+            return { prevented: true, reason: tabDisabled ? 'tab disabled' : 'group disabled' };
+        }
+
+        if (state.activeTab !== tabId) {
+            context.setState({ activeTab: tabId });
+            context.notifyObservers('tabActivated', {
+                tabId,
+                originalEvent: payload.originalEvent,
+            });
+        }
+        
+        return { prevented: false, handled: true };
+    }
+}
