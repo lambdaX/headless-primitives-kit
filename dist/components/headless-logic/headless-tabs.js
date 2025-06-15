@@ -51,7 +51,13 @@ class HeadlessTabs extends headless_component_1.HeadlessComponent {
      * @returns A record of data attributes.
      */
     getDataAttributes() {
-        return Object.assign(Object.assign(Object.assign({ 'data-disabled': String(this.state.isDisabled), 'data-orientation': this.state.orientation }, (this.state.activeTab && { 'data-active-tab': this.state.activeTab })), (this.state.error && { 'data-error': 'true' })), { 'data-focused': String(this.state.isFocused) });
+        return {
+            'data-disabled': String(this.state.isDisabled),
+            'data-orientation': this.state.orientation,
+            ...(this.state.activeTab && { 'data-active-tab': this.state.activeTab }),
+            ...(this.state.error && { 'data-error': 'true' }),
+            'data-focused': String(this.state.isFocused), // For the tabs container/list or active tab
+        };
     }
     // --- Public API methods ---
     /**

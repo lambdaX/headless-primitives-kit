@@ -58,7 +58,12 @@ class HeadlessCheckbox extends headless_component_1.HeadlessComponent {
      * @returns A record of data attributes including `data-checked`, `data-indeterminate`.
      */
     getDataAttributes() {
-        return Object.assign({ 'data-checked': String(this.state.isChecked), 'data-indeterminate': String(this.state.isIndeterminate), 'data-disabled': String(this.state.isDisabled) }, (this.state.error && { 'data-error': 'true' }));
+        return {
+            'data-checked': String(this.state.isChecked),
+            'data-indeterminate': String(this.state.isIndeterminate),
+            'data-disabled': String(this.state.isDisabled),
+            ...(this.state.error && { 'data-error': 'true' }),
+        };
     }
     // --- Public API methods ---
     /**

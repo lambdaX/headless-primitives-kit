@@ -58,7 +58,17 @@ class HeadlessSlider extends headless_component_1.HeadlessComponent {
      * @returns A record of data attributes including ARIA value attributes.
      */
     getDataAttributes() {
-        return Object.assign(Object.assign({ 'data-disabled': String(this.state.isDisabled), 'data-focused': String(this.state.isFocused), 'data-pressed': String(this.state.isPressed) }, (this.state.error && { 'data-error': 'true' })), { 'aria-valuenow': String(this.state.value), 'aria-valuemin': String(this.state.min), 'aria-valuemax': String(this.state.max), 'aria-orientation': 'horizontal' });
+        return {
+            'data-disabled': String(this.state.isDisabled),
+            'data-focused': String(this.state.isFocused), // Usually on the thumb
+            'data-pressed': String(this.state.isPressed), // Thumb is active
+            ...(this.state.error && { 'data-error': 'true' }),
+            'aria-valuenow': String(this.state.value),
+            'aria-valuemin': String(this.state.min),
+            'aria-valuemax': String(this.state.max),
+            'aria-orientation': 'horizontal', // Assuming horizontal; could be made configurable
+            // 'aria-disabled': String(this.state.isDisabled), // Covered by HTML disabled on input usually
+        };
     }
     // --- Public API methods ---
     /**

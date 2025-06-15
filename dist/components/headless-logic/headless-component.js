@@ -84,8 +84,8 @@ class HeadlessComponent extends event_emitter_1.EventEmitter {
      * @returns True if the state was changed, false if the new state was identical to the current state.
      */
     setState(newState) {
-        const previousState = Object.assign({}, this.state);
-        const nextState = Object.assign(Object.assign({}, this.state), newState);
+        const previousState = { ...this.state };
+        const nextState = { ...this.state, ...newState };
         // Avoid unnecessary updates if the state hasn't actually changed.
         if (JSON.stringify(previousState) === JSON.stringify(nextState)) {
             return false;
@@ -108,7 +108,7 @@ class HeadlessComponent extends event_emitter_1.EventEmitter {
      * @returns The current state object.
      */
     getState() {
-        return Object.assign({}, this.state);
+        return { ...this.state };
     }
     /**
      * Gets the current CSS-related state of the component.
@@ -133,7 +133,11 @@ class HeadlessComponent extends event_emitter_1.EventEmitter {
      */
     getDataAttributes() {
         // Base implementation, typically overridden by subclasses.
-        return Object.assign({ 'data-disabled': String(!!this.state.isDisabled), 'data-loading': String(!!this.state.isLoading) }, (this.state.error && { 'data-error': 'true' }));
+        return {
+            'data-disabled': String(!!this.state.isDisabled),
+            'data-loading': String(!!this.state.isLoading),
+            ...(this.state.error && { 'data-error': 'true' }),
+        };
     }
     /**
      * Handles an interaction by delegating to the appropriate registered strategy.

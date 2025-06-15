@@ -48,7 +48,11 @@ class HeadlessRadioGroup extends headless_component_1.HeadlessComponent {
      * @returns A record of data attributes.
      */
     getDataAttributes() {
-        return Object.assign(Object.assign({ 'data-disabled': String(this.state.isDisabled) }, (this.state.error && { 'data-error': 'true' })), { 'data-focused': String(this.state.isFocused) });
+        return {
+            'data-disabled': String(this.state.isDisabled),
+            ...(this.state.error && { 'data-error': 'true' }),
+            'data-focused': String(this.state.isFocused), // If group itself can be focused
+        };
     }
     // --- Public API methods ---
     /**
@@ -61,7 +65,7 @@ class HeadlessRadioGroup extends headless_component_1.HeadlessComponent {
     selectOption(value, originalEvent) {
         const option = this.state.options.find(opt => opt.value === value);
         if (this.state.isDisabled || (option && option.disabled)) {
-            return { prevented: true, reason: (option === null || option === void 0 ? void 0 : option.disabled) ? 'option disabled' : 'group disabled' };
+            return { prevented: true, reason: option?.disabled ? 'option disabled' : 'group disabled' };
         }
         return this.handleInteraction('select', { value, originalEvent });
     }

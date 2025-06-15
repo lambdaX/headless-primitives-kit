@@ -59,7 +59,12 @@ class HeadlessToggle extends headless_component_1.HeadlessComponent {
      * @returns A record of data attributes including `data-checked`.
      */
     getDataAttributes() {
-        return Object.assign({ 'data-checked': String(this.state.isChecked), 'data-disabled': String(this.state.isDisabled), 'data-loading': String(this.state.isLoading) }, (this.state.error && { 'data-error': 'true' }));
+        return {
+            'data-checked': String(this.state.isChecked),
+            'data-disabled': String(this.state.isDisabled),
+            'data-loading': String(this.state.isLoading),
+            ...(this.state.error && { 'data-error': 'true' }),
+        };
     }
     // --- Public API methods ---
     /**

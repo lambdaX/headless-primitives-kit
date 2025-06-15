@@ -52,7 +52,13 @@ class HeadlessAccordion extends headless_component_1.HeadlessComponent {
      * @returns A record of data attributes.
      */
     getDataAttributes() {
-        return Object.assign(Object.assign({ 'data-disabled': String(this.state.isDisabled), 'data-type': this.state.type, 'data-collapsible': String(this.state.collapsible) }, (this.state.error && { 'data-error': 'true' })), { 'data-focused': String(this.state.isFocused) });
+        return {
+            'data-disabled': String(this.state.isDisabled),
+            'data-type': this.state.type,
+            'data-collapsible': String(this.state.collapsible),
+            ...(this.state.error && { 'data-error': 'true' }),
+            'data-focused': String(this.state.isFocused), // For the accordion group
+        };
     }
     // --- Public API methods ---
     /**
