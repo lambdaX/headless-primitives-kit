@@ -71,6 +71,13 @@ export class HeadlessCheckbox extends HeadlessComponent<CheckboxState> {
             ...(this.state.error && { 'data-error': 'true' }),
         };
     }
+
+    /**
+     * Explicitly define notifyObservers to aid type resolution, calling the superclass implementation.
+     */
+    public notifyObservers(event: string, data?: any): void {
+        super.notifyObservers(event, data);
+    }
     
     // --- Public API methods ---
 
