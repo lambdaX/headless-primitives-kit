@@ -2,8 +2,9 @@
 import type { HeadlessComponent, BaseComponentState } from './headless-component';
 import { HeadlessToggle } from './headless-toggle';
 import { HeadlessButton } from './headless-button';
+import { HeadlessCheckbox } from './headless-checkbox';
+import type { CheckboxState } from './headless-checkbox';
 import type { HeadlessInput, InputState } from './headless-input';
-import { HeadlessCheckbox, type CheckboxState } from './headless-checkbox';
 import type { HeadlessRadioGroup } from './headless-radio-group';
 import type { HeadlessSlider } from './headless-slider';
 import type { HeadlessAccordion } from './headless-accordion';
