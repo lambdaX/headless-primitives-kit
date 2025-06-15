@@ -3,22 +3,23 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "rootDir": "./src/components/headless-logic",
-    "baseUrl": "./src/components/headless-logic",
-    "paths": { 
-      "@/*": ["../../../*"] 
+    "rootDir": "./src",
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["../*"]
     },
-    "module": "ESNext", 
-    "declaration": true, 
-    "declarationMap": true, 
-    "sourceMap": true, 
-    "noEmit": false, 
-    "jsx": "react-jsx", 
-    "emitDeclarationOnly": false, 
-    "isolatedModules": false 
+    "module": "ESNext",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "noEmit": false,
+    "jsx": "react-jsx",
+    "emitDeclarationOnly": false,
+    "isolatedModules": false
   },
   "include": [
-    "./src/components/headless-logic/**/*.ts"
+    "./src/components/headless-logic/**/*.ts",
+    "./src/hooks/use-headless-component.ts"
   ],
   "exclude": [
     "node_modules",
@@ -26,7 +27,6 @@
     "src/app",
     "src/components/playground",
     "src/components/ui",
-    "src/hooks",
     "src/lib",
     "src/ai",
     "**/*.spec.ts",

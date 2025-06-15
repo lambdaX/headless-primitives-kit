@@ -1,113 +1,121 @@
+
 {
   "name": "headless-primitives-kit",
   "version": "0.1.0",
   "private": false,
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/components/headless-logic/index.js",
+  "module": "./dist/components/headless-logic/index.js",
+  "types": "./dist/components/headless-logic/index.d.ts",
   "files": [
     "dist",
     "README.md"
   ],
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/components/headless-logic/index.js",
+      "types": "./dist/components/headless-logic/index.d.ts"
     },
     "./headless-accordion": {
-      "import": "./dist/headless-accordion.js",
-      "types": "./dist/headless-accordion.d.ts"
+      "import": "./dist/components/headless-logic/headless-accordion.js",
+      "types": "./dist/components/headless-logic/headless-accordion.d.ts"
     },
     "./headless-button": {
-      "import": "./dist/headless-button.js",
-      "types": "./dist/headless-button.d.ts"
+      "import": "./dist/components/headless-logic/headless-button.js",
+      "types": "./dist/components/headless-logic/headless-button.d.ts"
     },
     "./headless-checkbox": {
-      "import": "./dist/headless-checkbox.js",
-      "types": "./dist/headless-checkbox.d.ts"
+      "import": "./dist/components/headless-logic/headless-checkbox.js",
+      "types": "./dist/components/headless-logic/headless-checkbox.d.ts"
     },
     "./headless-component": {
-      "import": "./dist/headless-component.js",
-      "types": "./dist/headless-component.d.ts"
+      "import": "./dist/components/headless-logic/headless-component.js",
+      "types": "./dist/components/headless-logic/headless-component.d.ts"
     },
     "./headless-input": {
-      "import": "./dist/headless-input.js",
-      "types": "./dist/headless-input.d.ts"
+      "import": "./dist/components/headless-logic/headless-input.js",
+      "types": "./dist/components/headless-logic/headless-input.d.ts"
     },
     "./headless-radio-group": {
-      "import": "./dist/headless-radio-group.js",
-      "types": "./dist/headless-radio-group.d.ts"
+      "import": "./dist/components/headless-logic/headless-radio-group.js",
+      "types": "./dist/components/headless-logic/headless-radio-group.d.ts"
     },
     "./headless-slider": {
-      "import": "./dist/headless-slider.js",
-      "types": "./dist/headless-slider.d.ts"
+      "import": "./dist/components/headless-logic/headless-slider.js",
+      "types": "./dist/components/headless-logic/headless-slider.d.ts"
     },
     "./headless-tabs": {
-      "import": "./dist/headless-tabs.js",
-      "types": "./dist/headless-tabs.d.ts"
+      "import": "./dist/components/headless-logic/headless-tabs.js",
+      "types": "./dist/components/headless-logic/headless-tabs.d.ts"
     },
     "./headless-toggle": {
-      "import": "./dist/headless-toggle.js",
-      "types": "./dist/headless-toggle.d.ts"
+      "import": "./dist/components/headless-logic/headless-toggle.js",
+      "types": "./dist/components/headless-logic/headless-toggle.d.ts"
     },
     "./command": {
-      "import": "./dist/command.js",
-      "types": "./dist/command.d.ts"
+      "import": "./dist/components/headless-logic/command.js",
+      "types": "./dist/components/headless-logic/command.d.ts"
     },
     "./component-states": {
-      "import": "./dist/component-states.js",
-      "types": "./dist/component-states.d.ts"
+      "import": "./dist/components/headless-logic/component-states.js",
+      "types": "./dist/components/headless-logic/component-states.d.ts"
     },
     "./event-emitter": {
-      "import": "./dist/event-emitter.js",
-      "types": "./dist/event-emitter.d.ts"
+      "import": "./dist/components/headless-logic/event-emitter.js",
+      "types": "./dist/components/headless-logic/event-emitter.d.ts"
     },
     "./interaction-strategies": {
-      "import": "./dist/interaction-strategies.js",
-      "types": "./dist/interaction-strategies.d.ts"
+      "import": "./dist/components/headless-logic/interaction-strategies.js",
+      "types": "./dist/components/headless-logic/interaction-strategies.d.ts"
+    },
+    "./hooks/use-headless-component": {
+      "import": "./dist/hooks/use-headless-component.js",
+      "types": "./dist/hooks/use-headless-component.d.ts"
     },
     "./package.json": "./package.json"
   },
   "typesVersions": {
     "*": {
       "headless-accordion": [
-        "./dist/headless-accordion.d.ts"
+        "./dist/components/headless-logic/headless-accordion.d.ts"
       ],
       "headless-button": [
-        "./dist/headless-button.d.ts"
+        "./dist/components/headless-logic/headless-button.d.ts"
       ],
       "headless-checkbox": [
-        "./dist/headless-checkbox.d.ts"
+        "./dist/components/headless-logic/headless-checkbox.d.ts"
       ],
       "headless-component": [
-        "./dist/headless-component.d.ts"
+        "./dist/components/headless-logic/headless-component.d.ts"
       ],
       "headless-input": [
-        "./dist/headless-input.d.ts"
+        "./dist/components/headless-logic/headless-input.d.ts"
       ],
       "headless-radio-group": [
-        "./dist/headless-radio-group.d.ts"
+        "./dist/components/headless-logic/headless-radio-group.d.ts"
       ],
       "headless-slider": [
-        "./dist/headless-slider.d.ts"
+        "./dist/components/headless-logic/headless-slider.d.ts"
       ],
       "headless-tabs": [
-        "./dist/headless-tabs.d.ts"
+        "./dist/components/headless-logic/headless-tabs.d.ts"
       ],
       "headless-toggle": [
-        "./dist/headless-toggle.d.ts"
+        "./dist/components/headless-logic/headless-toggle.d.ts"
       ],
       "command": [
-        "./dist/command.d.ts"
+        "./dist/components/headless-logic/command.d.ts"
       ],
       "component-states": [
-        "./dist/component-states.d.ts"
+        "./dist/components/headless-logic/component-states.d.ts"
       ],
       "event-emitter": [
-        "./dist/event-emitter.d.ts"
+        "./dist/components/headless-logic/event-emitter.d.ts"
       ],
       "interaction-strategies": [
-        "./dist/interaction-strategies.d.ts"
+        "./dist/components/headless-logic/interaction-strategies.d.ts"
+      ],
+      "hooks/use-headless-component": [
+        "./dist/hooks/use-headless-component.d.ts"
       ]
     }
   },
