@@ -115,7 +115,7 @@
     "dev": "next dev --turbopack -p 9002",
     "genkit:dev": "genkit start -- tsx src/ai/dev.ts",
     "genkit:watch": "genkit start -- tsx --watch src/ai/dev.ts",
-    "build": "npm run build:logic && next build && next export",
+    "build": "npm run build:logic && next build",
     "build:logic": "rimraf dist && tsc -p tsconfig.build.json",
     "start": "next start",
     "lint": "next lint",
