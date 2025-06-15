@@ -1,190 +1,152 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HeadlessButton ES Module CDN Example</title>
+    <title>ESM Headless Button Example</title>
     <style>
-        body { font-family: sans-serif; padding: 20px; background-color: #f4f4f4; color: #333; }
-        #container { background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        body { font-family: sans-serif; padding: 20px; background-color: #f0f0f0; }
+        #root { padding: 20px; background-color: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
         button {
             padding: 10px 15px;
-            font-size: 16px;
-            border: none;
             border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            margin-right: 10px;
-        }
-        .my-button { /* Base style for the example button */
+            border: 1px solid #ccc;
             background-color: #007bff;
             color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.2s;
         }
-        .my-button:hover { background-color: #0056b3; }
-        .my-button:disabled { background-color: #cccccc; cursor: not-allowed; }
-        .my-button[data-loading="true"] { background-color: #ffc107; cursor: wait; }
-        .my-button[data-error="true"] { background-color: #dc3545; }
-        .my-button[data-focused="true"] { box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5); }
-        .my-button[data-pressed="true"] { transform: scale(0.98); }
-        #controls button { background-color: #6c757d; color: white; }
-        #controls button:hover { background-color: #545b62; }
-        #controls button:disabled { background-color: #e9ecef; color: #6c757d; cursor: not-allowed; }
-        pre { background-color: #e9ecef; padding: 15px; border-radius: 5px; overflow-x: auto; }
-        .log-message { margin-top: 5px; padding: 8px; border-left: 3px solid; font-size: 0.9em; }
-        .log-info { border-left-color: #17a2b8; }
-        .log-error { border-left-color: #dc3545; color: #dc3545; }
-        .log-success { border-left-color: #28a745; }
+        button:hover { background-color: #0056b3; }
+        button:disabled { background-color: #e0e0e0; color: #a0a0a0; cursor: not-allowed; }
+        .log-output { margin-top: 20px; padding: 10px; border: 1px solid #eee; background-color: #f9f9f9; max-height: 200px; overflow-y: auto; font-size: 0.9em; }
     </style>
-</head><body>
+</head>
+<body>
+    <h1>Headless Button ESM Example</h1>
+    <p>This example demonstrates loading and using the <code>HeadlessButton</code> and <code>useHeadlessComponent</code> hook directly from ESM modules via a CDN or local server.</p>
+    <div id="root"></div>
+    <div class="log-output" id="log-output">Logs will appear here...</div>
 
-<div id="container">
-    <h1>HeadlessButton ES Module Example</h1>
-    <p>This example demonstrates loading <code>HeadlessButton</code> and <code>useHeadlessComponent</code> via ES module imports from a CDN (or locally for testing).</p>
+    <script type="module">
+        const logOutput = document.getElementById('log-output');
+        function log(message) {
+            console.log(message);
+            const p = document.createElement('p');
+            p.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            logOutput.appendChild(p);
+            logOutput.scrollTop = logOutput.scrollHeight;
+        }
 
-    <div id="button-root"></div>
-    <div id="controls" style="margin-top: 20px;">
-        <button id="toggle-disable">Toggle Disable</button>
-        <button id="toggle-loading">Toggle Loading</button>
-        <button id="toggle-error">Toggle Error</button>
-        <button id="undo" disabled>Undo</button>
-        <button id="redo" disabled>Redo</button>
-    </div>
-    <pre id="state-output">Component state will appear here...</pre>
-    <div id="logs"></div>
-</div>
+        async function main() {
+            try {
+                log('Attempting to load React...');
+                const ReactModule = await import('https://esm.sh/react@18.2.0');
+                window.React = ReactModule.default; // Or specific named exports if needed
+                log('ReactModule loaded: ' + ReactModule);
+                if (window.React) log('window.React assigned.'); else log('ERROR: window.React NOT assigned.');
 
-<script type="module">
-    const logsContainer = document.getElementById('logs');
-    function log(message, type = 'info') {
-        console.log(message);
-        const p = document.createElement('p');
-        p.textContent = `[${type.toUpperCase()}] ${message}`;
-        p.className = `log-message log-${type}`;
-        logsContainer.appendChild(p);
-    }
+                log('Attempting to load ReactDOM...');
+                const ReactDOMModule = await import('https://esm.sh/react-dom@18.2.0/client');
+                window.ReactDOM = ReactDOMModule; // Or .default if that's the structure
+                log('ReactDOMModule loaded: ' + ReactDOMModule);
+                if (window.ReactDOM && window.ReactDOM.createRoot) log('ReactDOM assigned.'); else log('ERROR: ReactDOM NOT assigned or createRoot is missing.');
 
-    async function main() {
-        try {
-            log('Attempting to load React...');
-            const ReactModule = await import('https://esm.sh/react@18.3.1');
-            log('ReactModule loaded: ' + ReactModule);
-            window.React = ReactModule.default; // Ensure React is available globally if components expect it
-            log('window.React assigned.');
-
-            log('Attempting to load ReactDOM...');
-            const ReactDOMModule = await import('https://esm.sh/react-dom@18.3.1/client');
-            log('ReactDOMModule loaded: ' + ReactDOMModule);
-            window.ReactDOM = ReactDOMModule.default; // For ReactDOM.createRoot
-            log('ReactDOM assigned.');
-
-            const urlParams = new URLSearchParams(window.location.search);
-            const isLocalTest = urlParams.get('local') === 'true';
-
-            // Determine base path for headless-primitives-kit
-            // IMPORTANT: Adjust the jsDelivr URL to point to your specific repository and branch/tag
-            const repoOwner = 'lambdaX';
-            const repoName = 'headless-primitives-kit';
-            const repoBranch = 'master'; // Or a specific tag/commit hash
-
-            let basePath;
-            if (isLocalTest) {
-                // Assumes esm-button-example.html is in public/ and dist/ is at project root
-                basePath = '../../dist';
-                log(`LOCAL TEST: Base path for headless-primitives-kit: ${basePath}`);
-            } else {
-                basePath = `https://cdn.jsdelivr.net/gh/${repoOwner}/${repoName}@${repoBranch}/dist`;
-                log(`CDN: Base path for headless-primitives-kit: ${basePath}`);
-            }
+                const urlParams = new URLSearchParams(window.location.search);
+                const useLocal = urlParams.get('local') === 'true';
+                
+                // For Playwright testability
+                window.headlessModulesLoaded = false; 
 
 
-            log('Attempting to load HeadlessButton...');
-            const { HeadlessButton } = await import(`${basePath}/components/headless-logic/headless-button.js`);
-            log('HeadlessButton loaded.');
+                const basePath = useLocal 
+                    ? '../../dist' 
+                    : 'https://cdn.jsdelivr.net/gh/lambdaX/headless-primitives-kit@master/dist'; 
+                log(`Base path for headless-primitives-kit: ${basePath}`);
+                
 
-            log('Attempting to load useHeadlessComponent...');
-            const { useHeadlessComponent } = await import(`${basePath}/hooks/use-headless-component.js`);
-            log('useHeadlessComponent loaded.');
+                log('Attempting to load HeadlessComponent...'); // Prerequisite, though not directly used here.
+                // Ensures core dependencies like Command, EventEmitter are tested.
+                const HeadlessComponentModule = await import(\`\${basePath}/components/headless-logic/headless-component.js\`);
+                window.HeadlessComponentModule = HeadlessComponentModule;
+                log('HeadlessComponent loaded: ' + (HeadlessComponentModule ? 'OK' : 'Failed'));
 
-            const stateOutput = document.getElementById('state-output');
-            const undoBtn = document.getElementById('undo');
-            const redoBtn = document.getElementById('redo');
 
-            function MyButtonComponent() {
-                const { component, componentState, cssState, history, undo, redo } = useHeadlessComponent(HeadlessButton);
+                log('Attempting to load HeadlessButton...');
+                const { HeadlessButton } = await import(\`\${basePath}/components/headless-logic/headless-button.js\`);
+                window.headlessButtonInstance = new HeadlessButton(); // For test checks
+                log('HeadlessButton loaded: ' + (HeadlessButton ? 'OK' : 'Failed'));
 
-                React.useEffect(() => {
-                    stateOutput.textContent = JSON.stringify({ componentState, cssState, history }, null, 2);
-                    undoBtn.disabled = !history.canUndo;
-                    redoBtn.disabled = !history.canRedo;
-                }, [componentState, cssState, history]);
+                log('Attempting to load useHeadlessComponent...');
+                const { useHeadlessComponent } = await import(\`\${basePath}/hooks/use-headless-component.js\`);
+                window.useHeadlessComponentModule = useHeadlessComponent; // For test checks
+                log('useHeadlessComponent loaded: ' + (useHeadlessComponent ? 'OK' : 'Failed'));
 
-                React.useEffect(() => {
-                    const handleToggleDisable = () => component.setDisabled(!component.getState().isDisabled);
-                    const handleToggleLoading = () => component.setLoading(!component.getState().isLoading);
-                    const handleToggleError = () => component.setError(component.getState().error ? null : 'An example error!');
+                const App = () => {
+                    const { component, componentState, undo, redo, history } = useHeadlessComponent(HeadlessButton);
+
+                    React.useEffect(() => {
+                        const unsubscribe = component.subscribe('clicked', () => {
+                            log('Button clicked!');
+                        });
+                        return unsubscribe;
+                    }, [component]);
                     
-                    document.getElementById('toggle-disable').addEventListener('click', handleToggleDisable);
-                    document.getElementById('toggle-loading').addEventListener('click', handleToggleLoading);
-                    document.getElementById('toggle-error').addEventListener('click', handleToggleError);
-                    undoBtn.addEventListener('click', undo);
-                    redoBtn.addEventListener('click', redo);
-
-                    return () => {
-                        // Clean up event listeners if component unmounts (though not strictly needed in this simple HTML)
-                        document.getElementById('toggle-disable')?.removeEventListener('click', handleToggleDisable);
-                        document.getElementById('toggle-loading')?.removeEventListener('click', handleToggleLoading);
-                        document.getElementById('toggle-error')?.removeEventListener('click', handleToggleError);
-                        undoBtn?.removeEventListener('click', undo);
-                        redoBtn?.removeEventListener('click', redo);
-                    };
-                }, [component, undo, redo]);
+                    // Expose for Playwright tests
+                    window.headlessComponentInstance = component;
 
 
-                return React.createElement(
-                    'button',
-                    {
-                        className: 'my-button',
-                        onClick: (e) => component.click(e.nativeEvent),
-                        onMouseEnter: (e) => component.hover(true, e.nativeEvent),
-                        onMouseLeave: (e) => component.hover(false, e.nativeEvent),
-                        onFocus: (e) => component.focus(true, e.nativeEvent),
-                        onBlur: (e) => component.focus(false, e.nativeEvent),
-                        onKeyDown: (e) => component.keydown(e.nativeEvent),
-                        onMouseDown: () => component.press(true),
-                        onMouseUp: () => component.press(false),
-                        disabled: componentState.isDisabled || componentState.isLoading,
-                        'data-loading': String(componentState.isLoading),
-                        'data-error': String(!!componentState.error),
-                        'data-focused': String(componentState.isFocused),
-                        'data-pressed': String(componentState.isPressed),
-                        // Spread dataAttributes from cssState for more complete styling hooks
-                        ...cssState.dataAttributes
-                    },
-                    componentState.isLoading ? 'Loading...' : 
-                    componentState.error ? 'Error!' :
-                    componentState.isDisabled ? 'Disabled' :
-                    'Click Me (ESM)'
-                );
-            }
+                    return React.createElement('div', null,
+                        React.createElement('button', {
+                            onClick: () => component.click(),
+                            disabled: componentState.isDisabled || componentState.isLoading,
+                            style: { 
+                                backgroundColor: componentState.isPressed ? 'darkblue' : (componentState.isHovered ? 'blue' : 'dodgerblue'),
+                                padding: '10px 20px',
+                                color: 'white',
+                                border: 'none',
+                                borderRadius: '5px',
+                                cursor: (componentState.isDisabled || componentState.isLoading) ? 'not-allowed' : 'pointer',
+                                opacity: (componentState.isDisabled || componentState.isLoading) ? 0.6 : 1,
+                            },
+                            onMouseEnter: () => component.hover(true),
+                            onMouseLeave: () => component.hover(false),
+                            onMouseDown: () => component.press(true),
+                            onMouseUp: () => component.press(false),
+                            onFocus: () => component.focus(true),
+                            onBlur: () => component.focus(false),
+                        }, 'My Styled Button'),
+                        React.createElement('div', { style: { marginTop: '10px'} },
+                            React.createElement('button', { onClick: () => component.setState({ isDisabled: !componentState.isDisabled }) }, 'Toggle Disable'),
+                            React.createElement('button', { onClick: () => component.setState({ isLoading: !componentState.isLoading }) }, 'Toggle Loading'),
+                            React.createElement('button', { onClick: undo, disabled: !history.canUndo }, 'Undo'),
+                            React.createElement('button', { onClick: redo, disabled: !history.canRedo }, 'Redo')
+                        ),
+                        React.createElement('pre', { style: { fontSize: '0.8em', marginTop: '10px', backgroundColor: '#eee', padding: '10px' } }, JSON.stringify(componentState, null, 2))
+                    );
+                };
 
-            const rootElement = document.getElementById('button-root');
-            const root = ReactDOM.createRoot(rootElement);
-            root.render(React.createElement(MyButtonComponent));
-            log('React component rendered successfully!', 'success');
+                const root = window.ReactDOM.createRoot(document.getElementById('root'));
+                root.render(React.createElement(App));
+                log('React app rendered.');
+                window.headlessModulesLoaded = true; // For Playwright tests
 
-        } catch (error) {
-            log(`ERROR in main(): ${error.message}`, 'error');
-            console.error("Detailed error:", error);
-            const stateOutput = document.getElementById('state-output');
-            if (stateOutput) {
-              stateOutput.textContent = `Failed to load components. Check console. Error: ${error.message}`;
-              stateOutput.style.color = 'red';
+            } catch (error) {
+                log('ERROR in main(): ' + error);
+                if (error.stack) {
+                    log('Stack: ' + error.stack);
+                }
+                console.error("Detailed error:", error);
             }
         }
-    }
 
-    main();
-</script>
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', main);
+        } else {
+            main();
+        }
 
+    </script>
 </body>
 </html>

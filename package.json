@@ -1,4 +1,3 @@
-
 {
   "name": "headless-primitives-kit",
   "version": "0.1.0",
@@ -125,7 +124,8 @@
     "genkit:watch": "genkit start -- tsx --watch src/ai/dev.ts",
     "build": "npm run build:logic && next build",
     "build:logic": "rimraf dist && tsc -p tsconfig.build.json",
-    "test:e2e:local": "npm run build:logic && npx serve . -l 3001",
+    "test:e2e:local": "npm run build:logic && npx playwright test",
+    "playwright:install": "npx playwright install --with-deps",
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit"
@@ -175,6 +175,7 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@playwright/test": "^1.46.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
