@@ -5,6 +5,8 @@ const PORT = 3001;
 
 export default defineConfig({
   testDir: './tests',
+  /* Maximum time one test can run for. Default is 30 seconds. */
+  timeout: 120 * 1000, // 2 minutes
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
@@ -35,6 +37,7 @@ export default defineConfig({
     url: `http://localhost:${PORT}`,
     reuseExistingServer: !process.env.CI,
     stdout: 'pipe',
-    timeout: 120 * 1000, // 2 minutes
+    timeout: 120 * 1000, // 2 minutes for the web server to start
   },
 });
+
