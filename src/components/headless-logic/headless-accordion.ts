@@ -1,3 +1,4 @@
+
 import { HeadlessComponent, BaseComponentState } from './headless-component.ts';
 import { AccordionToggleItemStrategy, FocusStrategy, InteractionPayload } from './interaction-strategies.ts';
 
@@ -148,3 +149,5 @@ export class HeadlessAccordion extends HeadlessComponent<AccordionState> {
         return this.handleInteraction('focus', { isFocused, originalEvent } as InteractionPayload & { isFocused: boolean });
     }
 }
+
+    

@@ -1,3 +1,4 @@
+
 import { HeadlessComponent, BaseComponentState } from './headless-component.ts';
 import { InputTextStrategy, FocusStrategy, InteractionPayload } from './interaction-strategies.ts';
 
@@ -124,3 +125,5 @@ export class HeadlessInput extends HeadlessComponent<InputState> {
         return this.handleInteraction('focus', { isFocused, originalEvent } as InteractionPayload & { isFocused: boolean });
     }
 }
+
+    

@@ -1,3 +1,4 @@
+
 import { EventEmitter } from './event-emitter.ts';
 import { Command, CommandInvoker, type CommandData, type CommandHistoryState } from './command.ts';
 import { ComponentState, IdleState, HoveredState, FocusedState, PressedState, DisabledState, LoadingState, ErrorState } from './component-states.ts';
@@ -260,3 +261,5 @@ export abstract class HeadlessComponent<TState extends BaseComponentState> exten
         return this.commandInvoker.getHistory();
     }
 }
+
+    

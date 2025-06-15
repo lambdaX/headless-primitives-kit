@@ -1,3 +1,4 @@
+
 import { HeadlessComponent, BaseComponentState } from './headless-component.ts';
 import { ToggleClickStrategy, HoverStrategy, FocusStrategy, KeyboardStrategy, InteractionPayload } from './interaction-strategies.ts';
 
@@ -168,3 +169,5 @@ export class HeadlessToggle extends HeadlessComponent<ToggleState> {
         return this.handleInteraction('keyboard', { key: originalEvent.key, originalEvent } as InteractionPayload & { key: string, originalEvent: KeyboardEvent });
     }
 }
+
+    

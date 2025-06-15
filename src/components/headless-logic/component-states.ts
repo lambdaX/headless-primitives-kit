@@ -1,3 +1,4 @@
+
 import type { HeadlessComponent } from './headless-component.ts';
 
 /**
@@ -81,3 +82,5 @@ export class LoadingState extends ComponentState {
 export class ErrorState extends ComponentState {
     getCSSClasses(): string[] { return ['error']; }
 }
+
+    

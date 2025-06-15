@@ -1,3 +1,4 @@
+
 import type { HeadlessComponent, BaseComponentState } from './headless-component.ts';
 import { HeadlessToggle } from './headless-toggle.ts';
 import { HeadlessButton } from './headless-button.ts';
@@ -418,3 +419,5 @@ export class TabsActivateTabStrategy extends InteractionStrategy {
         return { prevented: false, handled: true };
     }
 }
+
+    
