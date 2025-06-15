@@ -13,7 +13,8 @@
     "noEmit": false, 
     "jsx": "react-jsx",
     "emitDeclarationOnly": false, 
-    "isolatedModules": false
+    "isolatedModules": false,
+    "allowImportingTsExtensions": true
   },
   "include": [
     "./src/components/headless-logic/**/*.ts",
