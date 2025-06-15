@@ -35,9 +35,7 @@ jobs:
           commit_user_name: 'GitHub Actions Bot'
           commit_user_email: 'actions@github.com'
           commit_author: 'GitHub Actions Bot <actions@github.com>'
-          # Add a GITHUB_TOKEN to allow pushing to the repository
           # The default GITHUB_TOKEN has write permissions for the repository
           # when triggered by a push to the same repository.
           # For pushes from forks, or more complex scenarios, a PAT might be needed.
-          # push_options: '--force' # Optional: if you need to force push, but use with caution
-
+          # Ensure your repository settings allow Actions to write to the branch if needed.
