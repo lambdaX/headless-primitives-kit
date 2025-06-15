@@ -1,22 +1,13 @@
-<<<<<<< HEAD
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.HeadlessSlider = void 0;
 const headless_component_1 = require("./headless-component");
 const interaction_strategies_1 = require("./interaction-strategies");
-=======
-import { HeadlessComponent } from './headless-component';
-import { SliderUpdateStrategy, SliderKeyboardStrategy, HoverStrategy, FocusStrategy } from './interaction-strategies';
->>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
 /**
  * Manages the state and interactions for a slider component.
  * Sliders allow users to select a value from a continuous or discrete range.
  */
-<<<<<<< HEAD
 class HeadlessSlider extends headless_component_1.HeadlessComponent {
-=======
-export class HeadlessSlider extends HeadlessComponent {
->>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
     /**
      * Defines the initial state for the slider.
      * @returns The initial slider state.
@@ -39,17 +30,10 @@ export class HeadlessSlider extends HeadlessComponent {
      */
     setupDefaultStrategies() {
         super.setupDefaultStrategies();
-<<<<<<< HEAD
         this.interactionStrategies.set('update', new interaction_strategies_1.SliderUpdateStrategy()); // For direct value changes (e.g., drag)
         this.interactionStrategies.set('hover', new interaction_strategies_1.HoverStrategy());
         this.interactionStrategies.set('focus', new interaction_strategies_1.FocusStrategy()); // Typically for the thumb
         this.interactionStrategies.set('keyboard', new interaction_strategies_1.SliderKeyboardStrategy()); // Arrow keys, Home, End
-=======
-        this.interactionStrategies.set('update', new SliderUpdateStrategy()); // For direct value changes (e.g., drag)
-        this.interactionStrategies.set('hover', new HoverStrategy());
-        this.interactionStrategies.set('focus', new FocusStrategy()); // Typically for the thumb
-        this.interactionStrategies.set('keyboard', new SliderKeyboardStrategy()); // Arrow keys, Home, End
->>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
     }
     /**
      * Updates the component's visual state based on its current data state.
@@ -159,8 +143,5 @@ export class HeadlessSlider extends HeadlessComponent {
         return this.handleInteraction('keyboard', { key: originalEvent.key, originalEvent });
     }
 }
-<<<<<<< HEAD
 exports.HeadlessSlider = HeadlessSlider;
-=======
->>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
 //# sourceMappingURL=headless-slider.js.map

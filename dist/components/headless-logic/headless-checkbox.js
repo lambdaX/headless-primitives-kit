@@ -1,22 +1,13 @@
-<<<<<<< HEAD
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.HeadlessCheckbox = void 0;
 const headless_component_1 = require("./headless-component");
 const interaction_strategies_1 = require("./interaction-strategies");
-=======
-import { HeadlessComponent } from './headless-component';
-import { ToggleClickStrategy, HoverStrategy, FocusStrategy, KeyboardStrategy } from './interaction-strategies';
->>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
 /**
  * Manages the state and interactions for a checkbox component.
  * Checkboxes can be checked, unchecked, or indeterminate.
  */
-<<<<<<< HEAD
 class HeadlessCheckbox extends headless_component_1.HeadlessComponent {
-=======
-export class HeadlessCheckbox extends HeadlessComponent {
->>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
     /**
      * Defines the initial state for the checkbox.
      * @returns The initial checkbox state.
@@ -38,17 +29,10 @@ export class HeadlessCheckbox extends HeadlessComponent {
      */
     setupDefaultStrategies() {
         super.setupDefaultStrategies();
-<<<<<<< HEAD
         this.interactionStrategies.set('click', new interaction_strategies_1.ToggleClickStrategy());
         this.interactionStrategies.set('hover', new interaction_strategies_1.HoverStrategy());
         this.interactionStrategies.set('focus', new interaction_strategies_1.FocusStrategy());
         this.interactionStrategies.set('keyboard', new interaction_strategies_1.KeyboardStrategy());
-=======
-        this.interactionStrategies.set('click', new ToggleClickStrategy());
-        this.interactionStrategies.set('hover', new HoverStrategy());
-        this.interactionStrategies.set('focus', new FocusStrategy());
-        this.interactionStrategies.set('keyboard', new KeyboardStrategy());
->>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
     }
     /**
      * Updates the component's visual state based on its current data state.
@@ -182,8 +166,5 @@ export class HeadlessCheckbox extends HeadlessComponent {
         return this.handleInteraction('keyboard', { key: originalEvent.key, originalEvent });
     }
 }
-<<<<<<< HEAD
 exports.HeadlessCheckbox = HeadlessCheckbox;
-=======
->>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
 //# sourceMappingURL=headless-checkbox.js.map
