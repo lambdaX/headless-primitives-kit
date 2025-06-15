@@ -130,12 +130,5 @@ export declare abstract class HeadlessComponent<TState extends BaseComponentStat
      * @returns An object describing the command history.
      */
     getHistory(): CommandHistoryState;
-    /**
-     * Notifies all subscribed observers of a particular event.
-     * This explicitly defines notifyObservers on HeadlessComponent for clearer type inheritance.
-     * @param event The name of the event to notify observers about.
-     * @param data Optional data to pass to the event callbacks.
-     */
-    notifyObservers(event: string, data?: any): void;
 }
 //# sourceMappingURL=headless-component.d.ts.map
