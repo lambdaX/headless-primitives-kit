@@ -3,7 +3,7 @@ import { useState, useEffect, useMemo, useCallback } from 'react';
 // The key is that the files *within* headless-logic use explicit .ts extensions
 // for their relative imports if needed for tsc's ESM .js extension output.
 import type { HeadlessComponent, BaseComponentState, CssState } from '@/components/headless-logic'; 
-import type { CommandHistoryState } from '@/components/headless-logic/command';
+import type { CommandHistoryState } from '@/components/headless-logic/command.ts';
 
 interface HeadlessHookResult<T extends HeadlessComponent<S>, S extends BaseComponentState> {
   component: T;
