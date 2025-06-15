@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,160 +6,218 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HeadlessButton ESM Example</title>
     <style>
-        body { font-family: sans-serif; padding: 20px; background-color: #f4f7fc; color: #333; }
+        body { font-family: sans-serif; padding: 20px; background-color: #f4f4f4; color: #333; }
         .container { background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
         button {
             padding: 10px 15px;
-            border-radius: 5px;
-            border: 1px solid #007bff;
-            background-color: #007bff;
-            color: white;
+            margin: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
             cursor: pointer;
-            font-size: 16px;
+            background-color: #e9e9e9;
             transition: background-color 0.2s, opacity 0.2s;
-            margin-right: 10px;
         }
-        button:hover { background-color: #0056b3; }
-        button:disabled { background-color: #ccc; border-color: #ccc; color: #666; cursor: not-allowed; opacity: 0.7; }
-        button.pressed { background-color: #004085; transform: scale(0.98); }
-        .controls { margin-top: 20px; margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
-        .controls label { margin-right: 5px; }
-        .state-display { margin-top: 20px; padding: 15px; background-color: #e9ecef; border-radius: 5px; white-space: pre-wrap; font-family: monospace; font-size: 12px; }
-        .icon { display: inline-block; margin-right: 5px; }
-        .error-state { border: 1px solid red !important; background-color: #ffe0e0 !important; color: red !important; }
-        .loading-state::after { content: '...'; display: inline-block; animation: loading-dots 1s infinite steps(3, end); }
-        @keyframes loading-dots { 0%, 20% { content: '.'; } 40% { content: '..'; } 60% { content: '...'; } }
+        button:hover { background-color: #dcdcdc; }
+        button:disabled { cursor: not-allowed; opacity: 0.5; background-color: #f0f0f0; }
+        button.pressed { background-color: #c0c0c0; }
+        .controls { margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee; }
+        .controls label { margin-right: 10px; }
+        .state-display { margin-top: 15px; padding: 10px; background-color: #eee; border-radius: 4px; white-space: pre-wrap; font-family: monospace; font-size: 0.9em; }
+        .error { color: red; font-weight: bold; }
+        .loading { font-style: italic; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>HeadlessButton ESM Test</h1>
-        <p>This example demonstrates using the <code>HeadlessButton</code> primitive directly in the browser via ES module imports from a CDN.</p>
+        <h1>HeadlessButton ESM Example</h1>
+        <p>This example loads HeadlessButton and its dependencies directly from a CDN using ES Modules.</p>
         
-        <div id="react-root">Button will load here...</div>
+        <div id="root"></div>
 
         <div class="controls">
+            <h2>Controls for HeadlessButton</h2>
             <button id="toggle-disabled">Toggle Disabled</button>
             <button id="toggle-loading">Toggle Loading</button>
             <button id="toggle-error">Toggle Error</button>
             <button id="undo">Undo</button>
             <button id="redo">Redo</button>
         </div>
-        <div class="state-display" id="state-json">
-            Current State: Loading...
+
+        <div class="state-display">
+            <h3>Current HeadlessButton State:</h3>
+            <pre id="component-state-output">Loading state...</pre>
+            <h3>Current CSS State:</h3>
+            <pre id="css-state-output">Loading CSS state...</pre>
+            <h3>History:</h3>
+            <pre id="history-output">Loading history...</pre>
         </div>
     </div>
 
     <script type="module">
-        // Import React and ReactDOM from a CDN like esm.sh
-        const { default: React, useState, useEffect, useMemo } = await import('https://esm.sh/react@18.2.0');
-        const { default: ReactDOM } = await import('https://esm.sh/react-dom@18.2.0/client');
+        import React, { useState, useEffect, useMemo, useCallback } from 'https://esm.sh/react@18.3.1';
+        import ReactDOM from 'https://esm.sh/react-dom@18.3.1/client';
 
-        // Imports for your headless library from jsDelivr (points to GitHub)
-        // Ensure your package name and path are correct. This assumes the compiled files are in a 'dist' folder.
-        const CDN_BASE = 'https://cdn.jsdelivr.net/gh/lambdaX/headless-primitives-kit@main/dist/';
+        // Import HeadlessButton and its dependencies from your published package via jsDelivr
+        // Make sure the package name and path are correct (including /dist/ if that's where compiled files are)
+        const GITHUB_USER = 'lambdaX';
+        const GITHUB_REPO = 'headless-primitives-kit';
+        const GITHUB_BRANCH_OR_TAG = 'main'; // Or a specific version tag like 'v0.1.0'
 
-        const { HeadlessButton } = await import(CDN_BASE + 'headless-button.js');
-        // HeadlessButton internally imports HeadlessComponent, EventEmitter, Command, ComponentState, InteractionStrategy etc.
-        // So, we don't strictly need to import them all here if HeadlessButton's module correctly exports/imports them relatively.
-        // However, to be explicit and ensure the example script has access to create custom strategies or commands if needed,
-        // we might import them. For this example, let's assume HeadlessButton is self-contained with its direct needs.
-        // If direct access to Command, CommandInvoker etc. is needed by *this script*, then import them:
-        const { Command, CommandInvoker } = await import(CDN_BASE + 'command.js');
+        const baseJsDelivrUrl = `https://cdn.jsdelivr.net/gh/${GITHUB_USER}/${GITHUB_REPO}@${GITHUB_BRANCH_OR_TAG}/dist`;
 
+        // Dynamically import necessary modules. Note the .js extension.
+        const { HeadlessButton } = await import(`${baseJsDelivrUrl}/headless-button.js`);
+        // HeadlessButton depends on HeadlessComponent, EventEmitter, Command, ComponentState, etc.
+        // These will be fetched by the browser as it encounters their imports within headless-button.js
+        // For this example, we primarily interact with HeadlessButton itself.
 
-        function MyInteractiveButton({ headlessButton }) {
-            const [componentState, setComponentState] = useState(headlessButton.getState());
-            const [cssState, setCssState] = useState(headlessButton.getCSSState());
-            const [history, setHistory] = useState(headlessButton.getHistory());
+        function useHeadlessComponent(HeadlessComponentClass) {
+            const component = useMemo(() => new HeadlessComponentClass(), [HeadlessComponentClass]);
+            const [componentState, setComponentState] = useState(component.getState());
+            const [cssState, setCssState] = useState(component.getCSSState());
+            const [history, setHistory] = useState(component.getHistory());
 
             useEffect(() => {
-                const onStateChanged = (event, newState) => {
-                    setComponentState(newState);
-                    document.getElementById('state-json').textContent = JSON.stringify({ data: newState, css: headlessButton.getCSSState(), history: headlessButton.getHistory() }, null, 2);
-                };
-                const onCssStateChanged = (event, newCssState) => setCssState(newCssState);
-                const onHistoryChanged = (event, newHistory) => setHistory(newHistory);
-                
-                const unsubState = headlessButton.subscribe('stateChanged', onStateChanged);
-                const unsubCss = headlessButton.subscribe('cssStateChanged', onCssStateChanged);
-                const unsubTransition = headlessButton.subscribe('stateTransition', () => {
-                    setComponentState(headlessButton.getState());
-                    setCssState(headlessButton.getCSSState());
-                });
-                const unsubHistory = headlessButton.subscribe('historyChanged', onHistoryChanged);
+                const onStateChanged = (_, newState) => setComponentState(newState);
+                const onCssStateChanged = (_, newCssState) => setCssState(newCssState);
+                const onHistoryChanged = (_, newHistory) => setHistory(newHistory);
 
+                const unsubState = component.subscribe('stateChanged', onStateChanged);
+                const unsubCss = component.subscribe('cssStateChanged', onCssStateChanged);
+                const unsubTransition = component.subscribe('stateTransition', () => {
+                    setComponentState(component.getState());
+                    setCssState(component.getCSSState());
+                });
+                const unsubHistory = component.subscribe('historyChanged', onHistoryChanged);
+                
                 // Initial sync
-                onStateChanged(null, headlessButton.getState());
+                setComponentState(component.getState());
+                setCssState(component.getCSSState());
+                setHistory(component.getHistory());
 
                 return () => {
-                    unsubState(); unsubCss(); unsubTransition(); unsubHistory();
+                    unsubState();
+                    unsubCss();
+                    unsubTransition();
+                    unsubHistory();
                 };
-            }, [headlessButton]);
+            }, [component]);
 
-            let buttonText = "Click Me";
-            let icon = "";
-            if (componentState.isLoading) {
-                buttonText = "Loading...";
-                icon = '<span class="icon loading-state"></span>';
-            } else if (componentState.error) {
-                buttonText = "Error!";
-                icon = '<span class="icon">⚠️</span>';
-            } else if (componentState.isDisabled) {
-                buttonText = "Disabled";
-                icon = '<span class="icon">🚫</span>';
-            }
+            const undo = useCallback(() => component.undo(), [component]);
+            const redo = useCallback(() => component.redo(), [component]);
+
+            return { component, componentState, cssState, history, undo, redo };
+        }
+
+        function MyStyledButton({ onActualClick, initialText = "Click Me" }) {
+            const { component, componentState, cssState, undo, redo, history } = useHeadlessComponent(HeadlessButton);
             
-            const combinedClasses = [
-                ...(cssState.classes || []),
-                componentState.isPressed ? 'pressed' : '',
-                componentState.error ? 'error-state' : ''
-            ].filter(Boolean).join(' ');
+            // Expose component instance and state for external controls
+            useEffect(() => {
+                window.myApp = window.myApp || {};
+                window.myApp.buttonComponent = component;
+                window.myApp.setComponentStateOutput = (state) => {
+                    document.getElementById('component-state-output').textContent = JSON.stringify(state, null, 2);
+                };
+                window.myApp.setCssStateOutput = (state) => {
+                    document.getElementById('css-state-output').textContent = JSON.stringify(state, null, 2);
+                };
+                 window.myApp.setHistoryOutput = (hist) => {
+                    document.getElementById('history-output').textContent = JSON.stringify(hist, null, 2);
+                };
+            }, [component]);
+
+            useEffect(() => {
+                if (window.myApp && window.myApp.setComponentStateOutput) {
+                    window.myApp.setComponentStateOutput(componentState);
+                }
+            }, [componentState]);
+
+            useEffect(() => {
+                if (window.myApp && window.myApp.setCssStateOutput) {
+                    window.myApp.setCssStateOutput(cssState);
+                }
+            }, [cssState]);
+
+            useEffect(() => {
+                if (window.myApp && window.myApp.setHistoryOutput) {
+                    window.myApp.setHistoryOutput(history);
+                }
+            }, [history]);
+
+
+            useEffect(() => {
+                if (!onActualClick) return;
+                const handleHeadlessClick = (event, data) => {
+                    console.log('Headless button "clicked" event!', data);
+                    onActualClick(data?.originalEvent);
+                };
+                const unsubscribe = component.subscribe('clicked', handleHeadlessClick);
+                return () => unsubscribe();
+            }, [component, onActualClick]);
+
+            let buttonText = initialText;
+            if (componentState.isLoading) buttonText = "Loading...";
+            else if (componentState.error) buttonText = "Error!";
+
+            // Simple class application based on cssState for visualization
+            let buttonClasses = cssState.classes.join(' ');
+            if (componentState.isPressed) buttonClasses += ' pressed';
 
             return React.createElement('button', {
                 type: 'button',
-                onClick: (e) => headlessButton.click(e),
-                onMouseEnter: (e) => headlessButton.hover(true, e),
-                onMouseLeave: (e) => headlessButton.hover(false, e),
-                onFocus: (e) => headlessButton.focus(true, e),
-                onBlur: (e) => headlessButton.focus(false, e),
-                onKeyDown: (e) => headlessButton.keydown(e),
-                onMouseDown: () => headlessButton.press(true),
-                onMouseUp: () => headlessButton.press(false),
+                onClick: (e) => component.click(e),
+                onMouseEnter: (e) => component.hover(true, e),
+                onMouseLeave: (e) => component.hover(false, e),
+                onFocus: (e) => component.focus(true, e),
+                onBlur: (e) => component.focus(false, e),
+                onKeyDown: (e) => component.keydown(e),
+                onMouseDown: () => component.press(true),
+                onMouseUp: () => component.press(false),
                 disabled: componentState.isDisabled || componentState.isLoading,
-                className: combinedClasses,
-                ...cssState.dataAttributes,
-                dangerouslySetInnerHTML: { __html: icon + buttonText }
-            });
+                'aria-disabled': componentState.isDisabled || componentState.isLoading,
+                className: buttonClasses,
+                ...cssState.dataAttributes
+            }, buttonText);
         }
 
         const App = () => {
-            // Instantiate the headless button logic
-            const buttonLogic = useMemo(() => new HeadlessButton(), []);
-            
-            // Setup controls
-            useEffect(() => {
-                document.getElementById('toggle-disabled').onclick = () => buttonLogic.setDisabled(!buttonLogic.getState().isDisabled);
-                document.getElementById('toggle-loading').onclick = () => buttonLogic.setLoading(!buttonLogic.getState().isLoading);
-                document.getElementById('toggle-error').onclick = () => buttonLogic.setError(buttonLogic.getState().error ? null : 'An error occurred!');
-                document.getElementById('undo').onclick = () => buttonLogic.undo();
-                document.getElementById('redo').onclick = () => buttonLogic.redo();
-                
-                // Initial state display
-                 document.getElementById('state-json').textContent = JSON.stringify({ 
-                    data: buttonLogic.getState(), 
-                    css: buttonLogic.getCSSState(),
-                    history: buttonLogic.getHistory()
-                }, null, 2);
-
-            }, [buttonLogic]);
-
-            return React.createElement(MyInteractiveButton, { headlessButton: buttonLogic });
+            return React.createElement('div', null,
+                React.createElement(MyStyledButton, { 
+                    initialText: "Interactive Button",
+                    onActualClick: () => alert('Button was actually clicked!') 
+                })
+            );
         };
 
-        // Render the React application
-        const root = ReactDOM.createRoot(document.getElementById('react-root'));
+        const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(React.createElement(App));
+
+        // Setup external controls
+        document.getElementById('toggle-disabled').addEventListener('click', () => {
+            if (window.myApp && window.myApp.buttonComponent) {
+                const currentDisabled = window.myApp.buttonComponent.getState().isDisabled;
+                window.myApp.buttonComponent.setDisabled(!currentDisabled);
+            }
+        });
+        document.getElementById('toggle-loading').addEventListener('click', () => {
+            if (window.myApp && window.myApp.buttonComponent) {
+                const currentLoading = window.myApp.buttonComponent.getState().isLoading;
+                window.myApp.buttonComponent.setLoading(!currentLoading);
+            }
+        });
+        document.getElementById('toggle-error').addEventListener('click', () => {
+            if (window.myApp && window.myApp.buttonComponent) {
+                const currentError = window.myApp.buttonComponent.getState().error;
+                window.myApp.buttonComponent.setError(currentError ? null : 'An example error!');
+            }
+        });
+        document.getElementById('undo').addEventListener('click', () => {
+            window.myApp?.buttonComponent?.undo();
+        });
+        document.getElementById('redo').addEventListener('click', () => {
+            window.myApp?.buttonComponent?.redo();
+        });
 
     </script>
 </body>
