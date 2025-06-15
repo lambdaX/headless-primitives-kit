@@ -1,3 +1,4 @@
+
 import type {NextConfig} from 'next';
 
 const repoName = 'headless-primitives-kit'; // Your repository name
@@ -7,10 +8,10 @@ const nextConfig: NextConfig = {
   basePath: process.env.NODE_ENV === 'production' ? `/${repoName}` : '',
   assetPrefix: process.env.NODE_ENV === 'production' ? `/${repoName}/` : '',
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false, // Enforce TypeScript checks
   },
   eslint: {
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: false, // Enforce ESLint checks
   },
   images: {
     unoptimized: true, // Necessary for static export if using next/image with default loader

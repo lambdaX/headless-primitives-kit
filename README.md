@@ -1,3 +1,4 @@
+
 # Headless Primitives Kit
 
 A lightweight, unstyled, and accessible set of headless UI component primitives for React, built with TypeScript. It provides robust state management, interaction handling, and an undo/redo system out of the box.
@@ -19,81 +20,86 @@ npm install headless-primitives-kit
 # or
 yarn add headless-primitives-kit
 ```
-*(Note: Replace `headless-primitives-kit` with the actual package name if you publish it under a different name.)*
+*(Note: Package name is `headless-primitives-kit` as per `package.json`.)*
 
 ## Basic Usage
 
-Here's a basic example of how to use the `HeadlessButton` with a conceptual `useHeadlessComponent` hook (you might need to implement or adapt a similar hook for your React components to subscribe to state changes).
+Here's a basic example of how to use the `HeadlessButton` with the `useHeadlessComponent` hook provided by the library.
 
 ```tsx
-import React, { useState, useEffect, useMemo } from 'react';
+import React from 'react';
+// Import the specific headless component logic
 import { HeadlessButton, ButtonState, CssState } from 'headless-primitives-kit/headless-button';
-// Or import all from root: import { HeadlessButton, ButtonState } from 'headless-primitives-kit';
-
-// Conceptual hook (adapt or use one from your project if available)
-function useHeadlessComponent<TLogic extends { getState: () => any; getCSSState: () => any; subscribe: (event: string, cb: any) => () => void; }, TState, TCssState>(
-  ComponentLogicClass: new () => TLogic
-) {
-  const component = useMemo(() => new ComponentLogicClass(), [ComponentLogicClass]);
-  const [componentState, setComponentState] = useState<TState>(component.getState());
-  const [cssState, setCssState] = useState<TCssState>(component.getCSSState());
-
-  useEffect(() => {
-    const onStateChanged = (_event: string, newState: TState) => setComponentState(newState);
-    const onCssStateChanged = (_event: string, newCssState: TCssState) => setCssState(newCssState);
-
-    const unsubState = component.subscribe('stateChanged', onStateChanged);
-    const unsubCss = component.subscribe('cssStateChanged', onCssStateChanged);
-    const unsubTransition = component.subscribe('stateTransition', () => {
-        setComponentState(component.getState());
-        setCssState(component.getCSSState());
-    });
-
-    // Initial sync
-    setComponentState(component.getState());
-    setCssState(component.getCSSState());
-
-    return () => {
-      unsubState();
-      unsubCss();
-      unsubTransition();
-    };
-  }, [component]);
-
-  return { component, componentState, cssState };
-}
+// Import the hook to manage the component instance and its state
+import { useHeadlessComponent } from 'headless-primitives-kit/hooks/use-headless-component';
+// Your utility for classnames, e.g., from ShadCN
+import { cn } from '@/lib/utils'; 
+// Example icons
+import { Loader2 } from 'lucide-react'; 
 
 
-function MyStyledButton() {
-  const { component, componentState, cssState } = useHeadlessComponent<HeadlessButton, ButtonState, CssState>(HeadlessButton);
+function MyStyledButton({ label = "Click Me" }: { label?: string }) {
+  const { 
+    component,        // The instance of HeadlessButton
+    componentState,   // The current data state of the button (e.g., { isDisabled, isLoading, ... })
+    cssState,         // CSS classes and data-attributes (e.g., { classes: ['idle', ...], dataAttributes: {'data-disabled': 'false'} })
+    history,          // Command history state (e.g., { canUndo, canRedo, length, currentPosition })
+    undo,             // Function to undo the last state change
+    redo              // Function to redo the last undone state change
+  } = useHeadlessComponent<HeadlessButton, ButtonState>(HeadlessButton);
 
-  // Example event subscription
-  useEffect(() => {
+  // Example: Subscribe to the 'clicked' event from the headless component
+  React.useEffect(() => {
     const handleButtonClick = (event: string, data?: any) => {
-      console.log('Button clicked!', data);
+      console.log('Button clicked event via subscription!', data);
+      // Perform actions when the button is clicked
     };
     const unsubscribe = component.subscribe('clicked', handleButtonClick);
-    return () => unsubscribe();
+    return () => unsubscribe(); // Cleanup subscription on unmount
   }, [component]);
 
   return (
-    <button
-      type="button"
-      onClick={(e) => component.click(e)}
-      onMouseEnter={(e) => component.hover(true, e)}
-      onMouseLeave={(e) => component.hover(false, e)}
-      onFocus={(e) => component.focus(true, e)}
-      onBlur={(e) => component.focus(false, e)}
-      onKeyDown={(e) => component.keydown(e)}
-      onMouseDown={() => component.press(true)}
-      onMouseUp={() => component.press(false)}
-      disabled={componentState.isDisabled || componentState.isLoading}
-      aria-disabled={componentState.isDisabled || componentState.isLoading}
-      className={`my-button-styles ${cssState.classes.join(' ')} ${componentState.isPressed ? 'pressed' : ''}`}
-      {...cssState.dataAttributes} // Includes data-disabled, data-loading etc.
-    >
-      {componentState.isLoading ? 'Loading...' : 'Click Me'}
-    </button>
+    <div>
+      <button
+        type="button"
+        onClick={(e) => component.click(e)} // Delegate click to headless component
+        onMouseEnter={(e) => component.hover(true, e)}
+        onMouseLeave={(e) => component.hover(false, e)}
+        onFocus={(e) => component.focus(true, e)}
+        onBlur={(e) => component.focus(false, e)}
+        onKeyDown={(e) => component.keydown(e)} // For Space/Enter to trigger click
+        onMouseDown={() => component.press(true)}
+        onMouseUp={() => component.press(false)}
+        disabled={componentState.isDisabled || componentState.isLoading}
+        aria-disabled={componentState.isDisabled || componentState.isLoading}
+        // Apply base headless classes and specific styling
+        className={cn(
+          "inline-flex items-center justify-center px-4 py-2 rounded-md shadow font-semibold",
+          "transition-all duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2",
+          // Example styling based on componentState
+          componentState.isDisabled ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+            : componentState.isLoading ? "bg-blue-300 text-blue-700 cursor-wait"
+            : componentState.isPressed ? "bg-blue-700 text-white ring-blue-500"
+            : componentState.isFocused ? "ring-blue-500 bg-blue-600 text-white"
+            : componentState.isHovered ? "bg-blue-500 text-white"
+            : "bg-blue-600 text-white",
+          // Base classes from cssState (e.g., 'headless-component', 'button', 'idle')
+          cssState.classes.join(' ') 
+        )}
+        // Data attributes from cssState (e.g., data-disabled, data-loading) for CSS or query selectors
+        {...cssState.dataAttributes} 
+      >
+        {componentState.isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+        {componentState.isLoading ? 'Processing...' : label}
+      </button>
+
+      {/* Example Undo/Redo controls */}
+      <div style={{ marginTop: '10px' }}>
+        <button onClick={undo} disabled={!history.canUndo} style={{ marginRight: '5px' }}>Undo</button>
+        <button onClick={redo} disabled={!history.canRedo}>Redo</button>
+        <span style={{ marginLeft: '10px', fontSize: '0.8em' }}>History: {history.currentPosition + 1}/{history.length}</span>
+      </div>
+    </div>
   );
 }
 
@@ -112,7 +118,8 @@ export default MyStyledButton;
 *   `HeadlessTabs`
 *   `HeadlessToggle`
 
-And supporting utilities:
+And supporting utilities/hooks:
+*   `useHeadlessComponent` hook.
 *   `CommandInvoker` for undo/redo.
 *   `EventEmitter` for event handling.
 *   Various `ComponentState` classes.
@@ -120,11 +127,13 @@ And supporting utilities:
 
 ## Building the Library
 
-To compile the TypeScript source in `src/components/headless-logic/` to JavaScript and generate declaration files in the `dist/` directory, run:
+To compile the TypeScript source in `src/components/headless-logic/` and `src/hooks/` to JavaScript and generate declaration files in the `dist/` directory, run:
 
 ```bash
 npm run build:logic
 ```
+
+This command uses `tsc` with the `tsconfig.build.json` configuration. The output `dist` folder is structured to be published.
 
 ## Philosophy
 
@@ -133,7 +142,7 @@ You are responsible for:
 1.  Rendering the UI (JSX).
 2.  Styling the UI.
 3.  Connecting the rendered UI elements' event handlers (like `onClick`, `onFocus`) to the methods provided by the headless component instances.
-4.  Subscribing to state changes from the headless components to re-render your React components.
+4.  Subscribing to state changes from the headless components (or using the `useHeadlessComponent` hook which handles subscriptions) to re-render your React components.
 
 This gives you maximum flexibility and control over the final look, feel, and accessibility of your components.
 
