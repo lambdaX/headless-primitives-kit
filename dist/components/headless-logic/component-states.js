@@ -1,9 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ErrorState = exports.LoadingState = exports.DisabledState = exports.PressedState = exports.FocusedState = exports.HoveredState = exports.IdleState = exports.ComponentState = void 0;
 /**
  * Represents a specific state a `HeadlessComponent` can be in (e.g., Idle, Hovered, Disabled).
  * Each state can define behavior for when the component enters or exits this state,
  * and contribute to the component's CSS class list.
  */
-export class ComponentState {
+class ComponentState {
     /**
      * Creates a new ComponentState.
      * @param name The name of the state.
@@ -36,32 +39,40 @@ export class ComponentState {
         return [this.name];
     }
 }
+exports.ComponentState = ComponentState;
 /** Represents the default, inactive state of a component. */
-export class IdleState extends ComponentState {
+class IdleState extends ComponentState {
     getCSSClasses() { return ['idle']; }
 }
+exports.IdleState = IdleState;
 /** Represents the state when a component is being hovered over by a pointer. */
-export class HoveredState extends ComponentState {
+class HoveredState extends ComponentState {
     getCSSClasses() { return ['hovered']; }
 }
+exports.HoveredState = HoveredState;
 /** Represents the state when a component has received focus. */
-export class FocusedState extends ComponentState {
+class FocusedState extends ComponentState {
     getCSSClasses() { return ['focused']; }
 }
+exports.FocusedState = FocusedState;
 /** Represents the state when a component is actively being pressed (e.g., mouse button down). */
-export class PressedState extends ComponentState {
+class PressedState extends ComponentState {
     getCSSClasses() { return ['pressed']; }
 }
+exports.PressedState = PressedState;
 /** Represents the state when a component is disabled and cannot be interacted with. */
-export class DisabledState extends ComponentState {
+class DisabledState extends ComponentState {
     getCSSClasses() { return ['disabled']; }
 }
+exports.DisabledState = DisabledState;
 /** Represents the state when a component is in a loading or busy state. */
-export class LoadingState extends ComponentState {
+class LoadingState extends ComponentState {
     getCSSClasses() { return ['loading']; }
 }
+exports.LoadingState = LoadingState;
 /** Represents the state when a component has encountered an error. */
-export class ErrorState extends ComponentState {
+class ErrorState extends ComponentState {
     getCSSClasses() { return ['error']; }
 }
+exports.ErrorState = ErrorState;
 //# sourceMappingURL=component-states.js.map

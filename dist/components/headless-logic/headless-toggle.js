@@ -1,22 +1,13 @@
-<<<<<<< HEAD
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.HeadlessToggle = void 0;
 const headless_component_1 = require("./headless-component");
 const interaction_strategies_1 = require("./interaction-strategies");
-=======
-import { HeadlessComponent } from './headless-component';
-import { ToggleClickStrategy, HoverStrategy, FocusStrategy, KeyboardStrategy } from './interaction-strategies';
->>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
 /**
  * Manages the state and interactions for a toggle component, such as a switch.
  * Toggles typically have two states: checked (on) and unchecked (off).
  */
-<<<<<<< HEAD
 class HeadlessToggle extends headless_component_1.HeadlessComponent {
-=======
-export class HeadlessToggle extends HeadlessComponent {
->>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
     /**
      * Defines the initial state for the toggle.
      * @returns The initial toggle state.
@@ -37,17 +28,10 @@ export class HeadlessToggle extends HeadlessComponent {
      */
     setupDefaultStrategies() {
         super.setupDefaultStrategies();
-<<<<<<< HEAD
         this.interactionStrategies.set('click', new interaction_strategies_1.ToggleClickStrategy());
         this.interactionStrategies.set('hover', new interaction_strategies_1.HoverStrategy());
         this.interactionStrategies.set('focus', new interaction_strategies_1.FocusStrategy());
         this.interactionStrategies.set('keyboard', new interaction_strategies_1.KeyboardStrategy()); // For Space/Enter to toggle
-=======
-        this.interactionStrategies.set('click', new ToggleClickStrategy());
-        this.interactionStrategies.set('hover', new HoverStrategy());
-        this.interactionStrategies.set('focus', new FocusStrategy());
-        this.interactionStrategies.set('keyboard', new KeyboardStrategy()); // For Space/Enter to toggle
->>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
     }
     /**
      * Updates the component's visual state based on its current data state.
@@ -169,8 +153,5 @@ export class HeadlessToggle extends HeadlessComponent {
         return this.handleInteraction('keyboard', { key: originalEvent.key, originalEvent });
     }
 }
-<<<<<<< HEAD
 exports.HeadlessToggle = HeadlessToggle;
-=======
->>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
 //# sourceMappingURL=headless-toggle.js.map

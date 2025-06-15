@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.useHeadlessComponent = useHeadlessComponent;
@@ -10,16 +9,6 @@ function useHeadlessComponent(HeadlessComponentClass) {
     // Use CommandHistoryState for useState type and initial value
     const [history, setHistory] = (0, react_1.useState)(component.getHistory());
     (0, react_1.useEffect)(() => {
-=======
-import { useState, useEffect, useMemo, useCallback } from 'react';
-export function useHeadlessComponent(HeadlessComponentClass) {
-    const component = useMemo(() => new HeadlessComponentClass(), [HeadlessComponentClass]);
-    const [componentState, setComponentState] = useState(component.getState());
-    const [cssState, setCssState] = useState(component.getCSSState());
-    // Use CommandHistoryState for useState type and initial value
-    const [history, setHistory] = useState(component.getHistory());
-    useEffect(() => {
->>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
         const onStateChanged = (_event, newState) => {
             setComponentState(newState);
         };
@@ -49,17 +38,10 @@ export function useHeadlessComponent(HeadlessComponentClass) {
             unsubscribeHistory();
         };
     }, [component]);
-<<<<<<< HEAD
     const undo = (0, react_1.useCallback)(() => {
         component.undo();
     }, [component]);
     const redo = (0, react_1.useCallback)(() => {
-=======
-    const undo = useCallback(() => {
-        component.undo();
-    }, [component]);
-    const redo = useCallback(() => {
->>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
         component.redo();
     }, [component]);
     return { component, componentState, cssState, history, undo, redo };

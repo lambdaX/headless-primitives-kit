@@ -1,22 +1,13 @@
-<<<<<<< HEAD
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.HeadlessRadioGroup = void 0;
 const headless_component_1 = require("./headless-component");
 const interaction_strategies_1 = require("./interaction-strategies");
-=======
-import { HeadlessComponent } from './headless-component';
-import { RadioItemSelectStrategy, FocusStrategy } from './interaction-strategies';
->>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
 /**
  * Manages the state and interactions for a group of radio buttons.
  * Only one radio button in a group can be selected at a time.
  */
-<<<<<<< HEAD
 class HeadlessRadioGroup extends headless_component_1.HeadlessComponent {
-=======
-export class HeadlessRadioGroup extends HeadlessComponent {
->>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
     /**
      * Defines the initial state for the radio group.
      * @returns The initial radio group state.
@@ -35,13 +26,8 @@ export class HeadlessRadioGroup extends HeadlessComponent {
      */
     setupDefaultStrategies() {
         super.setupDefaultStrategies();
-<<<<<<< HEAD
         this.interactionStrategies.set('select', new interaction_strategies_1.RadioItemSelectStrategy());
         this.interactionStrategies.set('focus', new interaction_strategies_1.FocusStrategy()); // For group focus
-=======
-        this.interactionStrategies.set('select', new RadioItemSelectStrategy());
-        this.interactionStrategies.set('focus', new FocusStrategy()); // For group focus
->>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
     }
     /**
      * Updates the component's visual state based on its current data state.
@@ -129,8 +115,5 @@ export class HeadlessRadioGroup extends HeadlessComponent {
         return this.handleInteraction('focus', { isFocused, originalEvent });
     }
 }
-<<<<<<< HEAD
 exports.HeadlessRadioGroup = HeadlessRadioGroup;
-=======
->>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
 //# sourceMappingURL=headless-radio-group.js.map

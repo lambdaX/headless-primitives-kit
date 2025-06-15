@@ -1,23 +1,14 @@
-<<<<<<< HEAD
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.HeadlessButton = void 0;
 const headless_component_1 = require("./headless-component");
 const interaction_strategies_1 = require("./interaction-strategies");
-=======
-import { HeadlessComponent } from './headless-component';
-import { ButtonClickStrategy, HoverStrategy, FocusStrategy, KeyboardStrategy } from './interaction-strategies';
->>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
 /**
  * Manages the state and interactions for a button component.
  * This class provides the logic for button behaviors like click, hover, focus,
  * disabled, loading, and error states, without dictating its appearance.
  */
-<<<<<<< HEAD
 class HeadlessButton extends headless_component_1.HeadlessComponent {
-=======
-export class HeadlessButton extends HeadlessComponent {
->>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
     /**
      * Defines the initial state for the button.
      * @returns The initial button state.
@@ -38,17 +29,10 @@ export class HeadlessButton extends HeadlessComponent {
      */
     setupDefaultStrategies() {
         super.setupDefaultStrategies();
-<<<<<<< HEAD
         this.interactionStrategies.set('click', new interaction_strategies_1.ButtonClickStrategy());
         this.interactionStrategies.set('hover', new interaction_strategies_1.HoverStrategy());
         this.interactionStrategies.set('focus', new interaction_strategies_1.FocusStrategy());
         this.interactionStrategies.set('keyboard', new interaction_strategies_1.KeyboardStrategy());
-=======
-        this.interactionStrategies.set('click', new ButtonClickStrategy());
-        this.interactionStrategies.set('hover', new HoverStrategy());
-        this.interactionStrategies.set('focus', new FocusStrategy());
-        this.interactionStrategies.set('keyboard', new KeyboardStrategy());
->>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
     }
     /**
      * Updates the component's visual state (e.g., idle, pressed, disabled)
@@ -145,8 +129,5 @@ export class HeadlessButton extends HeadlessComponent {
         return this.handleInteraction('keyboard', { key: originalEvent.key, originalEvent });
     }
 }
-<<<<<<< HEAD
 exports.HeadlessButton = HeadlessButton;
-=======
->>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
 //# sourceMappingURL=headless-button.js.map
