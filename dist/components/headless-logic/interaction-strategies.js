@@ -1,14 +1,24 @@
+<<<<<<< HEAD
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TabsActivateTabStrategy = exports.AccordionToggleItemStrategy = exports.SliderKeyboardStrategy = exports.SliderUpdateStrategy = exports.RadioItemSelectStrategy = exports.InputTextStrategy = exports.KeyboardStrategy = exports.FocusStrategy = exports.HoverStrategy = exports.ButtonClickStrategy = exports.ToggleClickStrategy = exports.InteractionStrategy = void 0;
 const headless_toggle_1 = require("./headless-toggle");
 const headless_button_1 = require("./headless-button");
 const headless_checkbox_1 = require("./headless-checkbox");
+=======
+import { HeadlessToggle } from './headless-toggle';
+import { HeadlessButton } from './headless-button';
+import { HeadlessCheckbox } from './headless-checkbox';
+>>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
 /**
  * Base class for all interaction strategies.
  * Interaction strategies define how a `HeadlessComponent` reacts to specific user inputs or events.
  */
+<<<<<<< HEAD
 class InteractionStrategy {
+=======
+export class InteractionStrategy {
+>>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
     /**
      * Handles an interaction for a given component.
      * This method must be implemented by subclasses.
@@ -20,12 +30,19 @@ class InteractionStrategy {
         throw new Error('InteractionStrategy.handle() must be implemented by subclasses');
     }
 }
+<<<<<<< HEAD
 exports.InteractionStrategy = InteractionStrategy;
+=======
+>>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
 /**
  * Strategy for handling click-like interactions that toggle an `isChecked` state.
  * Used by `HeadlessToggle` and `HeadlessCheckbox` (for non-indeterminate toggling).
  */
+<<<<<<< HEAD
 class ToggleClickStrategy extends InteractionStrategy {
+=======
+export class ToggleClickStrategy extends InteractionStrategy {
+>>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
     handle(context, payload) {
         const state = context.getState();
         if (state.isDisabled || state.isLoading) {
@@ -40,12 +57,19 @@ class ToggleClickStrategy extends InteractionStrategy {
         return { prevented: false, handled: true };
     }
 }
+<<<<<<< HEAD
 exports.ToggleClickStrategy = ToggleClickStrategy;
+=======
+>>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
 /**
  * Strategy for handling standard button click interactions.
  * Used by `HeadlessButton`.
  */
+<<<<<<< HEAD
 class ButtonClickStrategy extends InteractionStrategy {
+=======
+export class ButtonClickStrategy extends InteractionStrategy {
+>>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
     handle(context, payload) {
         const state = context.getState();
         if (state.isDisabled || state.isLoading) {
@@ -55,11 +79,18 @@ class ButtonClickStrategy extends InteractionStrategy {
         return { prevented: false, handled: true };
     }
 }
+<<<<<<< HEAD
 exports.ButtonClickStrategy = ButtonClickStrategy;
 /**
  * Strategy for handling hover interactions (mouseenter, mouseleave).
  */
 class HoverStrategy extends InteractionStrategy {
+=======
+/**
+ * Strategy for handling hover interactions (mouseenter, mouseleave).
+ */
+export class HoverStrategy extends InteractionStrategy {
+>>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
     handle(context, payload) {
         const state = context.getState();
         // Allow visual hover state changes even if disabled, but don't trigger 'hoverChanged' event.
@@ -78,11 +109,18 @@ class HoverStrategy extends InteractionStrategy {
         return { prevented: false, handled: true };
     }
 }
+<<<<<<< HEAD
 exports.HoverStrategy = HoverStrategy;
 /**
  * Strategy for handling focus and blur interactions.
  */
 class FocusStrategy extends InteractionStrategy {
+=======
+/**
+ * Strategy for handling focus and blur interactions.
+ */
+export class FocusStrategy extends InteractionStrategy {
+>>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
     handle(context, payload) {
         const state = context.getState();
         if (state.isDisabled && payload.isFocused) {
@@ -99,12 +137,19 @@ class FocusStrategy extends InteractionStrategy {
         return { prevented: false, handled: true };
     }
 }
+<<<<<<< HEAD
 exports.FocusStrategy = FocusStrategy;
+=======
+>>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
 /**
  * Strategy for handling keyboard interactions, typically Space and Enter keys
  * to activate components like buttons, toggles, and checkboxes.
  */
+<<<<<<< HEAD
 class KeyboardStrategy extends InteractionStrategy {
+=======
+export class KeyboardStrategy extends InteractionStrategy {
+>>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
     handle(context, payload) {
         const { key, originalEvent } = payload;
         const state = context.getState();
@@ -114,11 +159,19 @@ class KeyboardStrategy extends InteractionStrategy {
         if (key === ' ' || key === 'Enter') {
             originalEvent.preventDefault(); // Prevent default browser action (e.g., scrolling on Space)
             // Handle components with an 'isChecked' property (Toggles, Checkboxes)
+<<<<<<< HEAD
             if ('isChecked' in state && (context instanceof headless_toggle_1.HeadlessToggle || context instanceof headless_checkbox_1.HeadlessCheckbox)) {
                 const checkboxContext = context; // Type assertion for checkbox-specific logic
                 const currentChecked = state.isChecked;
                 const currentIndeterminate = (checkboxContext instanceof headless_checkbox_1.HeadlessCheckbox) && state.isIndeterminate;
                 if (currentIndeterminate && checkboxContext instanceof headless_checkbox_1.HeadlessCheckbox) {
+=======
+            if ('isChecked' in state && (context instanceof HeadlessToggle || context instanceof HeadlessCheckbox)) {
+                const checkboxContext = context; // Type assertion for checkbox-specific logic
+                const currentChecked = state.isChecked;
+                const currentIndeterminate = (checkboxContext instanceof HeadlessCheckbox) && state.isIndeterminate;
+                if (currentIndeterminate && checkboxContext instanceof HeadlessCheckbox) {
+>>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
                     // If indeterminate, Space/Enter usually makes it checked
                     checkboxContext.setState({ isChecked: true, isIndeterminate: false });
                     checkboxContext.notifyObservers('toggled', {
@@ -141,7 +194,11 @@ class KeyboardStrategy extends InteractionStrategy {
                     });
                 }
             }
+<<<<<<< HEAD
             else if (context instanceof headless_button_1.HeadlessButton) {
+=======
+            else if (context instanceof HeadlessButton) {
+>>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
                 // For buttons, Space/Enter triggers a click
                 context.notifyObservers('clicked', {
                     triggeredBy: 'keyboard',
@@ -154,12 +211,19 @@ class KeyboardStrategy extends InteractionStrategy {
         return { prevented: false, handled: false }; // Not handled by this key
     }
 }
+<<<<<<< HEAD
 exports.KeyboardStrategy = KeyboardStrategy;
+=======
+>>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
 /**
  * Strategy for handling text input changes in an input field.
  * Used by `HeadlessInput`.
  */
+<<<<<<< HEAD
 class InputTextStrategy extends InteractionStrategy {
+=======
+export class InputTextStrategy extends InteractionStrategy {
+>>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
     handle(context, payload) {
         const state = context.getState();
         if (state.isDisabled || state.isReadOnly) {
@@ -178,11 +242,18 @@ class InputTextStrategy extends InteractionStrategy {
         return { prevented: false, handled: true };
     }
 }
+<<<<<<< HEAD
 exports.InputTextStrategy = InputTextStrategy;
 /**
  * Strategy for selecting an item in a `HeadlessRadioGroup`.
  */
 class RadioItemSelectStrategy extends InteractionStrategy {
+=======
+/**
+ * Strategy for selecting an item in a `HeadlessRadioGroup`.
+ */
+export class RadioItemSelectStrategy extends InteractionStrategy {
+>>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
     handle(context, payload) {
         const state = context.getState();
         if (state.isDisabled) { // Group disabled
@@ -202,12 +273,19 @@ class RadioItemSelectStrategy extends InteractionStrategy {
         return { prevented: false, handled: true };
     }
 }
+<<<<<<< HEAD
 exports.RadioItemSelectStrategy = RadioItemSelectStrategy;
+=======
+>>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
 /**
  * Strategy for updating the value of a `HeadlessSlider`, typically via dragging or direct manipulation.
  * Ensures the value is clamped to min/max and adheres to the step.
  */
+<<<<<<< HEAD
 class SliderUpdateStrategy extends InteractionStrategy {
+=======
+export class SliderUpdateStrategy extends InteractionStrategy {
+>>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
     handle(context, payload) {
         const state = context.getState();
         if (state.isDisabled) {
@@ -230,12 +308,19 @@ class SliderUpdateStrategy extends InteractionStrategy {
         return { prevented: false, handled: true };
     }
 }
+<<<<<<< HEAD
 exports.SliderUpdateStrategy = SliderUpdateStrategy;
+=======
+>>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
 /**
  * Strategy for handling keyboard interactions on a `HeadlessSlider`
  * (e.g., Arrow keys, Home, End).
  */
+<<<<<<< HEAD
 class SliderKeyboardStrategy extends InteractionStrategy {
+=======
+export class SliderKeyboardStrategy extends InteractionStrategy {
+>>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
     handle(context, payload) {
         const { key, originalEvent } = payload;
         const state = context.getState();
@@ -286,12 +371,19 @@ class SliderKeyboardStrategy extends InteractionStrategy {
         return { prevented: false, handled: false }; // Key not handled by this strategy
     }
 }
+<<<<<<< HEAD
 exports.SliderKeyboardStrategy = SliderKeyboardStrategy;
+=======
+>>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
 /**
  * Strategy for toggling an item in a `HeadlessAccordion`.
  * Considers accordion type (single/multiple) and collapsibility.
  */
+<<<<<<< HEAD
 class AccordionToggleItemStrategy extends InteractionStrategy {
+=======
+export class AccordionToggleItemStrategy extends InteractionStrategy {
+>>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
     handle(context, payload) {
         const state = context.getState();
         const { itemId, itemDisabled } = payload;
@@ -332,11 +424,18 @@ class AccordionToggleItemStrategy extends InteractionStrategy {
         return { prevented: false, handled: true };
     }
 }
+<<<<<<< HEAD
 exports.AccordionToggleItemStrategy = AccordionToggleItemStrategy;
 /**
  * Strategy for activating a tab in a `HeadlessTabs` component.
  */
 class TabsActivateTabStrategy extends InteractionStrategy {
+=======
+/**
+ * Strategy for activating a tab in a `HeadlessTabs` component.
+ */
+export class TabsActivateTabStrategy extends InteractionStrategy {
+>>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
     handle(context, payload) {
         const state = context.getState();
         const { tabId, tabDisabled } = payload; // `tabDisabled` could be passed if individual tabs can be disabled
@@ -353,5 +452,8 @@ class TabsActivateTabStrategy extends InteractionStrategy {
         return { prevented: false, handled: true };
     }
 }
+<<<<<<< HEAD
 exports.TabsActivateTabStrategy = TabsActivateTabStrategy;
+=======
+>>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
 //# sourceMappingURL=interaction-strategies.js.map

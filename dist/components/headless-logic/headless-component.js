@@ -1,23 +1,37 @@
+<<<<<<< HEAD
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.HeadlessComponent = void 0;
 const event_emitter_1 = require("./event-emitter");
 const command_1 = require("./command");
 const component_states_1 = require("./component-states");
+=======
+import { EventEmitter } from './event-emitter';
+import { Command, CommandInvoker } from './command';
+import { IdleState, HoveredState, FocusedState, PressedState, DisabledState, LoadingState, ErrorState } from './component-states';
+>>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
 /**
  * Abstract base class for all headless UI components.
  * It provides core functionality for state management, event emission,
  * command handling (undo/redo), state transitions, and interaction strategy delegation.
  * @template TState The type of the component's specific state, extending `BaseComponentState`.
  */
+<<<<<<< HEAD
 class HeadlessComponent extends event_emitter_1.EventEmitter {
+=======
+export class HeadlessComponent extends EventEmitter {
+>>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
     constructor() {
         super();
         this.state = this.defineInitialState();
         this.states = new Map();
         this.currentState = null;
         this.interactionStrategies = new Map();
+<<<<<<< HEAD
         this.commandInvoker = new command_1.CommandInvoker();
+=======
+        this.commandInvoker = new CommandInvoker();
+>>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
         this.setupDefaultStates();
         this.setupDefaultStrategies();
         // Initial visual state transition based on the initial data state.
@@ -28,6 +42,7 @@ class HeadlessComponent extends event_emitter_1.EventEmitter {
      * Subclasses can override or extend this to add custom states.
      */
     setupDefaultStates() {
+<<<<<<< HEAD
         this.addState('idle', new component_states_1.IdleState('idle', this));
         this.addState('hovered', new component_states_1.HoveredState('hovered', this));
         this.addState('focused', new component_states_1.FocusedState('focused', this));
@@ -35,6 +50,15 @@ class HeadlessComponent extends event_emitter_1.EventEmitter {
         this.addState('disabled', new component_states_1.DisabledState('disabled', this));
         this.addState('loading', new component_states_1.LoadingState('loading', this));
         this.addState('error', new component_states_1.ErrorState('error', this));
+=======
+        this.addState('idle', new IdleState('idle', this));
+        this.addState('hovered', new HoveredState('hovered', this));
+        this.addState('focused', new FocusedState('focused', this));
+        this.addState('pressed', new PressedState('pressed', this));
+        this.addState('disabled', new DisabledState('disabled', this));
+        this.addState('loading', new LoadingState('loading', this));
+        this.addState('error', new ErrorState('error', this));
+>>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
     }
     /**
      * Placeholder for subclasses to set up their default interaction strategies.
@@ -90,7 +114,11 @@ class HeadlessComponent extends event_emitter_1.EventEmitter {
         if (JSON.stringify(previousState) === JSON.stringify(nextState)) {
             return false;
         }
+<<<<<<< HEAD
         const command = new command_1.Command(() => {
+=======
+        const command = new Command(() => {
+>>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
             this.state = nextState;
             this.updateCurrentStateBasedOnData(this.state); // Reflect data change in visual state
             this.notifyObservers('stateChanged', this.getState());
@@ -179,5 +207,8 @@ class HeadlessComponent extends event_emitter_1.EventEmitter {
         return this.commandInvoker.getHistory();
     }
 }
+<<<<<<< HEAD
 exports.HeadlessComponent = HeadlessComponent;
+=======
+>>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
 //# sourceMappingURL=headless-component.js.map

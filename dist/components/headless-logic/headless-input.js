@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.HeadlessInput = void 0;
@@ -7,6 +8,14 @@ const interaction_strategies_1 = require("./interaction-strategies");
  * Manages the state and interactions for a text input component.
  */
 class HeadlessInput extends headless_component_1.HeadlessComponent {
+=======
+import { HeadlessComponent } from './headless-component';
+import { InputTextStrategy, FocusStrategy } from './interaction-strategies';
+/**
+ * Manages the state and interactions for a text input component.
+ */
+export class HeadlessInput extends HeadlessComponent {
+>>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
     /**
      * Defines the initial state for the input.
      * @returns The initial input state.
@@ -27,8 +36,13 @@ class HeadlessInput extends headless_component_1.HeadlessComponent {
      */
     setupDefaultStrategies() {
         super.setupDefaultStrategies();
+<<<<<<< HEAD
         this.interactionStrategies.set('input', new interaction_strategies_1.InputTextStrategy());
         this.interactionStrategies.set('focus', new interaction_strategies_1.FocusStrategy());
+=======
+        this.interactionStrategies.set('input', new InputTextStrategy());
+        this.interactionStrategies.set('focus', new FocusStrategy());
+>>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
     }
     /**
      * Updates the component's visual state based on its current data state.
@@ -103,5 +117,8 @@ class HeadlessInput extends headless_component_1.HeadlessComponent {
         return this.handleInteraction('focus', { isFocused, originalEvent });
     }
 }
+<<<<<<< HEAD
 exports.HeadlessInput = HeadlessInput;
+=======
+>>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
 //# sourceMappingURL=headless-input.js.map

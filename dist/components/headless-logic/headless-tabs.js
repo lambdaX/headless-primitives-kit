@@ -1,13 +1,22 @@
+<<<<<<< HEAD
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.HeadlessTabs = void 0;
 const headless_component_1 = require("./headless-component");
 const interaction_strategies_1 = require("./interaction-strategies");
+=======
+import { HeadlessComponent } from './headless-component';
+import { TabsActivateTabStrategy, FocusStrategy } from './interaction-strategies';
+>>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
 /**
  * Manages the state and interactions for a tabs component.
  * Tabs allow users to switch between different views or sections of content.
  */
+<<<<<<< HEAD
 class HeadlessTabs extends headless_component_1.HeadlessComponent {
+=======
+export class HeadlessTabs extends HeadlessComponent {
+>>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
     /**
      * Defines the initial state for the tabs.
      * @returns The initial tabs state.
@@ -26,11 +35,19 @@ class HeadlessTabs extends headless_component_1.HeadlessComponent {
      */
     setupDefaultStrategies() {
         super.setupDefaultStrategies();
+<<<<<<< HEAD
         this.interactionStrategies.set('activateTab', new interaction_strategies_1.TabsActivateTabStrategy());
         // Focus strategy could apply to the tab list or individual tab elements.
         // For simplicity, 'focus' here could mean the tab list has received focus,
         // or a specific tab element is focused.
         this.interactionStrategies.set('focus', new interaction_strategies_1.FocusStrategy());
+=======
+        this.interactionStrategies.set('activateTab', new TabsActivateTabStrategy());
+        // Focus strategy could apply to the tab list or individual tab elements.
+        // For simplicity, 'focus' here could mean the tab list has received focus,
+        // or a specific tab element is focused.
+        this.interactionStrategies.set('focus', new FocusStrategy());
+>>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
     }
     /**
      * Updates the component's visual state based on its current data state.
@@ -110,5 +127,8 @@ class HeadlessTabs extends headless_component_1.HeadlessComponent {
         return this.handleInteraction('focus', { isFocused, originalEvent });
     }
 }
+<<<<<<< HEAD
 exports.HeadlessTabs = HeadlessTabs;
+=======
+>>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
 //# sourceMappingURL=headless-tabs.js.map

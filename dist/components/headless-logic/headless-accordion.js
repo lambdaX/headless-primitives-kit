@@ -1,13 +1,22 @@
+<<<<<<< HEAD
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.HeadlessAccordion = void 0;
 const headless_component_1 = require("./headless-component");
 const interaction_strategies_1 = require("./interaction-strategies");
+=======
+import { HeadlessComponent } from './headless-component';
+import { AccordionToggleItemStrategy, FocusStrategy } from './interaction-strategies';
+>>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
 /**
  * Manages the state and interactions for an accordion component.
  * An accordion allows users to toggle the visibility of content sections.
  */
+<<<<<<< HEAD
 class HeadlessAccordion extends headless_component_1.HeadlessComponent {
+=======
+export class HeadlessAccordion extends HeadlessComponent {
+>>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
     /**
      * Defines the initial state for the accordion.
      * @returns The initial accordion state.
@@ -28,8 +37,13 @@ class HeadlessAccordion extends headless_component_1.HeadlessComponent {
      */
     setupDefaultStrategies() {
         super.setupDefaultStrategies();
+<<<<<<< HEAD
         this.interactionStrategies.set('toggleItem', new interaction_strategies_1.AccordionToggleItemStrategy());
         this.interactionStrategies.set('focus', new interaction_strategies_1.FocusStrategy()); // Group-level focus
+=======
+        this.interactionStrategies.set('toggleItem', new AccordionToggleItemStrategy());
+        this.interactionStrategies.set('focus', new FocusStrategy()); // Group-level focus
+>>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
     }
     /**
      * Updates the component's visual state (e.g., idle, focused, disabled)
@@ -120,5 +134,8 @@ class HeadlessAccordion extends headless_component_1.HeadlessComponent {
         return this.handleInteraction('focus', { isFocused, originalEvent });
     }
 }
+<<<<<<< HEAD
 exports.HeadlessAccordion = HeadlessAccordion;
+=======
+>>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
 //# sourceMappingURL=headless-accordion.js.map

@@ -1,12 +1,9 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.CommandInvoker = exports.Command = void 0;
 /**
  * Represents an action that can be executed and undone.
  * Commands are typically used to modify the state of a component
  * in a way that can be reversed, supporting undo/redo functionality.
  */
-class Command {
+export class Command {
     /**
      * Creates a new Command instance.
      * @param execute The function that performs the command's action.
@@ -20,12 +17,11 @@ class Command {
         this.timestamp = Date.now();
     }
 }
-exports.Command = Command;
 /**
  * Manages a history of commands, allowing for execution, undo, and redo operations.
  * This class is central to implementing undo/redo functionality in components.
  */
-class CommandInvoker {
+export class CommandInvoker {
     constructor() {
         this.history = [];
         this.currentPosition = -1;
@@ -93,5 +89,4 @@ class CommandInvoker {
         };
     }
 }
-exports.CommandInvoker = CommandInvoker;
 //# sourceMappingURL=command.js.map

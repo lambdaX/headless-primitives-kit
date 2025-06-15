@@ -1,11 +1,18 @@
+<<<<<<< HEAD
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EventEmitter = void 0;
+=======
+>>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
 /**
  * A simple event emitter class that allows objects to subscribe to events
  * and be notified when those events occur.
  */
+<<<<<<< HEAD
 class EventEmitter {
+=======
+export class EventEmitter {
+>>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
     constructor() {
         this.observers = new Map();
     }
@@ -56,5 +63,8 @@ class EventEmitter {
         }
     }
 }
+<<<<<<< HEAD
 exports.EventEmitter = EventEmitter;
+=======
+>>>>>>> da0adf09629b66da194cb93c549e6706b0caa915
 //# sourceMappingURL=event-emitter.js.map
