@@ -39,7 +39,7 @@ export interface CssState {
  * command handling (undo/redo), state transitions, and interaction strategy delegation.
  * @template TState The type of the component's specific state, extending `BaseComponentState`.
  */
-export abstract class HeadlessComponent<TState extends BaseComponentState> extends EventEmitter {
+export abstract class HeadlessComponent<TState extends BaseComponentState> {
     /** The current data state of the component. */
     protected state: TState;
     /** A map of named `ComponentState` instances (e.g., "idle", "hovered"). */
@@ -50,9 +50,11 @@ export abstract class HeadlessComponent<TState extends BaseComponentState> exten
     protected interactionStrategies: Map<string, InteractionStrategy>;
     /** The command invoker instance for managing undo/redo operations. */
     public commandInvoker: CommandInvoker;
+    /** Internal EventEmitter instance for event handling. */
+    private eventEmitter: EventEmitter;
     
     constructor() {
-        super();
+        this.eventEmitter = new EventEmitter();
         this.state = this.defineInitialState();
         this.states = new Map<string, ComponentState>();
         this.currentState = null;
@@ -125,12 +127,12 @@ export abstract class HeadlessComponent<TState extends BaseComponentState> exten
         this.currentState = newStateInstance;
         this.currentState.enter();
         
-        this.notifyObservers('stateTransition', { // Relies on notifyObservers being available
+        this.notifyObservers('stateTransition', { 
             stateName: stateName,
             state: this.getState() 
         });
         
-        this.notifyObservers('cssStateChanged', this.getCSSState()); // Relies on notifyObservers
+        this.notifyObservers('cssStateChanged', this.getCSSState());
     }
     
     /**
@@ -152,12 +154,12 @@ export abstract class HeadlessComponent<TState extends BaseComponentState> exten
             () => { // Execute action
                 this.state = nextState;
                 this.updateCurrentStateBasedOnData(this.state); 
-                this.notifyObservers('stateChanged', this.getState()); // Relies on notifyObservers
+                this.notifyObservers('stateChanged', this.getState());
             },
             () => { // Undo action
                 this.state = previousState;
                 this.updateCurrentStateBasedOnData(this.state); 
-                this.notifyObservers('stateChanged', this.getState()); // Relies on notifyObservers
+                this.notifyObservers('stateChanged', this.getState());
             },
             { previousState, nextState } as CommandData
         );
@@ -235,7 +237,7 @@ export abstract class HeadlessComponent<TState extends BaseComponentState> exten
      */
     undo(): boolean {
         const result = this.commandInvoker.undo();
-        if (result) this.notifyObservers('historyChanged', this.getHistory()); // Relies on notifyObservers
+        if (result) this.notifyObservers('historyChanged', this.getHistory());
         return result;
     }
     
@@ -246,7 +248,7 @@ export abstract class HeadlessComponent<TState extends BaseComponentState> exten
      */
     redo(): boolean {
         const result = this.commandInvoker.redo();
-        if (result) this.notifyObservers('historyChanged', this.getHistory()); // Relies on notifyObservers
+        if (result) this.notifyObservers('historyChanged', this.getHistory());
         return result;
     }
     
@@ -259,14 +261,33 @@ export abstract class HeadlessComponent<TState extends BaseComponentState> exten
     }
 
     /**
-     * Explicitly re-declares notifyObservers to ensure it's part of HeadlessComponent's direct API.
-     * This can aid type resolution in some build environments.
+     * Subscribes a callback function to a specific event.
+     * Delegates to the internal EventEmitter instance.
+     * @param event The name of the event to subscribe to.
+     * @param callback The function to call when the event occurs.
+     * @returns An unsubscribe function.
+     */
+    public subscribe(event: string, callback: EventCallback): () => void {
+        return this.eventEmitter.subscribe(event, callback);
+    }
+
+    /**
+     * Unsubscribes a callback function from a specific event.
+     * Delegates to the internal EventEmitter instance.
+     * @param event The name of the event to unsubscribe from.
+     * @param callback The callback function to remove.
+     */
+    public unsubscribe(event: string, callback: EventCallback): void {
+        this.eventEmitter.unsubscribe(event, callback);
+    }
+    
+    /**
+     * Notifies all subscribed observers of a particular event.
+     * Delegates to the internal EventEmitter instance.
      * @param event The name of the event to notify observers about.
      * @param data Optional data to pass to the event callbacks.
      */
     public notifyObservers(event: string, data?: any): void {
-        super.notifyObservers(event, data);
+        this.eventEmitter.notifyObservers(event, data);
     }
 }
-
-    
