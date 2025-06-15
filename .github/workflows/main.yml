@@ -30,7 +30,7 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: 'docs: Build and commit dist for headless logic [CI]'
-          branch: master
+          branch: master # Ensure this is your default branch, e.g., main or master
           file_pattern: 'dist/**/*' # Pattern to commit only the dist folder and its contents
           commit_user_name: 'GitHub Actions Bot'
           commit_user_email: 'actions@github.com'
@@ -39,4 +39,3 @@ jobs:
           # when triggered by a push to the same repository.
           # For pushes from forks, or more complex scenarios, a PAT might be needed.
           # Ensure your repository settings allow Actions to write to the branch if needed.
-
