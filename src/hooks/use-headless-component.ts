@@ -1,8 +1,9 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
-// Path alias imports are fine here if tsconfig.json's paths are set up.
-// The key is that the files *within* headless-logic use explicit .ts extensions
-// for their relative imports if needed for tsc's ESM .js extension output.
-import type { HeadlessComponent, BaseComponentState, CssState } from '@/components/headless-logic'; 
+// For imports that are part of the library being built by build:logic,
+// ensure they use .ts extension if they are relative paths to other .ts files
+// that will be compiled alongside. Aliases to directories (like @/components/headless-logic)
+// usually point to an index.ts, which itself should use .ts for its internal re-exports.
+import type { HeadlessComponent, BaseComponentState, CssState } from '@/components/headless-logic/headless-component.ts'; 
 import type { CommandHistoryState } from '@/components/headless-logic/command.ts';
 
 interface HeadlessHookResult<T extends HeadlessComponent<S>, S extends BaseComponentState> {
