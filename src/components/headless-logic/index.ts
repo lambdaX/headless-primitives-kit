@@ -1,3 +1,4 @@
+
 export * from './event-emitter';
 export * from './command';
 export * from './component-states';
@@ -7,3 +8,7 @@ export * from './headless-toggle';
 export * from './headless-button';
 export * from './headless-input';
 export * from './headless-checkbox';
+export * from './headless-radio-group';
+export * from './headless-slider';
+
+    
