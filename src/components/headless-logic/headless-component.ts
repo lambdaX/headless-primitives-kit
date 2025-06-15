@@ -262,4 +262,3 @@ export abstract class HeadlessComponent<TState extends BaseComponentState> exten
     }
 }
 
-    

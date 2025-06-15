@@ -30,8 +30,8 @@
     "src/ai",
     "**/*.spec.ts",
     "**/*.test.ts",
-    "public/esm-button-example.html"
+    "public/esm-button-example.html",
+    "tests"
   ]
 }
 
-    
