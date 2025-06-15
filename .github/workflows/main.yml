@@ -9,6 +9,8 @@ on:
 jobs:
   build-and-commit-dist:
     runs-on: ubuntu-latest
+    permissions: # Add this block
+      contents: write # Grant write permission for repository contents
 
     steps:
       - name: Checkout repository
@@ -30,12 +32,9 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: 'docs: Build and commit dist for headless logic [CI]'
-          branch: master # Ensure this is your default branch, e.g., main or master
+          branch: master # Ensure this is your default branch
           file_pattern: 'dist/**/*' # Pattern to commit only the dist folder and its contents
           commit_user_name: 'GitHub Actions Bot'
           commit_user_email: 'actions@github.com'
           commit_author: 'GitHub Actions Bot <actions@github.com>'
-          # The default GITHUB_TOKEN has write permissions for the repository
-          # when triggered by a push to the same repository.
-          # For pushes from forks, or more complex scenarios, a PAT might be needed.
-          # Ensure your repository settings allow Actions to write to the branch if needed.
+          # The GITHUB_TOKEN will now have write permissions due to the `permissions` block above.
