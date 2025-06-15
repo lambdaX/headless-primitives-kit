@@ -1,12 +1,13 @@
+
 import type { HeadlessComponent, BaseComponentState } from './headless-component';
-import type { HeadlessToggle } from './headless-toggle'; // Keep full type for instanceof
-import type { HeadlessButton } from './headless-button';
+import { HeadlessToggle } from './headless-toggle';
+import { HeadlessButton } from './headless-button';
 import type { HeadlessInput, InputState } from './headless-input';
-import type { HeadlessCheckbox, CheckboxState } from './headless-checkbox';
-import type { HeadlessRadioGroup } from './headless-radio-group'; // Keep full type
-import type { HeadlessSlider } from './headless-slider'; // Keep full type
-import type { HeadlessAccordion } from './headless-accordion'; // Keep full type
-import type { HeadlessTabs } from './headless-tabs'; // Keep full type
+import { HeadlessCheckbox, type CheckboxState } from './headless-checkbox';
+import type { HeadlessRadioGroup } from './headless-radio-group';
+import type { HeadlessSlider } from './headless-slider';
+import type { HeadlessAccordion } from './headless-accordion';
+import type { HeadlessTabs } from './headless-tabs';
 
 
 /**
