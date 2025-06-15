@@ -6,7 +6,6 @@ function useHeadlessComponent(HeadlessComponentClass) {
     const component = (0, react_1.useMemo)(() => new HeadlessComponentClass(), [HeadlessComponentClass]);
     const [componentState, setComponentState] = (0, react_1.useState)(component.getState());
     const [cssState, setCssState] = (0, react_1.useState)(component.getCSSState());
-    // Use CommandHistoryState for useState type and initial value
     const [history, setHistory] = (0, react_1.useState)(component.getHistory());
     (0, react_1.useEffect)(() => {
         const onStateChanged = (_event, newState) => {
@@ -15,7 +14,6 @@ function useHeadlessComponent(HeadlessComponentClass) {
         const onCssStateChanged = (_event, newCssState) => {
             setCssState(newCssState);
         };
-        // Use CommandHistoryState for the newHistory parameter
         const onHistoryChanged = (_event, newHistory) => {
             setHistory(newHistory);
         };
@@ -25,9 +23,8 @@ function useHeadlessComponent(HeadlessComponentClass) {
             setComponentState(component.getState());
             setCssState(component.getCSSState());
         });
-        // The 'as any' here is to satisfy the general EventCallback type.
-        // The actual data passed for 'historyChanged' will be CommandHistoryState.
         const unsubscribeHistory = component.subscribe('historyChanged', onHistoryChanged);
+        // Initial sync
         setComponentState(component.getState());
         setCssState(component.getCSSState());
         setHistory(component.getHistory());

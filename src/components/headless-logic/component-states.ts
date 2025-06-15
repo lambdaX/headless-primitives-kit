@@ -1,5 +1,5 @@
 
-import type { HeadlessComponent } from './headless-component.ts';
+import type { HeadlessComponent } from './headless-component';
 
 /**
  * Represents a specific state a `HeadlessComponent` can be in (e.g., Idle, Hovered, Disabled).
@@ -82,5 +82,3 @@ export class LoadingState extends ComponentState {
 export class ErrorState extends ComponentState {
     getCSSClasses(): string[] { return ['error']; }
 }
-
-    

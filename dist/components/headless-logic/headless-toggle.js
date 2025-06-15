@@ -1,13 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.HeadlessToggle = void 0;
-const headless_component_1 = require("./headless-component");
-const interaction_strategies_1 = require("./interaction-strategies");
+const headless_component_ts_1 = require("./headless-component.ts");
+const interaction_strategies_ts_1 = require("./interaction-strategies.ts");
 /**
  * Manages the state and interactions for a toggle component, such as a switch.
  * Toggles typically have two states: checked (on) and unchecked (off).
  */
-class HeadlessToggle extends headless_component_1.HeadlessComponent {
+class HeadlessToggle extends headless_component_ts_1.HeadlessComponent {
     /**
      * Defines the initial state for the toggle.
      * @returns The initial toggle state.
@@ -28,10 +28,10 @@ class HeadlessToggle extends headless_component_1.HeadlessComponent {
      */
     setupDefaultStrategies() {
         super.setupDefaultStrategies();
-        this.interactionStrategies.set('click', new interaction_strategies_1.ToggleClickStrategy());
-        this.interactionStrategies.set('hover', new interaction_strategies_1.HoverStrategy());
-        this.interactionStrategies.set('focus', new interaction_strategies_1.FocusStrategy());
-        this.interactionStrategies.set('keyboard', new interaction_strategies_1.KeyboardStrategy()); // For Space/Enter to toggle
+        this.interactionStrategies.set('click', new interaction_strategies_ts_1.ToggleClickStrategy());
+        this.interactionStrategies.set('hover', new interaction_strategies_ts_1.HoverStrategy());
+        this.interactionStrategies.set('focus', new interaction_strategies_ts_1.FocusStrategy());
+        this.interactionStrategies.set('keyboard', new interaction_strategies_ts_1.KeyboardStrategy()); // For Space/Enter to toggle
     }
     /**
      * Updates the component's visual state based on its current data state.

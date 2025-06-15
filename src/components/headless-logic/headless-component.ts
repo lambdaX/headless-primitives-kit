@@ -1,8 +1,8 @@
 
-import { EventEmitter } from './event-emitter.ts';
-import { Command, CommandInvoker, type CommandData, type CommandHistoryState } from './command.ts';
-import { ComponentState, IdleState, HoveredState, FocusedState, PressedState, DisabledState, LoadingState, ErrorState } from './component-states.ts';
-import type { InteractionStrategy, InteractionPayload, InteractionResult } from './interaction-strategies.ts';
+import { EventEmitter } from './event-emitter';
+import { Command, CommandInvoker, type CommandData, type CommandHistoryState } from './command';
+import { ComponentState, IdleState, HoveredState, FocusedState, PressedState, DisabledState, LoadingState, ErrorState } from './component-states';
+import type { InteractionStrategy, InteractionPayload, InteractionResult } from './interaction-strategies';
 
 /**
  * Base interface for the state object of any headless component.
@@ -261,4 +261,3 @@ export abstract class HeadlessComponent<TState extends BaseComponentState> exten
         return this.commandInvoker.getHistory();
     }
 }
-

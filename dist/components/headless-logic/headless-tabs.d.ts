@@ -1,4 +1,4 @@
-import { HeadlessComponent, BaseComponentState } from './headless-component';
+import { HeadlessComponent, BaseComponentState } from './headless-component.ts';
 /**
  * Defines the state properties for a `HeadlessTabs` component.
  */
@@ -40,7 +40,7 @@ export declare class HeadlessTabs extends HeadlessComponent<TabsState> {
      * @param originalEvent Optional. The original browser or React event.
      * @returns The result of the activation interaction.
      */
-    activateTab(tabId: string, tabDisabled?: boolean, originalEvent?: Event | React.SyntheticEvent): import("./interaction-strategies").InteractionResult;
+    activateTab(tabId: string, tabDisabled?: boolean, originalEvent?: Event | React.SyntheticEvent): import("./interaction-strategies.ts").InteractionResult;
     /**
      * Programmatically sets the active tab.
      * Consider if `tabDisabled` logic from `activateTab` should also apply here if called directly.
@@ -69,6 +69,6 @@ export declare class HeadlessTabs extends HeadlessComponent<TabsState> {
      * @param originalEvent Optional. The original browser or React event.
      * @returns The result of the focus interaction.
      */
-    focus(isFocused: boolean, originalEvent?: Event | React.SyntheticEvent): import("./interaction-strategies").InteractionResult;
+    focus(isFocused: boolean, originalEvent?: Event | React.SyntheticEvent): import("./interaction-strategies.ts").InteractionResult;
 }
 //# sourceMappingURL=headless-tabs.d.ts.map

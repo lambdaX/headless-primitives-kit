@@ -1,7 +1,7 @@
-import { EventEmitter } from './event-emitter';
-import { CommandInvoker } from './command';
-import { ComponentState } from './component-states';
-import type { InteractionStrategy, InteractionPayload, InteractionResult } from './interaction-strategies';
+import { EventEmitter } from './event-emitter.ts';
+import { CommandInvoker, type CommandHistoryState } from './command.ts';
+import { ComponentState } from './component-states.ts';
+import type { InteractionStrategy, InteractionPayload, InteractionResult } from './interaction-strategies.ts';
 /**
  * Base interface for the state object of any headless component.
  * Components can extend this to add their specific state properties.
@@ -129,6 +129,6 @@ export declare abstract class HeadlessComponent<TState extends BaseComponentStat
      * Gets the current state of the command history from the `CommandInvoker`.
      * @returns An object describing the command history.
      */
-    getHistory(): import("./command").CommandHistoryState;
+    getHistory(): CommandHistoryState;
 }
 //# sourceMappingURL=headless-component.d.ts.map

@@ -1,14 +1,14 @@
 
-import type { HeadlessComponent, BaseComponentState } from './headless-component.ts';
-import { HeadlessToggle } from './headless-toggle.ts';
-import { HeadlessButton } from './headless-button.ts';
-import { HeadlessCheckbox } from './headless-checkbox.ts';
-import type { CheckboxState } from './headless-checkbox.ts';
-import type { HeadlessInput, InputState } from './headless-input.ts';
-import type { HeadlessRadioGroup } from './headless-radio-group.ts';
-import type { HeadlessSlider } from './headless-slider.ts';
-import type { HeadlessAccordion } from './headless-accordion.ts';
-import type { HeadlessTabs } from './headless-tabs.ts';
+import type { HeadlessComponent, BaseComponentState } from './headless-component';
+import { HeadlessToggle } from './headless-toggle';
+import { HeadlessButton } from './headless-button';
+import { HeadlessCheckbox } from './headless-checkbox';
+import type { CheckboxState } from './headless-checkbox';
+import type { HeadlessInput, InputState } from './headless-input';
+import type { HeadlessRadioGroup } from './headless-radio-group';
+import type { HeadlessSlider } from './headless-slider';
+import type { HeadlessAccordion } from './headless-accordion';
+import type { HeadlessTabs } from './headless-tabs';
 
 
 /**
@@ -419,5 +419,3 @@ export class TabsActivateTabStrategy extends InteractionStrategy {
         return { prevented: false, handled: true };
     }
 }
-
-    

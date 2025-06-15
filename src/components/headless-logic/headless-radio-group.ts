@@ -1,6 +1,6 @@
 
-import { HeadlessComponent, BaseComponentState } from './headless-component.ts';
-import { RadioItemSelectStrategy, FocusStrategy, InteractionPayload } from './interaction-strategies.ts';
+import { HeadlessComponent, BaseComponentState } from './headless-component';
+import { RadioItemSelectStrategy, FocusStrategy, InteractionPayload } from './interaction-strategies';
 
 /**
  * Defines the structure for a single radio option within a `HeadlessRadioGroup`.
@@ -147,5 +147,3 @@ export class HeadlessRadioGroup extends HeadlessComponent<RadioGroupState> {
         return this.handleInteraction('focus', { isFocused, originalEvent } as InteractionPayload & { isFocused: boolean });
     }
 }
-
-    

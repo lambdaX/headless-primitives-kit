@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.HeadlessInput = void 0;
-const headless_component_1 = require("./headless-component");
-const interaction_strategies_1 = require("./interaction-strategies");
+const headless_component_ts_1 = require("./headless-component.ts");
+const interaction_strategies_ts_1 = require("./interaction-strategies.ts");
 /**
  * Manages the state and interactions for a text input component.
  */
-class HeadlessInput extends headless_component_1.HeadlessComponent {
+class HeadlessInput extends headless_component_ts_1.HeadlessComponent {
     /**
      * Defines the initial state for the input.
      * @returns The initial input state.
@@ -27,8 +27,8 @@ class HeadlessInput extends headless_component_1.HeadlessComponent {
      */
     setupDefaultStrategies() {
         super.setupDefaultStrategies();
-        this.interactionStrategies.set('input', new interaction_strategies_1.InputTextStrategy());
-        this.interactionStrategies.set('focus', new interaction_strategies_1.FocusStrategy());
+        this.interactionStrategies.set('input', new interaction_strategies_ts_1.InputTextStrategy());
+        this.interactionStrategies.set('focus', new interaction_strategies_ts_1.FocusStrategy());
     }
     /**
      * Updates the component's visual state based on its current data state.

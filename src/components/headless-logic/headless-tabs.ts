@@ -1,6 +1,6 @@
 
-import { HeadlessComponent, BaseComponentState } from './headless-component.ts';
-import { TabsActivateTabStrategy, FocusStrategy, InteractionPayload } from './interaction-strategies.ts';
+import { HeadlessComponent, BaseComponentState } from './headless-component';
+import { TabsActivateTabStrategy, FocusStrategy, InteractionPayload } from './interaction-strategies';
 
 /**
  * Defines the state properties for a `HeadlessTabs` component.
@@ -132,5 +132,3 @@ export class HeadlessTabs extends HeadlessComponent<TabsState> {
         return this.handleInteraction('focus', { isFocused, originalEvent } as InteractionPayload & { isFocused: boolean });
     }
 }
-
-    

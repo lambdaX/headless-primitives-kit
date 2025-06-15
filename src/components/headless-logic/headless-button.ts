@@ -1,6 +1,6 @@
 
-import { HeadlessComponent, BaseComponentState } from './headless-component.ts';
-import { ButtonClickStrategy, HoverStrategy, FocusStrategy, KeyboardStrategy, InteractionPayload } from './interaction-strategies.ts';
+import { HeadlessComponent, BaseComponentState } from './headless-component';
+import { ButtonClickStrategy, HoverStrategy, FocusStrategy, KeyboardStrategy, InteractionPayload } from './interaction-strategies';
 
 /**
  * Defines the state properties for a `HeadlessButton` component.
@@ -143,5 +143,3 @@ export class HeadlessButton extends HeadlessComponent<ButtonState> {
         return this.handleInteraction('keyboard', { key: originalEvent.key, originalEvent } as InteractionPayload & { key: string, originalEvent: KeyboardEvent });
     }
 }
-
-    

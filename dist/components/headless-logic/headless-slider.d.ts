@@ -1,4 +1,4 @@
-import { HeadlessComponent, BaseComponentState } from './headless-component';
+import { HeadlessComponent, BaseComponentState } from './headless-component.ts';
 /**
  * Defines the state properties for a `HeadlessSlider` component.
  */
@@ -42,7 +42,7 @@ export declare class HeadlessSlider extends HeadlessComponent<SliderState> {
      * @param originalEvent Optional. The original browser or React event (e.g., mousemove during drag).
      * @returns The result of the update interaction.
      */
-    setValue(newValue: number, originalEvent?: Event | React.SyntheticEvent): import("./interaction-strategies").InteractionResult;
+    setValue(newValue: number, originalEvent?: Event | React.SyntheticEvent): import("./interaction-strategies.ts").InteractionResult;
     /**
      * Sets the range (min, max) and step for the slider.
      * The current value will be adjusted to fit within the new range and step.
@@ -67,14 +67,14 @@ export declare class HeadlessSlider extends HeadlessComponent<SliderState> {
      * @param originalEvent Optional. The original browser or React event.
      * @returns The result of the hover interaction.
      */
-    hover(isHovered: boolean, originalEvent?: Event | React.SyntheticEvent): import("./interaction-strategies").InteractionResult;
+    hover(isHovered: boolean, originalEvent?: Event | React.SyntheticEvent): import("./interaction-strategies.ts").InteractionResult;
     /**
      * Handles focus interaction, typically for the slider thumb.
      * @param isFocused True if focused, false otherwise.
      * @param originalEvent Optional. The original browser or React event.
      * @returns The result of the focus interaction.
      */
-    focus(isFocused: boolean, originalEvent?: Event | React.SyntheticEvent): import("./interaction-strategies").InteractionResult;
+    focus(isFocused: boolean, originalEvent?: Event | React.SyntheticEvent): import("./interaction-strategies.ts").InteractionResult;
     /**
      * Sets the pressed state, usually when the slider thumb is actively being dragged.
      * @param isPressed True if pressed/dragged, false otherwise.
@@ -85,6 +85,6 @@ export declare class HeadlessSlider extends HeadlessComponent<SliderState> {
      * @param originalEvent The KeyboardEvent.
      * @returns The result of the keyboard interaction.
      */
-    keydown(originalEvent: KeyboardEvent): import("./interaction-strategies").InteractionResult;
+    keydown(originalEvent: KeyboardEvent): import("./interaction-strategies.ts").InteractionResult;
 }
 //# sourceMappingURL=headless-slider.d.ts.map

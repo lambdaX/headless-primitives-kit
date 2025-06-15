@@ -1,4 +1,4 @@
-import { HeadlessComponent, BaseComponentState } from './headless-component';
+import { HeadlessComponent, BaseComponentState } from './headless-component.ts';
 /**
  * Defines the state properties for a `HeadlessAccordion` component.
  */
@@ -51,7 +51,7 @@ export declare class HeadlessAccordion extends HeadlessComponent<AccordionState>
      * @param originalEvent Optional. The original browser or React event that triggered this action.
      * @returns The result of the interaction.
      */
-    toggleItem(itemId: string, itemDisabled?: boolean, originalEvent?: Event | React.SyntheticEvent): import("./interaction-strategies").InteractionResult;
+    toggleItem(itemId: string, itemDisabled?: boolean, originalEvent?: Event | React.SyntheticEvent): import("./interaction-strategies.ts").InteractionResult;
     /**
      * Programmatically sets which accordion items are open.
      * @param openItems An array of item IDs to be open.
@@ -87,6 +87,6 @@ export declare class HeadlessAccordion extends HeadlessComponent<AccordionState>
      * @param originalEvent Optional. The original browser or React event.
      * @returns The result of the focus interaction.
      */
-    focus(isFocused: boolean, originalEvent?: Event | React.SyntheticEvent): import("./interaction-strategies").InteractionResult;
+    focus(isFocused: boolean, originalEvent?: Event | React.SyntheticEvent): import("./interaction-strategies.ts").InteractionResult;
 }
 //# sourceMappingURL=headless-accordion.d.ts.map

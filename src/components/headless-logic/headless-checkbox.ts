@@ -1,6 +1,6 @@
 
-import { HeadlessComponent, BaseComponentState } from './headless-component.ts';
-import { ToggleClickStrategy, HoverStrategy, FocusStrategy, KeyboardStrategy, InteractionPayload } from './interaction-strategies.ts';
+import { HeadlessComponent, BaseComponentState } from './headless-component';
+import { ToggleClickStrategy, HoverStrategy, FocusStrategy, KeyboardStrategy, InteractionPayload } from './interaction-strategies';
 
 /**
  * Defines the state properties for a `HeadlessCheckbox` component.
@@ -183,5 +183,3 @@ export class HeadlessCheckbox extends HeadlessComponent<CheckboxState> {
         return this.handleInteraction('keyboard', { key: originalEvent.key, originalEvent } as InteractionPayload & { key: string, originalEvent: KeyboardEvent });
     }
 }
-
-    

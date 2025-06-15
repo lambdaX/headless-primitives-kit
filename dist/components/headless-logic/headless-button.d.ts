@@ -1,4 +1,4 @@
-import { HeadlessComponent, BaseComponentState } from './headless-component';
+import { HeadlessComponent, BaseComponentState } from './headless-component.ts';
 /**
  * Defines the state properties for a `HeadlessButton` component.
  * Extends `BaseComponentState` which includes common states like isDisabled, isLoading, etc.
@@ -39,7 +39,7 @@ export declare class HeadlessButton extends HeadlessComponent<ButtonState> {
      * @param originalEvent Optional. The original browser or React event that triggered this action.
      * @returns The result of the click interaction.
      */
-    click(originalEvent?: Event | React.SyntheticEvent): import("./interaction-strategies").InteractionResult;
+    click(originalEvent?: Event | React.SyntheticEvent): import("./interaction-strategies.ts").InteractionResult;
     /**
      * Sets the disabled state of the button.
      * @param disabled True to disable the button, false to enable.
@@ -62,14 +62,14 @@ export declare class HeadlessButton extends HeadlessComponent<ButtonState> {
      * @param originalEvent Optional. The original browser or React event.
      * @returns The result of the hover interaction.
      */
-    hover(isHovered: boolean, originalEvent?: Event | React.SyntheticEvent): import("./interaction-strategies").InteractionResult;
+    hover(isHovered: boolean, originalEvent?: Event | React.SyntheticEvent): import("./interaction-strategies.ts").InteractionResult;
     /**
      * Handles focus interaction.
      * @param isFocused True if the button has focus, false otherwise.
      * @param originalEvent Optional. The original browser or React event.
      * @returns The result of the focus interaction.
      */
-    focus(isFocused: boolean, originalEvent?: Event | React.SyntheticEvent): import("./interaction-strategies").InteractionResult;
+    focus(isFocused: boolean, originalEvent?: Event | React.SyntheticEvent): import("./interaction-strategies.ts").InteractionResult;
     /**
      * Sets the pressed state of the button (e.g., when mouse button is down).
      * @param isPressed True if the button is pressed, false otherwise.
@@ -80,6 +80,6 @@ export declare class HeadlessButton extends HeadlessComponent<ButtonState> {
      * @param originalEvent The `KeyboardEvent` from the browser.
      * @returns The result of the keyboard interaction.
      */
-    keydown(originalEvent: KeyboardEvent): import("./interaction-strategies").InteractionResult;
+    keydown(originalEvent: KeyboardEvent): import("./interaction-strategies.ts").InteractionResult;
 }
 //# sourceMappingURL=headless-button.d.ts.map

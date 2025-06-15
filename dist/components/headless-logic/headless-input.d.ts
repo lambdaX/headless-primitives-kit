@@ -1,4 +1,4 @@
-import { HeadlessComponent, BaseComponentState } from './headless-component';
+import { HeadlessComponent, BaseComponentState } from './headless-component.ts';
 /**
  * Defines the state properties for a `HeadlessInput` component.
  */
@@ -40,7 +40,7 @@ export declare class HeadlessInput extends HeadlessComponent<InputState> {
      * @param originalEvent Optional. The original browser or React event.
      * @returns The result of the input interaction.
      */
-    setValue(newValue: string, originalEvent?: Event | React.SyntheticEvent): import("./interaction-strategies").InteractionResult;
+    setValue(newValue: string, originalEvent?: Event | React.SyntheticEvent): import("./interaction-strategies.ts").InteractionResult;
     /**
      * Sets the disabled state of the input.
      * @param disabled True to disable, false to enable.
@@ -70,6 +70,6 @@ export declare class HeadlessInput extends HeadlessComponent<InputState> {
      * @param originalEvent Optional. The original browser or React event.
      * @returns The result of the focus interaction.
      */
-    focus(isFocused: boolean, originalEvent?: Event | React.SyntheticEvent): import("./interaction-strategies").InteractionResult;
+    focus(isFocused: boolean, originalEvent?: Event | React.SyntheticEvent): import("./interaction-strategies.ts").InteractionResult;
 }
 //# sourceMappingURL=headless-input.d.ts.map

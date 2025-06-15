@@ -1,6 +1,6 @@
 
-import { HeadlessComponent, BaseComponentState } from './headless-component.ts';
-import { SliderUpdateStrategy, SliderKeyboardStrategy, HoverStrategy, FocusStrategy, InteractionPayload } from './interaction-strategies.ts';
+import { HeadlessComponent, BaseComponentState } from './headless-component';
+import { SliderUpdateStrategy, SliderKeyboardStrategy, HoverStrategy, FocusStrategy, InteractionPayload } from './interaction-strategies';
 
 /**
  * Defines the state properties for a `HeadlessSlider` component.
@@ -175,5 +175,3 @@ export class HeadlessSlider extends HeadlessComponent<SliderState> {
         return this.handleInteraction('keyboard', { key: originalEvent.key, originalEvent } as InteractionPayload & { key: string, originalEvent: KeyboardEvent });
     }
 }
-
-    

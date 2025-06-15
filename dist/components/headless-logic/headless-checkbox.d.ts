@@ -1,4 +1,4 @@
-import { HeadlessComponent, BaseComponentState } from './headless-component';
+import { HeadlessComponent, BaseComponentState } from './headless-component.ts';
 /**
  * Defines the state properties for a `HeadlessCheckbox` component.
  */
@@ -38,7 +38,7 @@ export declare class HeadlessCheckbox extends HeadlessComponent<CheckboxState> {
      * If indeterminate, it becomes checked. Otherwise, it toggles between checked and unchecked.
      * @param originalEvent Optional. The original browser or React event.
      */
-    toggle(originalEvent?: Event | React.SyntheticEvent): import("./interaction-strategies").InteractionResult;
+    toggle(originalEvent?: Event | React.SyntheticEvent): import("./interaction-strategies.ts").InteractionResult;
     /**
      * Sets the checkbox state to checked and clears indeterminate state.
      */
@@ -69,13 +69,13 @@ export declare class HeadlessCheckbox extends HeadlessComponent<CheckboxState> {
      * @param isHovered True if hovering, false otherwise.
      * @param originalEvent Optional. The original browser or React event.
      */
-    hover(isHovered: boolean, originalEvent?: Event | React.SyntheticEvent): import("./interaction-strategies").InteractionResult;
+    hover(isHovered: boolean, originalEvent?: Event | React.SyntheticEvent): import("./interaction-strategies.ts").InteractionResult;
     /**
      * Handles focus interaction.
      * @param isFocused True if focused, false otherwise.
      * @param originalEvent Optional. The original browser or React event.
      */
-    focus(isFocused: boolean, originalEvent?: Event | React.SyntheticEvent): import("./interaction-strategies").InteractionResult;
+    focus(isFocused: boolean, originalEvent?: Event | React.SyntheticEvent): import("./interaction-strategies.ts").InteractionResult;
     /**
      * Sets the pressed state (e.g., mousedown).
      * @param isPressed True if pressed, false otherwise.
@@ -85,6 +85,6 @@ export declare class HeadlessCheckbox extends HeadlessComponent<CheckboxState> {
      * Handles keyboard interaction (e.g., Space key).
      * @param originalEvent The KeyboardEvent.
      */
-    keydown(originalEvent: KeyboardEvent): import("./interaction-strategies").InteractionResult;
+    keydown(originalEvent: KeyboardEvent): import("./interaction-strategies.ts").InteractionResult;
 }
 //# sourceMappingURL=headless-checkbox.d.ts.map

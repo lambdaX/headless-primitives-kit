@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TabsActivateTabStrategy = exports.AccordionToggleItemStrategy = exports.SliderKeyboardStrategy = exports.SliderUpdateStrategy = exports.RadioItemSelectStrategy = exports.InputTextStrategy = exports.KeyboardStrategy = exports.FocusStrategy = exports.HoverStrategy = exports.ButtonClickStrategy = exports.ToggleClickStrategy = exports.InteractionStrategy = void 0;
-const headless_toggle_1 = require("./headless-toggle");
-const headless_button_1 = require("./headless-button");
-const headless_checkbox_1 = require("./headless-checkbox");
+const headless_toggle_ts_1 = require("./headless-toggle.ts");
+const headless_button_ts_1 = require("./headless-button.ts");
+const headless_checkbox_ts_1 = require("./headless-checkbox.ts");
 /**
  * Base class for all interaction strategies.
  * Interaction strategies define how a `HeadlessComponent` reacts to specific user inputs or events.
@@ -114,11 +114,11 @@ class KeyboardStrategy extends InteractionStrategy {
         if (key === ' ' || key === 'Enter') {
             originalEvent.preventDefault(); // Prevent default browser action (e.g., scrolling on Space)
             // Handle components with an 'isChecked' property (Toggles, Checkboxes)
-            if ('isChecked' in state && (context instanceof headless_toggle_1.HeadlessToggle || context instanceof headless_checkbox_1.HeadlessCheckbox)) {
+            if ('isChecked' in state && (context instanceof headless_toggle_ts_1.HeadlessToggle || context instanceof headless_checkbox_ts_1.HeadlessCheckbox)) {
                 const checkboxContext = context; // Type assertion for checkbox-specific logic
                 const currentChecked = state.isChecked;
-                const currentIndeterminate = (checkboxContext instanceof headless_checkbox_1.HeadlessCheckbox) && state.isIndeterminate;
-                if (currentIndeterminate && checkboxContext instanceof headless_checkbox_1.HeadlessCheckbox) {
+                const currentIndeterminate = (checkboxContext instanceof headless_checkbox_ts_1.HeadlessCheckbox) && state.isIndeterminate;
+                if (currentIndeterminate && checkboxContext instanceof headless_checkbox_ts_1.HeadlessCheckbox) {
                     // If indeterminate, Space/Enter usually makes it checked
                     checkboxContext.setState({ isChecked: true, isIndeterminate: false });
                     checkboxContext.notifyObservers('toggled', {
@@ -141,7 +141,7 @@ class KeyboardStrategy extends InteractionStrategy {
                     });
                 }
             }
-            else if (context instanceof headless_button_1.HeadlessButton) {
+            else if (context instanceof headless_button_ts_1.HeadlessButton) {
                 // For buttons, Space/Enter triggers a click
                 context.notifyObservers('clicked', {
                     triggeredBy: 'keyboard',
