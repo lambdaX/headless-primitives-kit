@@ -79,8 +79,8 @@ export function InteractiveComponentWrapper<
   usageExampleCode,
   customControls,
 }: InteractiveComponentWrapperProps<TComp, TState>) {
-  
-  const { component, componentState, cssState, history, undo, redo } = 
+
+  const { component, componentState, cssState, history, undo, redo } =
     useHeadlessComponent(componentType as new () => TComp);
 
   // Apply initial state overrides only once when the component instance is created,
@@ -169,7 +169,7 @@ export function InteractiveComponentWrapper<
         <div className="p-6 border rounded-lg bg-card/80 flex items-center justify-center min-h-[120px] transition-all duration-300 ease-in-out transform hover:scale-[1.02] focus-within:ring-2 focus-within:ring-accent focus-within:ring-offset-2">
           {renderComponent(component, componentState as TState, cssState.classes, cssState.dataAttributes)}
         </div>
-        
+
         {(commonControls || componentSpecificControls || renderedCustomControls) && (
             <Popover>
               <PopoverTrigger asChild>
@@ -189,7 +189,7 @@ export function InteractiveComponentWrapper<
         )}
 
         <UndoRedoControls undo={undo} redo={redo} history={history} />
-        
+
         <Popover>
           <PopoverTrigger asChild>
             <Button variant="outline" className="w-full">
@@ -235,7 +235,7 @@ export function InteractiveComponentWrapper<
 
 // --- RENDERERS for each component type ---
 
-export const ToggleRenderer: InteractiveComponentWrapperProps<HeadlessToggle, ToggleState>['renderComponent'] = 
+export const ToggleRenderer: InteractiveComponentWrapperProps<HeadlessToggle, ToggleState>['renderComponent'] =
   (component, componentState, cssClasses, dataAttributes) => (
   <button
     type="button"
@@ -395,7 +395,7 @@ export const RadioGroupRenderer: InteractiveComponentWrapperProps<HeadlessRadioG
   </ShadcnRadioGroup>
 );
 
-const exampleSliderTitle = "Example Slider"; 
+const exampleSliderTitle = "Example Slider";
 
 export const SliderRenderer: InteractiveComponentWrapperProps<HeadlessSlider, SliderState>['renderComponent'] =
  (component, componentState, cssClasses, dataAttributes) => (
@@ -417,7 +417,7 @@ export const SliderRenderer: InteractiveComponentWrapperProps<HeadlessSlider, Sl
       aria-valuemax={componentState.max}
       aria-disabled={componentState.isDisabled}
       aria-orientation="horizontal"
-      {...dataAttributes} 
+      {...dataAttributes}
     />
     {componentState.isDisabled && <p className="text-xs text-muted-foreground">Slider is disabled.</p>}
     {componentState.error && <p className="text-xs text-destructive">{String(componentState.error)}</p>}
@@ -432,34 +432,61 @@ const accordionItemsExample = [
 ];
 
 export const AccordionRenderer: InteractiveComponentWrapperProps<HeadlessAccordion, AccordionState>['renderComponent'] =
- (component, componentState, cssClasses, dataAttributes) => (
-  <ShadcnAccordion
-    type={componentState.type}
-    collapsible={componentState.type === 'single' ? componentState.collapsible : undefined}
-    value={componentState.type === 'single' ? componentState.openItems[0] || "" : componentState.openItems}
-    disabled={componentState.isDisabled}
-    className={cn('w-full min-w-[300px] max-w-md p-2 rounded-md border', cssClasses)}
-    {...dataAttributes}
-  >
-    {accordionItemsExample.map((item) => (
-      <ShadcnAccordionItem value={item.id} key={item.id} disabled={componentState.isDisabled}>
-        <ShadcnAccordionTrigger
-            onClick={(e) => {
-              e.preventDefault(); 
-              component.toggleItem(item.id);
-            }}
-            disabled={componentState.isDisabled}
-            className={cn(componentState.openItems.includes(item.id) && "text-primary")}
-        >
-          {item.title}
-        </ShadcnAccordionTrigger>
-        <ShadcnAccordionContent className="bg-muted/30 p-3 rounded-b-md">{item.content}</ShadcnAccordionContent>
-      </ShadcnAccordionItem>
-    ))}
-    {componentState.isDisabled && <p className="text-xs text-muted-foreground mt-2 p-2">Accordion group is disabled.</p>}
-    {componentState.error && <p className="text-xs text-destructive mt-2 p-2">{String(componentState.error)}</p>}
-  </ShadcnAccordion>
-);
+ (component, componentState, cssClasses, dataAttributes) => {
+  const commonAccordionProps = {
+    disabled: componentState.isDisabled,
+    className: cn('w-full min-w-[300px] max-w-md p-2 rounded-md border', cssClasses),
+    ...dataAttributes,
+  };
+
+  const accordionContentItems = accordionItemsExample.map((item) => (
+    <ShadcnAccordionItem value={item.id} key={item.id} disabled={componentState.isDisabled}>
+      <ShadcnAccordionTrigger
+          onClick={(e) => {
+            e.preventDefault();
+            component.toggleItem(item.id);
+          }}
+          disabled={componentState.isDisabled} // Individual trigger can be disabled if item is or group is
+          className={cn(componentState.openItems.includes(item.id) && "text-primary")}
+      >
+        {item.title}
+      </ShadcnAccordionTrigger>
+      <ShadcnAccordionContent className="bg-muted/30 p-3 rounded-b-md">{item.content}</ShadcnAccordionContent>
+    </ShadcnAccordionItem>
+  ));
+
+  const errorAndDisabledMessages = (
+    <>
+      {componentState.isDisabled && <p className="text-xs text-muted-foreground mt-2 p-2">Accordion group is disabled.</p>}
+      {componentState.error && <p className="text-xs text-destructive mt-2 p-2">{String(componentState.error)}</p>}
+    </>
+  );
+
+  if (componentState.type === 'single') {
+    return (
+      <ShadcnAccordion
+        type="single"
+        collapsible={componentState.collapsible}
+        value={componentState.openItems[0] || ""}
+        {...commonAccordionProps}
+      >
+        {accordionContentItems}
+        {errorAndDisabledMessages}
+      </ShadcnAccordion>
+    );
+  } else { // type === 'multiple'
+    return (
+      <ShadcnAccordion
+        type="multiple"
+        value={componentState.openItems}
+        {...commonAccordionProps}
+      >
+        {accordionContentItems}
+        {errorAndDisabledMessages}
+      </ShadcnAccordion>
+    );
+  }
+};
 
 
 const tabsItemsExample = [
@@ -485,7 +512,7 @@ export const TabsRenderer: InteractiveComponentWrapperProps<HeadlessTabs, TabsSt
         <ShadcnTabsTrigger
           key={tab.id}
           value={tab.id}
-          disabled={componentState.isDisabled}
+          disabled={componentState.isDisabled} // Individual tab disabled state could be managed via tab.disabled if needed
           className={cn(componentState.activeTab === tab.id && "font-semibold")}
         >
           {tab.title}
@@ -507,5 +534,3 @@ export const TabsRenderer: InteractiveComponentWrapperProps<HeadlessTabs, TabsSt
     {componentState.error && <p className="text-xs text-destructive mt-2 p-1">{String(componentState.error)}</p>}
   </ShadcnTabs>
 );
-
-    
