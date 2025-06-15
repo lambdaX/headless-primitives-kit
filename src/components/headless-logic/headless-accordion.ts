@@ -1,5 +1,5 @@
-import { HeadlessComponent, BaseComponentState } from './headless-component';
-import { AccordionToggleItemStrategy, FocusStrategy, InteractionPayload } from './interaction-strategies';
+import { HeadlessComponent, BaseComponentState } from './headless-component.ts';
+import { AccordionToggleItemStrategy, FocusStrategy, InteractionPayload } from './interaction-strategies.ts';
 
 /**
  * Defines the state properties for a `HeadlessAccordion` component.

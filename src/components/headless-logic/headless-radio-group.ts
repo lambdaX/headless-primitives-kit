@@ -1,5 +1,5 @@
-import { HeadlessComponent, BaseComponentState } from './headless-component';
-import { RadioItemSelectStrategy, FocusStrategy, InteractionPayload } from './interaction-strategies';
+import { HeadlessComponent, BaseComponentState } from './headless-component.ts';
+import { RadioItemSelectStrategy, FocusStrategy, InteractionPayload } from './interaction-strategies.ts';
 
 /**
  * Defines the structure for a single radio option within a `HeadlessRadioGroup`.

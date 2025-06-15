@@ -1,5 +1,5 @@
-import { HeadlessComponent, BaseComponentState } from './headless-component';
-import { ButtonClickStrategy, HoverStrategy, FocusStrategy, KeyboardStrategy, InteractionPayload } from './interaction-strategies';
+import { HeadlessComponent, BaseComponentState } from './headless-component.ts';
+import { ButtonClickStrategy, HoverStrategy, FocusStrategy, KeyboardStrategy, InteractionPayload } from './interaction-strategies.ts';
 
 /**
  * Defines the state properties for a `HeadlessButton` component.

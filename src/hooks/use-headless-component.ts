@@ -1,10 +1,8 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
-// Path alias imports are fine here, as tsc will resolve them correctly
-// based on baseUrl and paths in tsconfig.json, and then make them
-// relative in the dist output. The critical part is that the files
-// being pointed to (e.g., index.ts and command.ts in headless-logic)
-// have their *own* internal relative imports fixed.
-import type { HeadlessComponent, BaseComponentState, CssState } from '@/components/headless-logic';
+// Path alias imports are fine here if tsconfig.json's paths are set up.
+// The key is that the files *within* headless-logic use explicit .ts extensions
+// for their relative imports if needed for tsc's ESM .js extension output.
+import type { HeadlessComponent, BaseComponentState, CssState } from '@/components/headless-logic'; 
 import type { CommandHistoryState } from '@/components/headless-logic/command';
 
 interface HeadlessHookResult<T extends HeadlessComponent<S>, S extends BaseComponentState> {

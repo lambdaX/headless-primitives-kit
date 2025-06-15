@@ -1,5 +1,5 @@
-import { HeadlessComponent, BaseComponentState } from './headless-component';
-import { SliderUpdateStrategy, SliderKeyboardStrategy, HoverStrategy, FocusStrategy, InteractionPayload } from './interaction-strategies';
+import { HeadlessComponent, BaseComponentState } from './headless-component.ts';
+import { SliderUpdateStrategy, SliderKeyboardStrategy, HoverStrategy, FocusStrategy, InteractionPayload } from './interaction-strategies.ts';
 
 /**
  * Defines the state properties for a `HeadlessSlider` component.
