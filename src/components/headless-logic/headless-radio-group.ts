@@ -85,5 +85,3 @@ export class HeadlessRadioGroup extends HeadlessComponent<RadioGroupState> {
         return this.handleInteraction('focus', { isFocused, originalEvent } as InteractionPayload & { isFocused: boolean });
     }
 }
-
-    

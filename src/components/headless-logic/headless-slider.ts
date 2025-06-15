@@ -95,5 +95,3 @@ export class HeadlessSlider extends HeadlessComponent<SliderState> {
         return this.handleInteraction('keyboard', { key: originalEvent.key, originalEvent } as InteractionPayload & { key: string, originalEvent: KeyboardEvent });
     }
 }
-
-    
