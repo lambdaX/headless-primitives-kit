@@ -182,15 +182,6 @@ class HeadlessComponent extends event_emitter_1.EventEmitter {
     getHistory() {
         return this.commandInvoker.getHistory();
     }
-    /**
-     * Notifies all subscribed observers of a particular event.
-     * This explicitly defines notifyObservers on HeadlessComponent for clearer type inheritance.
-     * @param event The name of the event to notify observers about.
-     * @param data Optional data to pass to the event callbacks.
-     */
-    notifyObservers(event, data) {
-        super.notifyObservers(event, data);
-    }
 }
 exports.HeadlessComponent = HeadlessComponent;
 //# sourceMappingURL=headless-component.js.map
