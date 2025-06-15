@@ -1,4 +1,4 @@
-import { EventEmitter } from './event-emitter';
+import { type EventCallback } from './event-emitter';
 import { CommandInvoker, type CommandHistoryState } from './command';
 import { ComponentState } from './component-states';
 import type { InteractionStrategy, InteractionPayload, InteractionResult } from './interaction-strategies';
@@ -35,7 +35,7 @@ export interface CssState {
  * command handling (undo/redo), state transitions, and interaction strategy delegation.
  * @template TState The type of the component's specific state, extending `BaseComponentState`.
  */
-export declare abstract class HeadlessComponent<TState extends BaseComponentState> extends EventEmitter {
+export declare abstract class HeadlessComponent<TState extends BaseComponentState> {
     /** The current data state of the component. */
     protected state: TState;
     /** A map of named `ComponentState` instances (e.g., "idle", "hovered"). */
@@ -46,6 +46,8 @@ export declare abstract class HeadlessComponent<TState extends BaseComponentStat
     protected interactionStrategies: Map<string, InteractionStrategy>;
     /** The command invoker instance for managing undo/redo operations. */
     commandInvoker: CommandInvoker;
+    /** Internal EventEmitter instance for event handling. */
+    private eventEmitter;
     constructor();
     /**
      * Abstract method to be implemented by subclasses to define their initial data state.
@@ -131,8 +133,23 @@ export declare abstract class HeadlessComponent<TState extends BaseComponentStat
      */
     getHistory(): CommandHistoryState;
     /**
-     * Explicitly re-declares notifyObservers to ensure it's part of HeadlessComponent's direct API.
-     * This can aid type resolution in some build environments.
+     * Subscribes a callback function to a specific event.
+     * Delegates to the internal EventEmitter instance.
+     * @param event The name of the event to subscribe to.
+     * @param callback The function to call when the event occurs.
+     * @returns An unsubscribe function.
+     */
+    subscribe(event: string, callback: EventCallback): () => void;
+    /**
+     * Unsubscribes a callback function from a specific event.
+     * Delegates to the internal EventEmitter instance.
+     * @param event The name of the event to unsubscribe from.
+     * @param callback The callback function to remove.
+     */
+    unsubscribe(event: string, callback: EventCallback): void;
+    /**
+     * Notifies all subscribed observers of a particular event.
+     * Delegates to the internal EventEmitter instance.
      * @param event The name of the event to notify observers about.
      * @param data Optional data to pass to the event callbacks.
      */

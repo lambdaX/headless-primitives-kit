@@ -10,9 +10,9 @@ const component_states_1 = require("./component-states");
  * command handling (undo/redo), state transitions, and interaction strategy delegation.
  * @template TState The type of the component's specific state, extending `BaseComponentState`.
  */
-class HeadlessComponent extends event_emitter_1.EventEmitter {
+class HeadlessComponent {
     constructor() {
-        super();
+        this.eventEmitter = new event_emitter_1.EventEmitter();
         this.state = this.defineInitialState();
         this.states = new Map();
         this.currentState = null;
@@ -74,7 +74,7 @@ class HeadlessComponent extends event_emitter_1.EventEmitter {
             stateName: stateName,
             state: this.getState()
         });
-        this.notifyObservers('cssStateChanged', this.getCSSState()); // Relies on notifyObservers
+        this.notifyObservers('cssStateChanged', this.getCSSState());
     }
     /**
      * Updates the component's data state.
@@ -92,11 +92,11 @@ class HeadlessComponent extends event_emitter_1.EventEmitter {
         const command = new command_1.Command(() => {
             this.state = nextState;
             this.updateCurrentStateBasedOnData(this.state);
-            this.notifyObservers('stateChanged', this.getState()); // Relies on notifyObservers
+            this.notifyObservers('stateChanged', this.getState());
         }, () => {
             this.state = previousState;
             this.updateCurrentStateBasedOnData(this.state);
-            this.notifyObservers('stateChanged', this.getState()); // Relies on notifyObservers
+            this.notifyObservers('stateChanged', this.getState());
         }, { previousState, nextState });
         this.commandInvoker.execute(command);
         return true;
@@ -157,7 +157,7 @@ class HeadlessComponent extends event_emitter_1.EventEmitter {
     undo() {
         const result = this.commandInvoker.undo();
         if (result)
-            this.notifyObservers('historyChanged', this.getHistory()); // Relies on notifyObservers
+            this.notifyObservers('historyChanged', this.getHistory());
         return result;
     }
     /**
@@ -168,7 +168,7 @@ class HeadlessComponent extends event_emitter_1.EventEmitter {
     redo() {
         const result = this.commandInvoker.redo();
         if (result)
-            this.notifyObservers('historyChanged', this.getHistory()); // Relies on notifyObservers
+            this.notifyObservers('historyChanged', this.getHistory());
         return result;
     }
     /**
@@ -179,13 +179,32 @@ class HeadlessComponent extends event_emitter_1.EventEmitter {
         return this.commandInvoker.getHistory();
     }
     /**
-     * Explicitly re-declares notifyObservers to ensure it's part of HeadlessComponent's direct API.
-     * This can aid type resolution in some build environments.
+     * Subscribes a callback function to a specific event.
+     * Delegates to the internal EventEmitter instance.
+     * @param event The name of the event to subscribe to.
+     * @param callback The function to call when the event occurs.
+     * @returns An unsubscribe function.
+     */
+    subscribe(event, callback) {
+        return this.eventEmitter.subscribe(event, callback);
+    }
+    /**
+     * Unsubscribes a callback function from a specific event.
+     * Delegates to the internal EventEmitter instance.
+     * @param event The name of the event to unsubscribe from.
+     * @param callback The callback function to remove.
+     */
+    unsubscribe(event, callback) {
+        this.eventEmitter.unsubscribe(event, callback);
+    }
+    /**
+     * Notifies all subscribed observers of a particular event.
+     * Delegates to the internal EventEmitter instance.
      * @param event The name of the event to notify observers about.
      * @param data Optional data to pass to the event callbacks.
      */
     notifyObservers(event, data) {
-        super.notifyObservers(event, data);
+        this.eventEmitter.notifyObservers(event, data);
     }
 }
 exports.HeadlessComponent = HeadlessComponent;
