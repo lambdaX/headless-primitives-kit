@@ -72,9 +72,9 @@ class HeadlessComponent extends event_emitter_1.EventEmitter {
         this.currentState.enter();
         this.notifyObservers('stateTransition', {
             stateName: stateName,
-            state: this.getState() // Pass current data state
+            state: this.getState()
         });
-        this.notifyObservers('cssStateChanged', this.getCSSState());
+        this.notifyObservers('cssStateChanged', this.getCSSState()); // Relies on notifyObservers
     }
     /**
      * Updates the component's data state.
@@ -86,20 +86,18 @@ class HeadlessComponent extends event_emitter_1.EventEmitter {
     setState(newState) {
         const previousState = { ...this.state };
         const nextState = { ...this.state, ...newState };
-        // Avoid unnecessary updates if the state hasn't actually changed.
         if (JSON.stringify(previousState) === JSON.stringify(nextState)) {
             return false;
         }
         const command = new command_1.Command(() => {
             this.state = nextState;
-            this.updateCurrentStateBasedOnData(this.state); // Reflect data change in visual state
-            this.notifyObservers('stateChanged', this.getState());
+            this.updateCurrentStateBasedOnData(this.state);
+            this.notifyObservers('stateChanged', this.getState()); // Relies on notifyObservers
         }, () => {
             this.state = previousState;
-            this.updateCurrentStateBasedOnData(this.state); // Reflect data change in visual state
-            this.notifyObservers('stateChanged', this.getState());
-        }, { previousState, nextState } // Data for the command
-        );
+            this.updateCurrentStateBasedOnData(this.state);
+            this.notifyObservers('stateChanged', this.getState()); // Relies on notifyObservers
+        }, { previousState, nextState });
         this.commandInvoker.execute(command);
         return true;
     }
@@ -118,7 +116,6 @@ class HeadlessComponent extends event_emitter_1.EventEmitter {
     getCSSState() {
         const baseClasses = ['headless-component'];
         const stateClasses = this.currentState ? this.currentState.getCSSClasses() : [];
-        // Add component-specific class, e.g., "button" from "HeadlessButton"
         const componentTypeClass = this.constructor.name.toLowerCase().replace('headless', '');
         const dataAttributes = this.getDataAttributes();
         return {
@@ -132,7 +129,6 @@ class HeadlessComponent extends event_emitter_1.EventEmitter {
      * @returns A record of data attributes.
      */
     getDataAttributes() {
-        // Base implementation, typically overridden by subclasses.
         return {
             'data-disabled': String(!!this.state.isDisabled),
             'data-loading': String(!!this.state.isLoading),
@@ -161,7 +157,7 @@ class HeadlessComponent extends event_emitter_1.EventEmitter {
     undo() {
         const result = this.commandInvoker.undo();
         if (result)
-            this.notifyObservers('historyChanged', this.getHistory());
+            this.notifyObservers('historyChanged', this.getHistory()); // Relies on notifyObservers
         return result;
     }
     /**
@@ -172,7 +168,7 @@ class HeadlessComponent extends event_emitter_1.EventEmitter {
     redo() {
         const result = this.commandInvoker.redo();
         if (result)
-            this.notifyObservers('historyChanged', this.getHistory());
+            this.notifyObservers('historyChanged', this.getHistory()); // Relies on notifyObservers
         return result;
     }
     /**
@@ -181,6 +177,15 @@ class HeadlessComponent extends event_emitter_1.EventEmitter {
      */
     getHistory() {
         return this.commandInvoker.getHistory();
+    }
+    /**
+     * Explicitly re-declares notifyObservers to ensure it's part of HeadlessComponent's direct API.
+     * This can aid type resolution in some build environments.
+     * @param event The name of the event to notify observers about.
+     * @param data Optional data to pass to the event callbacks.
+     */
+    notifyObservers(event, data) {
+        super.notifyObservers(event, data);
     }
 }
 exports.HeadlessComponent = HeadlessComponent;
