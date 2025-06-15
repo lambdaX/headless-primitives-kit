@@ -23,6 +23,8 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  // Ensure trailingSlash is false (default) or not set to true, as it can affect pathing for static files.
+  trailingSlash: false, 
 };
 
 export default nextConfig;
