@@ -1,9 +1,9 @@
-import type { HeadlessComponent, BaseComponentState } from './headless-component.ts';
-import type { InputState } from './headless-input.ts';
-import type { HeadlessRadioGroup } from './headless-radio-group.ts';
-import type { HeadlessSlider } from './headless-slider.ts';
-import type { HeadlessAccordion } from './headless-accordion.ts';
-import type { HeadlessTabs } from './headless-tabs.ts';
+import type { HeadlessComponent, BaseComponentState } from './headless-component';
+import type { InputState } from './headless-input';
+import type { HeadlessRadioGroup } from './headless-radio-group';
+import type { HeadlessSlider } from './headless-slider';
+import type { HeadlessAccordion } from './headless-accordion';
+import type { HeadlessTabs } from './headless-tabs';
 /**
  * Defines the structure for data passed to an interaction strategy.
  * @property originalEvent Optional. The original browser or React event that triggered the interaction.

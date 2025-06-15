@@ -1,13 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.HeadlessAccordion = void 0;
-const headless_component_ts_1 = require("./headless-component.ts");
-const interaction_strategies_ts_1 = require("./interaction-strategies.ts");
+const headless_component_1 = require("./headless-component");
+const interaction_strategies_1 = require("./interaction-strategies");
 /**
  * Manages the state and interactions for an accordion component.
  * An accordion allows users to toggle the visibility of content sections.
  */
-class HeadlessAccordion extends headless_component_ts_1.HeadlessComponent {
+class HeadlessAccordion extends headless_component_1.HeadlessComponent {
     /**
      * Defines the initial state for the accordion.
      * @returns The initial accordion state.
@@ -28,8 +28,8 @@ class HeadlessAccordion extends headless_component_ts_1.HeadlessComponent {
      */
     setupDefaultStrategies() {
         super.setupDefaultStrategies();
-        this.interactionStrategies.set('toggleItem', new interaction_strategies_ts_1.AccordionToggleItemStrategy());
-        this.interactionStrategies.set('focus', new interaction_strategies_ts_1.FocusStrategy()); // Group-level focus
+        this.interactionStrategies.set('toggleItem', new interaction_strategies_1.AccordionToggleItemStrategy());
+        this.interactionStrategies.set('focus', new interaction_strategies_1.FocusStrategy()); // Group-level focus
     }
     /**
      * Updates the component's visual state (e.g., idle, focused, disabled)

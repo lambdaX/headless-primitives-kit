@@ -1,4 +1,4 @@
-import { HeadlessComponent, BaseComponentState } from './headless-component.ts';
+import { HeadlessComponent, BaseComponentState } from './headless-component';
 /**
  * Defines the structure for a single radio option within a `HeadlessRadioGroup`.
  */
@@ -50,7 +50,7 @@ export declare class HeadlessRadioGroup extends HeadlessComponent<RadioGroupStat
      * @param originalEvent Optional. The original browser or React event.
      * @returns The result of the selection interaction.
      */
-    selectOption(value: string, originalEvent?: Event | React.SyntheticEvent): import("./interaction-strategies.ts").InteractionResult;
+    selectOption(value: string, originalEvent?: Event | React.SyntheticEvent): import("./interaction-strategies").InteractionResult;
     /**
      * Sets the available radio options for the group.
      * @param options An array of `RadioOption` objects.
@@ -79,6 +79,6 @@ export declare class HeadlessRadioGroup extends HeadlessComponent<RadioGroupStat
      * @param originalEvent Optional. The original browser or React event.
      * @returns The result of the focus interaction.
      */
-    focus(isFocused: boolean, originalEvent?: Event | React.SyntheticEvent): import("./interaction-strategies.ts").InteractionResult;
+    focus(isFocused: boolean, originalEvent?: Event | React.SyntheticEvent): import("./interaction-strategies").InteractionResult;
 }
 //# sourceMappingURL=headless-radio-group.d.ts.map

@@ -1,13 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.HeadlessTabs = void 0;
-const headless_component_ts_1 = require("./headless-component.ts");
-const interaction_strategies_ts_1 = require("./interaction-strategies.ts");
+const headless_component_1 = require("./headless-component");
+const interaction_strategies_1 = require("./interaction-strategies");
 /**
  * Manages the state and interactions for a tabs component.
  * Tabs allow users to switch between different views or sections of content.
  */
-class HeadlessTabs extends headless_component_ts_1.HeadlessComponent {
+class HeadlessTabs extends headless_component_1.HeadlessComponent {
     /**
      * Defines the initial state for the tabs.
      * @returns The initial tabs state.
@@ -26,11 +26,11 @@ class HeadlessTabs extends headless_component_ts_1.HeadlessComponent {
      */
     setupDefaultStrategies() {
         super.setupDefaultStrategies();
-        this.interactionStrategies.set('activateTab', new interaction_strategies_ts_1.TabsActivateTabStrategy());
+        this.interactionStrategies.set('activateTab', new interaction_strategies_1.TabsActivateTabStrategy());
         // Focus strategy could apply to the tab list or individual tab elements.
         // For simplicity, 'focus' here could mean the tab list has received focus,
         // or a specific tab element is focused.
-        this.interactionStrategies.set('focus', new interaction_strategies_ts_1.FocusStrategy());
+        this.interactionStrategies.set('focus', new interaction_strategies_1.FocusStrategy());
     }
     /**
      * Updates the component's visual state based on its current data state.

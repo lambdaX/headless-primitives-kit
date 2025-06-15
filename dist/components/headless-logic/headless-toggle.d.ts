@@ -1,4 +1,4 @@
-import { HeadlessComponent, BaseComponentState } from './headless-component.ts';
+import { HeadlessComponent, BaseComponentState } from './headless-component';
 /**
  * Defines the state properties for a `HeadlessToggle` component (e.g., a switch).
  */
@@ -35,7 +35,7 @@ export declare class HeadlessToggle extends HeadlessComponent<ToggleState> {
      * @param originalEvent Optional. The original browser or React event.
      * @returns The result of the toggle interaction.
      */
-    toggle(originalEvent?: Event | React.SyntheticEvent): import("./interaction-strategies.ts").InteractionResult;
+    toggle(originalEvent?: Event | React.SyntheticEvent): import("./interaction-strategies").InteractionResult;
     /**
      * Sets the toggle to its checked (on) state.
      * Does nothing if already checked or disabled.
@@ -67,14 +67,14 @@ export declare class HeadlessToggle extends HeadlessComponent<ToggleState> {
      * @param originalEvent Optional. The original browser or React event.
      * @returns The result of the hover interaction.
      */
-    hover(isHovered: boolean, originalEvent?: Event | React.SyntheticEvent): import("./interaction-strategies.ts").InteractionResult;
+    hover(isHovered: boolean, originalEvent?: Event | React.SyntheticEvent): import("./interaction-strategies").InteractionResult;
     /**
      * Handles focus interaction.
      * @param isFocused True if focused, false otherwise.
      * @param originalEvent Optional. The original browser or React event.
      * @returns The result of the focus interaction.
      */
-    focus(isFocused: boolean, originalEvent?: Event | React.SyntheticEvent): import("./interaction-strategies.ts").InteractionResult;
+    focus(isFocused: boolean, originalEvent?: Event | React.SyntheticEvent): import("./interaction-strategies").InteractionResult;
     /**
      * Sets the pressed state (e.g., mousedown).
      * @param isPressed True if pressed, false otherwise.
@@ -85,6 +85,6 @@ export declare class HeadlessToggle extends HeadlessComponent<ToggleState> {
      * @param originalEvent The KeyboardEvent.
      * @returns The result of the keyboard interaction.
      */
-    keydown(originalEvent: KeyboardEvent): import("./interaction-strategies.ts").InteractionResult;
+    keydown(originalEvent: KeyboardEvent): import("./interaction-strategies").InteractionResult;
 }
 //# sourceMappingURL=headless-toggle.d.ts.map

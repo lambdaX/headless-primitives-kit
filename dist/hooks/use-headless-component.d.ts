@@ -1,5 +1,5 @@
-import type { HeadlessComponent, BaseComponentState, CssState } from '@/components/headless-logic/headless-component.ts';
-import type { CommandHistoryState } from '@/components/headless-logic/command.ts';
+import type { HeadlessComponent, BaseComponentState, CssState } from '@/components/headless-logic/headless-component';
+import type { CommandHistoryState } from '@/components/headless-logic/command';
 interface HeadlessHookResult<T extends HeadlessComponent<S>, S extends BaseComponentState> {
     component: T;
     componentState: S;

@@ -1,7 +1,7 @@
-import { EventEmitter } from './event-emitter.ts';
-import { CommandInvoker, type CommandHistoryState } from './command.ts';
-import { ComponentState } from './component-states.ts';
-import type { InteractionStrategy, InteractionPayload, InteractionResult } from './interaction-strategies.ts';
+import { EventEmitter } from './event-emitter';
+import { CommandInvoker, type CommandHistoryState } from './command';
+import { ComponentState } from './component-states';
+import type { InteractionStrategy, InteractionPayload, InteractionResult } from './interaction-strategies';
 /**
  * Base interface for the state object of any headless component.
  * Components can extend this to add their specific state properties.

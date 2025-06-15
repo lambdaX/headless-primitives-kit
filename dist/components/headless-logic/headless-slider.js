@@ -1,13 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.HeadlessSlider = void 0;
-const headless_component_ts_1 = require("./headless-component.ts");
-const interaction_strategies_ts_1 = require("./interaction-strategies.ts");
+const headless_component_1 = require("./headless-component");
+const interaction_strategies_1 = require("./interaction-strategies");
 /**
  * Manages the state and interactions for a slider component.
  * Sliders allow users to select a value from a continuous or discrete range.
  */
-class HeadlessSlider extends headless_component_ts_1.HeadlessComponent {
+class HeadlessSlider extends headless_component_1.HeadlessComponent {
     /**
      * Defines the initial state for the slider.
      * @returns The initial slider state.
@@ -30,10 +30,10 @@ class HeadlessSlider extends headless_component_ts_1.HeadlessComponent {
      */
     setupDefaultStrategies() {
         super.setupDefaultStrategies();
-        this.interactionStrategies.set('update', new interaction_strategies_ts_1.SliderUpdateStrategy()); // For direct value changes (e.g., drag)
-        this.interactionStrategies.set('hover', new interaction_strategies_ts_1.HoverStrategy());
-        this.interactionStrategies.set('focus', new interaction_strategies_ts_1.FocusStrategy()); // Typically for the thumb
-        this.interactionStrategies.set('keyboard', new interaction_strategies_ts_1.SliderKeyboardStrategy()); // Arrow keys, Home, End
+        this.interactionStrategies.set('update', new interaction_strategies_1.SliderUpdateStrategy()); // For direct value changes (e.g., drag)
+        this.interactionStrategies.set('hover', new interaction_strategies_1.HoverStrategy());
+        this.interactionStrategies.set('focus', new interaction_strategies_1.FocusStrategy()); // Typically for the thumb
+        this.interactionStrategies.set('keyboard', new interaction_strategies_1.SliderKeyboardStrategy()); // Arrow keys, Home, End
     }
     /**
      * Updates the component's visual state based on its current data state.
