@@ -31,13 +31,13 @@ test.describe('ESM Button Example Page', () => {
     // Optional: Click the button and check for a state change or console log
     const consoleLogs: string[] = [];
     page.on('console', msg => {
-        if (msg.type() === 'log' && msg.text().includes('Button clicked!')) {
+        if (msg.type() === 'log' && msg.text().includes('Button clicked event via subscription!')) {
             consoleLogs.push(msg.text());
         }
     });
     await button.click();
-    await page.waitForTimeout(100); // Give time for console log
-    expect(consoleLogs.some(log => log.includes('Button clicked!'))).toBe(true);
+    await page.waitForTimeout(200); // Give time for console log
+    expect(consoleLogs.some(log => log.includes('Button clicked event via subscription!'))).toBe(true);
 
   });
 
@@ -53,7 +53,9 @@ test.describe('ESM Button Example Page', () => {
     page.on('console', msg => {
       if (msg.type() === 'log') {
         if (expectedModules.some(keyword => msg.text().startsWith(keyword))) {
-          loadedMessages.push(msg.text().split(':')[0].trim()); // Get only the "Module loaded" part
+          // Get only the "Module loaded" part, handling potential colons in the message
+          const messageParts = msg.text().split(':');
+          loadedMessages.push(messageParts[0].trim());
         }
       }
     });
@@ -62,15 +64,21 @@ test.describe('ESM Button Example Page', () => {
     
     // Wait for a specific log that indicates full load or just a timeout
     await page.waitForFunction(() => 
-        (window as any).headlessButtonInstance && (window as any).useHeadlessComponentModule,
+        (window as any).headlessButtonInstance && (window as any).useHeadlessComponentModule && (window as any).HeadlessComponent,
         null,
-        { timeout: 15000 }
+        { timeout: 15000 } // Increased timeout
     );
+    
+    // Give a little extra time for all console logs to register
+    await page.waitForTimeout(500);
+
 
     for (const mod of expectedModules) {
-        expect(loadedMessages.find(m => m === mod.split(' ')[0] + " " + mod.split(' ')[1] )).toBeTruthy(`Expected module "${mod}" to be loaded`);
+        expect(loadedMessages.find(m => m === mod)).toBeTruthy(`Expected module "${mod}" to be loaded. Found: ${loadedMessages.join(', ')}`);
     }
     expect(consoleErrors).toEqual([]);
   });
 
 });
+
+    

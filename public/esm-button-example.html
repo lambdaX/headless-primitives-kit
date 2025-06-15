@@ -4,149 +4,203 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ESM Headless Button Example</title>
+    <title>HeadlessButton ESM Example</title>
     <style>
-        body { font-family: sans-serif; padding: 20px; background-color: #f0f0f0; }
-        #root { padding: 20px; background-color: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        body { font-family: sans-serif; padding: 20px; background-color: #f4f4f4; color: #333; }
+        #app { background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
         button {
             padding: 10px 15px;
+            font-size: 16px;
             border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.1s ease;
             border: 1px solid #ccc;
             background-color: #007bff;
             color: white;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.2s;
+            margin-right: 10px;
         }
         button:hover { background-color: #0056b3; }
-        button:disabled { background-color: #e0e0e0; color: #a0a0a0; cursor: not-allowed; }
-        .log-output { margin-top: 20px; padding: 10px; border: 1px solid #eee; background-color: #f9f9f9; max-height: 200px; overflow-y: auto; font-size: 0.9em; }
+        button:active { transform: scale(0.98); }
+        button:disabled { background-color: #e9ecef; color: #6c757d; cursor: not-allowed; }
+        .controls { margin-top: 20px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+        .controls label { display: flex; align-items: center; gap: 5px; font-size: 0.9em; }
+        .history { margin-top: 10px; font-size: 0.8em; color: #555; }
+        pre { background-color: #eee; padding: 10px; border-radius: 4px; font-size: 0.9em; white-space: pre-wrap; word-break: break-all; }
+        .log-area { margin-top: 15px; padding: 10px; border: 1px solid #ddd; border-radius: 4px; max-height: 200px; overflow-y: auto; font-size: 0.85em; }
     </style>
+    <script type="importmap">
+    {
+        "imports": {
+            "react": "https://esm.sh/react@18.3.1",
+            "react-dom/client": "https://esm.sh/react-dom@18.3.1/client"
+        }
+    }
+    </script>
 </head>
 <body>
-    <h1>Headless Button ESM Example</h1>
-    <p>This example demonstrates loading and using the <code>HeadlessButton</code> and <code>useHeadlessComponent</code> hook directly from ESM modules via a CDN or local server.</p>
-    <div id="root"></div>
-    <div class="log-output" id="log-output">Logs will appear here...</div>
+    <div id="app">
+        <h1>HeadlessButton ESM Example</h1>
+        <p>This example demonstrates importing and using <code>HeadlessButton</code> and <code>useHeadlessComponent</code> directly from the distributed ESM files, potentially via a CDN.</p>
+        
+        <div id="react-button-root"></div>
+        <div class="log-area" id="console-log-display"><strong>Console Logs:</strong><br></div>
+
+    </div>
 
     <script type="module">
-        const logOutput = document.getElementById('log-output');
+        const logDisplay = document.getElementById('console-log-display');
         function log(message) {
             console.log(message);
             const p = document.createElement('p');
-            p.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
-            logOutput.appendChild(p);
-            logOutput.scrollTop = logOutput.scrollHeight;
+            p.textContent = typeof message === 'object' ? JSON.stringify(message) : message;
+            logDisplay.appendChild(p);
+            logDisplay.scrollTop = logDisplay.scrollHeight;
         }
 
         async function main() {
             try {
                 log('Attempting to load React...');
-                const ReactModule = await import('https://esm.sh/react@18.2.0');
-                window.React = ReactModule.default; // Or specific named exports if needed
-                log('ReactModule loaded: ' + ReactModule);
-                if (window.React) log('window.React assigned.'); else log('ERROR: window.React NOT assigned.');
+                const ReactModule = await import('react');
+                window.React = ReactModule; // Make React globally available for JSX transform if needed by simple setup
+                log('ReactModule loaded:', ReactModule);
+                if (window.React) log('window.React assigned.');
+
 
                 log('Attempting to load ReactDOM...');
-                const ReactDOMModule = await import('https://esm.sh/react-dom@18.2.0/client');
-                window.ReactDOM = ReactDOMModule; // Or .default if that's the structure
-                log('ReactDOMModule loaded: ' + ReactDOMModule);
-                if (window.ReactDOM && window.ReactDOM.createRoot) log('ReactDOM assigned.'); else log('ERROR: ReactDOM NOT assigned or createRoot is missing.');
+                const ReactDOMModule = await import('react-dom/client');
+                window.ReactDOM = ReactDOMModule; // Make ReactDOM globally available
+                log('ReactDOMModule loaded:', ReactDOMModule);
+                if (window.ReactDOM) log('ReactDOM assigned.');
 
                 const urlParams = new URLSearchParams(window.location.search);
-                const useLocal = urlParams.get('local') === 'true';
+                const useLocalDist = urlParams.get('local') === 'true';
                 
-                // For Playwright testability
-                window.headlessModulesLoaded = false; 
-
-
-                const basePath = useLocal 
-                    ? '../../dist' 
-                    : 'https://cdn.jsdelivr.net/gh/lambdaX/headless-primitives-kit@master/dist'; 
+                // Determine base path for library modules
+                // Ensure this base path correctly points to where your library's individual JS files are located.
+                // For jsDelivr, it's typically `https://cdn.jsdelivr.net/gh/USER/REPO@BRANCH_OR_TAG/PATH_TO_DIST/`
+                // For local, it's relative to this HTML file.
+                const repoName = 'headless-primitives-kit'; // Make sure this matches your repo name
+                const basePath = useLocalDist 
+                    ? '../../dist' // Relative path from public/ to dist/
+                    : `https://cdn.jsdelivr.net/gh/lambdaX/${repoName}@master/dist`;
+                
                 log(`Base path for headless-primitives-kit: ${basePath}`);
-                
 
-                log('Attempting to load HeadlessComponent...'); // Prerequisite, though not directly used here.
-                // Ensures core dependencies like Command, EventEmitter are tested.
-                const HeadlessComponentModule = await import(\`\${basePath}/components/headless-logic/headless-component.js\`);
-                window.HeadlessComponentModule = HeadlessComponentModule;
-                log('HeadlessComponent loaded: ' + (HeadlessComponentModule ? 'OK' : 'Failed'));
+                log('Attempting to load HeadlessComponent (base class)...');
+                // Note: The .js extension is crucial for direct browser ESM imports without a build step.
+                const { HeadlessComponent } = await import(`${basePath}/components/headless-logic/headless-component.js`);
+                window.HeadlessComponent = HeadlessComponent;
+                log('HeadlessComponent loaded.');
 
 
                 log('Attempting to load HeadlessButton...');
-                const { HeadlessButton } = await import(\`\${basePath}/components/headless-logic/headless-button.js\`);
-                window.headlessButtonInstance = new HeadlessButton(); // For test checks
-                log('HeadlessButton loaded: ' + (HeadlessButton ? 'OK' : 'Failed'));
+                const { HeadlessButton, ButtonState } = await import(`${basePath}/components/headless-logic/headless-button.js`);
+                window.HeadlessButton = HeadlessButton; // For inspection
+                log('HeadlessButton loaded.');
 
-                log('Attempting to load useHeadlessComponent...');
-                const { useHeadlessComponent } = await import(\`\${basePath}/hooks/use-headless-component.js\`);
-                window.useHeadlessComponentModule = useHeadlessComponent; // For test checks
-                log('useHeadlessComponent loaded: ' + (useHeadlessComponent ? 'OK' : 'Failed'));
+                log('Attempting to load useHeadlessComponent hook...');
+                const { useHeadlessComponent } = await import(`${basePath}/hooks/use-headless-component.js`);
+                window.useHeadlessComponentModule = { useHeadlessComponent }; // For inspection
+                log('useHeadlessComponent loaded.');
 
-                const App = () => {
-                    const { component, componentState, undo, redo, history } = useHeadlessComponent(HeadlessButton);
+                log('All core modules loaded successfully. Rendering React component...');
+
+                function MyStyledButton({ label = "My Styled Button" }) {
+                    const { React } = window; // Use React from global scope
+                    const { component, componentState, cssState, history, undo, redo } = useHeadlessComponent(HeadlessButton);
 
                     React.useEffect(() => {
-                        const unsubscribe = component.subscribe('clicked', () => {
-                            log('Button clicked!');
-                        });
-                        return unsubscribe;
+                        const handleButtonClick = (event, data) => {
+                            log(`Button clicked event via subscription! Data: ${JSON.stringify(data)}`);
+                        };
+                        const unsubscribe = component.subscribe('clicked', handleButtonClick);
+                        return () => unsubscribe();
                     }, [component]);
                     
-                    // Expose for Playwright tests
-                    window.headlessComponentInstance = component;
+                    React.useEffect(() => {
+                        log(`Button state changed: ${JSON.stringify(componentState)}`);
+                        log(`CSS state changed: ${JSON.stringify(cssState)}`);
+                    }, [componentState, cssState]);
 
+                    const buttonStyle = {
+                        padding: "10px 15px",
+                        fontSize: "16px",
+                        borderRadius: "5px",
+                        cursor: "pointer",
+                        transition: "background-color 0.2s ease, transform 0.1s ease",
+                        border: "1px solid #ccc",
+                        backgroundColor: componentState.isDisabled || componentState.isLoading ? "#e9ecef" : (componentState.isPressed ? "#004085" : (componentState.isHovered ? "#0069d9" : "#007bff")),
+                        color: componentState.isDisabled || componentState.isLoading ? "#6c757d" : "white",
+                        marginRight: "10px",
+                        outline: componentState.isFocused ? "2px solid blue" : "none",
+                    };
+                    
+                    // Log initial headless instance for debugging
+                    if (!window.headlessButtonInstance) {
+                        window.headlessButtonInstance = component;
+                        log('HeadlessButton instance created and attached to window.headlessButtonInstance');
+                    }
 
                     return React.createElement('div', null,
                         React.createElement('button', {
-                            onClick: () => component.click(),
-                            disabled: componentState.isDisabled || componentState.isLoading,
-                            style: { 
-                                backgroundColor: componentState.isPressed ? 'darkblue' : (componentState.isHovered ? 'blue' : 'dodgerblue'),
-                                padding: '10px 20px',
-                                color: 'white',
-                                border: 'none',
-                                borderRadius: '5px',
-                                cursor: (componentState.isDisabled || componentState.isLoading) ? 'not-allowed' : 'pointer',
-                                opacity: (componentState.isDisabled || componentState.isLoading) ? 0.6 : 1,
-                            },
-                            onMouseEnter: () => component.hover(true),
-                            onMouseLeave: () => component.hover(false),
+                            type: "button",
+                            onClick: (e) => component.click(e),
+                            onMouseEnter: (e) => component.hover(true, e),
+                            onMouseLeave: (e) => component.hover(false, e),
+                            onFocus: (e) => component.focus(true, e),
+                            onBlur: (e) => component.focus(false, e),
+                            onKeyDown: (e) => component.keydown(e),
                             onMouseDown: () => component.press(true),
                             onMouseUp: () => component.press(false),
-                            onFocus: () => component.focus(true),
-                            onBlur: () => component.focus(false),
-                        }, 'My Styled Button'),
-                        React.createElement('div', { style: { marginTop: '10px'} },
-                            React.createElement('button', { onClick: () => component.setState({ isDisabled: !componentState.isDisabled }) }, 'Toggle Disable'),
-                            React.createElement('button', { onClick: () => component.setState({ isLoading: !componentState.isLoading }) }, 'Toggle Loading'),
+                            disabled: componentState.isDisabled || componentState.isLoading,
+                            style: buttonStyle,
+                            className: cssState.classes.join(' '),
+                            ...cssState.dataAttributes
+                        }, componentState.isLoading ? 'Processing...' : label),
+                        React.createElement('div', { className: 'controls' },
                             React.createElement('button', { onClick: undo, disabled: !history.canUndo }, 'Undo'),
-                            React.createElement('button', { onClick: redo, disabled: !history.canRedo }, 'Redo')
+                            React.createElement('button', { onClick: redo, disabled: !history.canRedo }, 'Redo'),
+                             React.createElement('label', null, 
+                                React.createElement('input', { type: 'checkbox', checked: !!componentState.isDisabled, onChange: (e) => component.setDisabled(e.target.checked) }),
+                                'Disabled'
+                            ),
+                            React.createElement('label', null, 
+                                React.createElement('input', { type: 'checkbox', checked: !!componentState.isLoading, onChange: (e) => component.setLoading(e.target.checked) }),
+                                'Loading'
+                            )
                         ),
-                        React.createElement('pre', { style: { fontSize: '0.8em', marginTop: '10px', backgroundColor: '#eee', padding: '10px' } }, JSON.stringify(componentState, null, 2))
+                        React.createElement('div', { className: 'history' }, `History: ${history.currentPosition + 1}/${history.length}`),
+                        React.createElement('pre', null, `Component State:\n${JSON.stringify(componentState, null, 2)}`),
+                        React.createElement('pre', null, `CSS State:\n${JSON.stringify(cssState, null, 2)}`)
                     );
-                };
+                }
 
-                const root = window.ReactDOM.createRoot(document.getElementById('root'));
-                root.render(React.createElement(App));
-                log('React app rendered.');
-                window.headlessModulesLoaded = true; // For Playwright tests
+                const rootElement = document.getElementById('react-button-root');
+                const reactRoot = window.ReactDOM.createRoot(rootElement);
+                reactRoot.render(React.createElement(MyStyledButton));
+                log('React component rendered.');
 
             } catch (error) {
-                log('ERROR in main(): ' + error);
-                if (error.stack) {
-                    log('Stack: ' + error.stack);
+                log(`ERROR in main(): ${error.message}`);
+                log(`Detailed error: ${error.stack || error}`);
+                if (error.cause) {
+                     log(`Error cause: ${error.cause}`);
                 }
-                console.error("Detailed error:", error);
+                 // Add a marker for Playwright to find if needed
+                const errorMarker = document.createElement('div');
+                errorMarker.id = 'initialization-error';
+                errorMarker.textContent = `Error: ${error.message}`;
+                document.body.appendChild(errorMarker);
             }
         }
 
+        // Ensure the DOM is fully loaded before running the main script
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', main);
         } else {
             main();
         }
-
     </script>
 </body>
 </html>
+    
