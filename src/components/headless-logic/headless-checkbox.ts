@@ -32,7 +32,7 @@ export class HeadlessCheckbox extends HeadlessComponent<CheckboxState> {
             error: null,
         };
     }
-    
+
     /**
      * Sets up default interaction strategies for the checkbox.
      * Uses ToggleClickStrategy for its primary action.
@@ -44,7 +44,7 @@ export class HeadlessCheckbox extends HeadlessComponent<CheckboxState> {
         this.interactionStrategies.set('focus', new FocusStrategy());
         this.interactionStrategies.set('keyboard', new KeyboardStrategy());
     }
-    
+
     /**
      * Updates the component's visual state based on its current data state.
      * @param stateData The current data state of the checkbox.
@@ -58,7 +58,7 @@ export class HeadlessCheckbox extends HeadlessComponent<CheckboxState> {
         else this.transitionToState('idle');
         // Note: isChecked and isIndeterminate are reflected in data-attributes, not separate visual states here.
     }
-    
+
     /**
      * Gets the data attributes for the checkbox element.
      * @returns A record of data attributes including `data-checked`, `data-indeterminate`.
@@ -78,7 +78,7 @@ export class HeadlessCheckbox extends HeadlessComponent<CheckboxState> {
     public notifyObservers(event: string, data?: any): void {
         super.notifyObservers(event, data);
     }
-    
+
     // --- Public API methods ---
 
     /**
@@ -100,7 +100,7 @@ export class HeadlessCheckbox extends HeadlessComponent<CheckboxState> {
         }
         return { prevented: false, handled: true };
     }
-    
+
     /**
      * Sets the checkbox state to checked and clears indeterminate state.
      */
@@ -112,7 +112,7 @@ export class HeadlessCheckbox extends HeadlessComponent<CheckboxState> {
             }
         }
     }
-    
+
     /**
      * Sets the checkbox state to unchecked and clears indeterminate state.
      */
@@ -133,12 +133,12 @@ export class HeadlessCheckbox extends HeadlessComponent<CheckboxState> {
      */
     setIndeterminate(indeterminate: boolean) {
         if (this.state.isDisabled) return;
-        this.setState({ 
-            isIndeterminate: indeterminate, 
-            isChecked: indeterminate ? false : this.state.isChecked 
+        this.setState({
+            isIndeterminate: indeterminate,
+            isChecked: indeterminate ? false : this.state.isChecked
         });
     }
-    
+
     /**
      * Sets the disabled state of the checkbox.
      * @param disabled True to disable, false to enable.
@@ -146,7 +146,7 @@ export class HeadlessCheckbox extends HeadlessComponent<CheckboxState> {
     setDisabled(disabled: boolean) {
         this.setState({ isDisabled: disabled });
     }
-    
+
     /**
      * Sets an error state for the checkbox.
      * @param error The error object or message. Null to clear.
@@ -154,7 +154,7 @@ export class HeadlessCheckbox extends HeadlessComponent<CheckboxState> {
     setError(error: any | null) {
         this.setState({ error: error });
     }
-    
+
     /**
      * Handles hover interaction.
      * @param isHovered True if hovering, false otherwise.
@@ -163,7 +163,7 @@ export class HeadlessCheckbox extends HeadlessComponent<CheckboxState> {
     hover(isHovered: boolean, originalEvent?: Event | React.SyntheticEvent) {
         return this.handleInteraction('hover', { isHovered, originalEvent } as InteractionPayload & { isHovered: boolean });
     }
-    
+
     /**
      * Handles focus interaction.
      * @param isFocused True if focused, false otherwise.
@@ -181,7 +181,7 @@ export class HeadlessCheckbox extends HeadlessComponent<CheckboxState> {
         if (this.state.isDisabled) return;
         this.setState({ isPressed });
     }
-    
+
     /**
      * Handles keyboard interaction (e.g., Space key).
      * @param originalEvent The KeyboardEvent.
