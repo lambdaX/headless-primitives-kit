@@ -35,6 +35,16 @@ export class Command {
 }
 
 /**
+ * Defines the shape of the object returned by `getHistory()`.
+ */
+export interface CommandHistoryState {
+    length: number;
+    currentPosition: number;
+    canUndo: boolean;
+    canRedo: boolean;
+}
+
+/**
  * Manages a history of commands, allowing for execution, undo, and redo operations.
  * This class is central to implementing undo/redo functionality in components.
  */
@@ -106,7 +116,7 @@ export class CommandInvoker {
      * Gets the current state of the command history.
      * @returns An object containing the history length, current position, and undo/redo capabilities.
      */
-    getHistory(): { length: number; currentPosition: number; canUndo: boolean; canRedo: boolean } {
+    getHistory(): CommandHistoryState {
         return {
             length: this.history.length,
             currentPosition: this.currentPosition,

@@ -1,11 +1,12 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import type { HeadlessComponent, BaseComponentState, CssState } from '@/components/headless-logic';
+import type { CommandHistoryState } from '@/components/headless-logic/command'; // Import the new interface
 
 interface HeadlessHookResult<T extends HeadlessComponent<S>, S extends BaseComponentState> {
   component: T;
   componentState: S;
   cssState: CssState;
-  history: ReturnType<T['getHistory']>;
+  history: CommandHistoryState; // Use CommandHistoryState here
   undo: () => void;
   redo: () => void;
 }
@@ -17,7 +18,8 @@ export function useHeadlessComponent<T extends HeadlessComponent<S>, S extends B
 
   const [componentState, setComponentState] = useState<S>(component.getState());
   const [cssState, setCssState] = useState<CssState>(component.getCSSState());
-  const [history, setHistory] = useState(component.getHistory());
+  // Use CommandHistoryState for useState type and initial value
+  const [history, setHistory] = useState<CommandHistoryState>(component.getHistory());
 
   useEffect(() => {
     const onStateChanged = (_event: string, newState: S) => {
@@ -26,20 +28,21 @@ export function useHeadlessComponent<T extends HeadlessComponent<S>, S extends B
     const onCssStateChanged = (_event: string, newCssState: CssState) => {
       setCssState(newCssState);
     };
-    const onHistoryChanged = (_event: string, newHistory: ReturnType<T['getHistory']>) => {
+    // Use CommandHistoryState for the newHistory parameter
+    const onHistoryChanged = (_event: string, newHistory: CommandHistoryState) => {
       setHistory(newHistory);
     };
 
     const unsubscribeState = component.subscribe('stateChanged', onStateChanged as any);
     const unsubscribeCss = component.subscribe('cssStateChanged', onCssStateChanged as any);
-    // stateTransition also implies cssStateChanged, but listening specifically to cssStateChanged is more direct
     const unsubscribeTransition = component.subscribe('stateTransition', () => {
-        setComponentState(component.getState()); // Ensure data state is also updated
+        setComponentState(component.getState());
         setCssState(component.getCSSState());
     });
+    // The 'as any' here is to satisfy the general EventCallback type.
+    // The actual data passed for 'historyChanged' will be CommandHistoryState.
     const unsubscribeHistory = component.subscribe('historyChanged', onHistoryChanged as any);
     
-    // Initial sync after subscriptions are set up
     setComponentState(component.getState());
     setCssState(component.getCSSState());
     setHistory(component.getHistory());
