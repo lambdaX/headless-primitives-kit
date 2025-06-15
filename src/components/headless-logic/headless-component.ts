@@ -260,15 +260,4 @@ export abstract class HeadlessComponent<TState extends BaseComponentState> exten
     getHistory(): CommandHistoryState {
         return this.commandInvoker.getHistory();
     }
-
-    /**
-     * Notifies all subscribed observers of a particular event.
-     * This explicitly defines notifyObservers on HeadlessComponent for clearer type inheritance.
-     * @param event The name of the event to notify observers about.
-     * @param data Optional data to pass to the event callbacks.
-     */
-    public notifyObservers(event: string, data?: any): void {
-        super.notifyObservers(event, data);
-    }
 }
-
