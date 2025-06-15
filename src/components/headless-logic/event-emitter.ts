@@ -1,5 +1,14 @@
+/**
+ * Defines the shape of a callback function for handling events.
+ * @param event The name of the event that occurred.
+ * @param data Optional data associated with the event.
+ */
 export type EventCallback = (event: string, data?: any) => void;
 
+/**
+ * A simple event emitter class that allows objects to subscribe to events
+ * and be notified when those events occur.
+ */
 export class EventEmitter {
     private observers: Map<string, EventCallback[]>;
 
@@ -7,6 +16,12 @@ export class EventEmitter {
         this.observers = new Map<string, EventCallback[]>();
     }
     
+    /**
+     * Subscribes a callback function to a specific event.
+     * @param event The name of the event to subscribe to.
+     * @param callback The function to call when the event occurs.
+     * @returns An unsubscribe function that can be called to remove the subscription.
+     */
     subscribe(event: string, callback: EventCallback): () => void {
         if (!this.observers.has(event)) {
             this.observers.set(event, []);
@@ -17,6 +32,11 @@ export class EventEmitter {
         return () => this.unsubscribe(event, callback);
     }
     
+    /**
+     * Unsubscribes a callback function from a specific event.
+     * @param event The name of the event to unsubscribe from.
+     * @param callback The callback function to remove.
+     */
     unsubscribe(event: string, callback: EventCallback): void {
         if (this.observers.has(event)) {
             const callbacks = this.observers.get(event)!;
@@ -27,9 +47,15 @@ export class EventEmitter {
         }
     }
     
+    /**
+     * Notifies all subscribed observers of a particular event.
+     * @param event The name of the event to notify observers about.
+     * @param data Optional data to pass to the event callbacks.
+     */
     notifyObservers(event: string, data?: any): void {
         if (this.observers.has(event)) {
-            this.observers.get(event)!.forEach(callback => {
+            // Iterate over a copy in case a callback unsubscribes itself or others
+            [...(this.observers.get(event)!)].forEach(callback => {
                 try {
                     callback(event, data);
                 } catch (error) {
