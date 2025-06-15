@@ -467,7 +467,7 @@ export const AccordionRenderer: InteractiveComponentWrapperProps<HeadlessAccordi
       <ShadcnAccordion
         type="single"
         collapsible={componentState.collapsible}
-        value={componentState.openItems[0] || ""}
+        value={componentState.openItems[0]} // Use undefined if no item is open
         {...commonAccordionProps}
       >
         {accordionContentItems}
@@ -478,8 +478,9 @@ export const AccordionRenderer: InteractiveComponentWrapperProps<HeadlessAccordi
     return (
       <ShadcnAccordion
         type="multiple"
-        value={componentState.openItems}
+        value={componentState.openItems} // value is string[]
         {...commonAccordionProps}
+        // collapsible prop should not be passed for type="multiple"
       >
         {accordionContentItems}
         {errorAndDisabledMessages}
@@ -534,3 +535,4 @@ export const TabsRenderer: InteractiveComponentWrapperProps<HeadlessTabs, TabsSt
     {componentState.error && <p className="text-xs text-destructive mt-2 p-1">{String(componentState.error)}</p>}
   </ShadcnTabs>
 );
+
