@@ -1,12 +1,17 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
+// Path alias imports are fine here, as tsc will resolve them correctly
+// based on baseUrl and paths in tsconfig.json, and then make them
+// relative in the dist output. The critical part is that the files
+// being pointed to (e.g., index.ts and command.ts in headless-logic)
+// have their *own* internal relative imports fixed.
 import type { HeadlessComponent, BaseComponentState, CssState } from '@/components/headless-logic';
-import type { CommandHistoryState } from '@/components/headless-logic/command'; // Import the new interface
+import type { CommandHistoryState } from '@/components/headless-logic/command';
 
 interface HeadlessHookResult<T extends HeadlessComponent<S>, S extends BaseComponentState> {
   component: T;
   componentState: S;
   cssState: CssState;
-  history: CommandHistoryState; // Use CommandHistoryState here
+  history: CommandHistoryState;
   undo: () => void;
   redo: () => void;
 }
@@ -18,7 +23,6 @@ export function useHeadlessComponent<T extends HeadlessComponent<S>, S extends B
 
   const [componentState, setComponentState] = useState<S>(component.getState());
   const [cssState, setCssState] = useState<CssState>(component.getCSSState());
-  // Use CommandHistoryState for useState type and initial value
   const [history, setHistory] = useState<CommandHistoryState>(component.getHistory());
 
   useEffect(() => {
@@ -28,7 +32,6 @@ export function useHeadlessComponent<T extends HeadlessComponent<S>, S extends B
     const onCssStateChanged = (_event: string, newCssState: CssState) => {
       setCssState(newCssState);
     };
-    // Use CommandHistoryState for the newHistory parameter
     const onHistoryChanged = (_event: string, newHistory: CommandHistoryState) => {
       setHistory(newHistory);
     };
@@ -39,14 +42,12 @@ export function useHeadlessComponent<T extends HeadlessComponent<S>, S extends B
         setComponentState(component.getState());
         setCssState(component.getCSSState());
     });
-    // The 'as any' here is to satisfy the general EventCallback type.
-    // The actual data passed for 'historyChanged' will be CommandHistoryState.
     const unsubscribeHistory = component.subscribe('historyChanged', onHistoryChanged as any);
     
+    // Initial sync
     setComponentState(component.getState());
     setCssState(component.getCSSState());
     setHistory(component.getHistory());
-
 
     return () => {
       unsubscribeState();

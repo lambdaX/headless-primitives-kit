@@ -1,4 +1,4 @@
-import type { HeadlessComponent } from './headless-component';
+import type { HeadlessComponent } from './headless-component.ts';
 
 /**
  * Represents a specific state a `HeadlessComponent` can be in (e.g., Idle, Hovered, Disabled).
