@@ -1,12 +1,122 @@
 {
-  "name": "nextn",
+  "name": "headless-primitives-kit",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./headless-accordion": {
+      "import": "./dist/headless-accordion.js",
+      "types": "./dist/headless-accordion.d.ts"
+    },
+    "./headless-button": {
+      "import": "./dist/headless-button.js",
+      "types": "./dist/headless-button.d.ts"
+    },
+    "./headless-checkbox": {
+      "import": "./dist/headless-checkbox.js",
+      "types": "./dist/headless-checkbox.d.ts"
+    },
+    "./headless-component": {
+      "import": "./dist/headless-component.js",
+      "types": "./dist/headless-component.d.ts"
+    },
+    "./headless-input": {
+      "import": "./dist/headless-input.js",
+      "types": "./dist/headless-input.d.ts"
+    },
+    "./headless-radio-group": {
+      "import": "./dist/headless-radio-group.js",
+      "types": "./dist/headless-radio-group.d.ts"
+    },
+    "./headless-slider": {
+      "import": "./dist/headless-slider.js",
+      "types": "./dist/headless-slider.d.ts"
+    },
+    "./headless-tabs": {
+      "import": "./dist/headless-tabs.js",
+      "types": "./dist/headless-tabs.d.ts"
+    },
+    "./headless-toggle": {
+      "import": "./dist/headless-toggle.js",
+      "types": "./dist/headless-toggle.d.ts"
+    },
+    "./command": {
+      "import": "./dist/command.js",
+      "types": "./dist/command.d.ts"
+    },
+    "./component-states": {
+      "import": "./dist/component-states.js",
+      "types": "./dist/component-states.d.ts"
+    },
+    "./event-emitter": {
+      "import": "./dist/event-emitter.js",
+      "types": "./dist/event-emitter.d.ts"
+    },
+    "./interaction-strategies": {
+      "import": "./dist/interaction-strategies.js",
+      "types": "./dist/interaction-strategies.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "typesVersions": {
+    "*": {
+      "headless-accordion": [
+        "./dist/headless-accordion.d.ts"
+      ],
+      "headless-button": [
+        "./dist/headless-button.d.ts"
+      ],
+      "headless-checkbox": [
+        "./dist/headless-checkbox.d.ts"
+      ],
+      "headless-component": [
+        "./dist/headless-component.d.ts"
+      ],
+      "headless-input": [
+        "./dist/headless-input.d.ts"
+      ],
+      "headless-radio-group": [
+        "./dist/headless-radio-group.d.ts"
+      ],
+      "headless-slider": [
+        "./dist/headless-slider.d.ts"
+      ],
+      "headless-tabs": [
+        "./dist/headless-tabs.d.ts"
+      ],
+      "headless-toggle": [
+        "./dist/headless-toggle.d.ts"
+      ],
+      "command": [
+        "./dist/command.d.ts"
+      ],
+      "component-states": [
+        "./dist/component-states.d.ts"
+      ],
+      "event-emitter": [
+        "./dist/event-emitter.d.ts"
+      ],
+      "interaction-strategies": [
+        "./dist/interaction-strategies.d.ts"
+      ]
+    }
+  },
   "scripts": {
     "dev": "next dev --turbopack -p 9002",
     "genkit:dev": "genkit start -- tsx src/ai/dev.ts",
     "genkit:watch": "genkit start -- tsx --watch src/ai/dev.ts",
     "build": "next build",
+    "build:logic": "rimraf dist && tsc -p tsconfig.build.json",
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit"
@@ -44,14 +154,16 @@
     "lucide-react": "^0.475.0",
     "next": "15.3.3",
     "patch-package": "^8.0.0",
-    "react": "^18.3.1",
     "react-day-picker": "^8.10.1",
-    "react-dom": "^18.3.1",
     "react-hook-form": "^7.54.2",
     "recharts": "^2.15.1",
     "tailwind-merge": "^3.0.1",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.24.2"
+  },
+  "peerDependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
     "@types/node": "^20",
@@ -59,6 +171,7 @@
     "@types/react-dom": "^18",
     "genkit-cli": "^1.8.0",
     "postcss": "^8",
+    "rimraf": "^5.0.0",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   }

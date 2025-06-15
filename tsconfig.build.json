@@ -1,0 +1,35 @@
+
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src/components/headless-logic",
+    "baseUrl": "./src/components/headless-logic", // Ensures imports within headless-logic are relative to its own root
+    "paths": { // Clear or adjust paths as they might not be needed or could conflict for library build
+      "@/*": ["../../../*"] // This path would be problematic for a standalone library, adjust if needed
+    },
+    "module": "ESNext", // Output ES modules
+    "declaration": true, // Generate .d.ts files
+    "declarationMap": true, // Generate source maps for .d.ts files
+    "sourceMap": true, // Generate .js.map sourcemap files
+    "noEmit": false, // Ensure files are emitted (overrides "noEmit": true in base tsconfig)
+    "jsx": "react-jsx", // Standard JSX transform for React 17+
+    "emitDeclarationOnly": false, // Ensure JS files are also emitted
+    "isolatedModules": false // Allow non-module files if any (though all .ts files here should be modules)
+  },
+  "include": [
+    "./src/components/headless-logic/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "src/app",
+    "src/components/playground",
+    "src/components/ui",
+    "src/hooks",
+    "src/lib",
+    "src/ai",
+    "**/*.spec.ts",
+    "**/*.test.ts"
+  ]
+}
