@@ -264,8 +264,7 @@ export abstract class HeadlessComponent<TState extends BaseComponentState> exten
     /**
      * Notifies all subscribed observers of a particular event.
      * This method is inherited from EventEmitter and re-declared here to ensure
-     * it's explicitly part of HeadlessComponent's type surface for subclasses,
-     * which can help with type resolution in some build environments.
+     * it's explicitly part of HeadlessComponent's type surface for subclasses.
      * @param event The name of the event to notify observers about.
      * @param data Optional data to pass to the event callbacks.
      */
@@ -273,4 +272,3 @@ export abstract class HeadlessComponent<TState extends BaseComponentState> exten
         super.notifyObservers(event, data);
     }
 }
-

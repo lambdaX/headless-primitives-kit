@@ -2,19 +2,19 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "target": "ES2020", // Updated target
+    "target": "ES2020",
     "outDir": "./dist",
-    "rootDir": "./src", 
-    "baseUrl": ".", 
-    "module": "NodeNext", 
-    "moduleResolution": "NodeNext", 
+    "rootDir": "./src",
+    "baseUrl": ".",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
-    "noEmit": false, 
+    "noEmit": false,
     "jsx": "react-jsx",
-    "emitDeclarationOnly": false, 
-    "isolatedModules": false // Explicitly set to false
+    "emitDeclarationOnly": false,
+    "isolatedModules": false
   },
   "include": [
     "./src/components/headless-logic/**/*.ts",
