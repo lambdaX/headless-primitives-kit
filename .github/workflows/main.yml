@@ -25,10 +25,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Clear dist folder
+        run: rimraf dist
+
       - name: Build headless logic
-        run: 
-          - rimraf dist
-          - npm run build:logic
+        run: npm run build:logic
 
       - name: Commit and push dist folder
         uses: stefanzweifel/git-auto-commit-action@v5
