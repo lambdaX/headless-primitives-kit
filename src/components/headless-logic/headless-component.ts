@@ -39,7 +39,7 @@ export interface CssState {
  * command handling (undo/redo), state transitions, and interaction strategy delegation.
  * @template TState The type of the component's specific state, extending `BaseComponentState`.
  */
-export abstract class HeadlessComponent<TState extends BaseComponentState> {
+export abstract class HeadlessComponent<TState extends BaseComponentState> extends EventEmitter {
     /** The current data state of the component. */
     protected state: TState;
     /** A map of named `ComponentState` instances (e.g., "idle", "hovered"). */
@@ -50,11 +50,8 @@ export abstract class HeadlessComponent<TState extends BaseComponentState> {
     protected interactionStrategies: Map<string, InteractionStrategy>;
     /** The command invoker instance for managing undo/redo operations. */
     public commandInvoker: CommandInvoker;
-    /** Internal EventEmitter instance for event handling. */
-    private eventEmitter: EventEmitter;
-    
     constructor() {
-        this.eventEmitter = new EventEmitter();
+        super();
         this.state = this.defineInitialState();
         this.states = new Map<string, ComponentState>();
         this.currentState = null;
@@ -267,27 +264,5 @@ export abstract class HeadlessComponent<TState extends BaseComponentState> {
      * @param callback The function to call when the event occurs.
      * @returns An unsubscribe function.
      */
-    public subscribe(event: string, callback: EventCallback): () => void {
-        return this.eventEmitter.subscribe(event, callback);
-    }
-
-    /**
-     * Unsubscribes a callback function from a specific event.
-     * Delegates to the internal EventEmitter instance.
-     * @param event The name of the event to unsubscribe from.
-     * @param callback The callback function to remove.
-     */
-    public unsubscribe(event: string, callback: EventCallback): void {
-        this.eventEmitter.unsubscribe(event, callback);
-    }
-    
-    /**
-     * Notifies all subscribed observers of a particular event.
-     * Delegates to the internal EventEmitter instance.
-     * @param event The name of the event to notify observers about.
-     * @param data Optional data to pass to the event callbacks.
-     */
-    public notifyObservers(event: string, data?: any): void {
-        this.eventEmitter.notifyObservers(event, data);
-    }
+    // EventEmitter methods are now directly available through inheritance
 }
