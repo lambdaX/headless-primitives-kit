@@ -13,8 +13,8 @@ export class HeadlessRadioGroup extends HeadlessComponent {
         return {
             value: null,
             options: [],
-            isDisabled: false, // Disables the entire group
-            isFocused: false, // Focus state for the group container
+            isDisabled: false,
+            isFocused: false,
             error: null,
         };
     }

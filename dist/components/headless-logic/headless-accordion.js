@@ -15,7 +15,7 @@ export class HeadlessAccordion extends HeadlessComponent {
             type: 'single',
             collapsible: false,
             isDisabled: false,
-            isFocused: false, // Accordion group can have focus
+            isFocused: false,
             error: null,
         };
     }
