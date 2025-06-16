@@ -31,6 +31,9 @@ jobs:
       - name: Build headless logic
         run: npm run build:logic
 
+      - name: Patch imports headless logic
+        run: npm run patch-imports
+
       - name: Commit and push dist folder
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
