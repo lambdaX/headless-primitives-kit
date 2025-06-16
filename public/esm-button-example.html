@@ -46,24 +46,10 @@
 
     <script type="module">
         async function main() {
-            console.log('Attempting to load React...');
-            const ReactModule = await import('https://esm.sh/react@18.3.1');
-            window.React = ReactModule.default; // React uses default export
-            console.log('ReactModule loaded:', ReactModule);
-            if (window.React) console.log('window.React assigned.');
-
-            console.log('Attempting to load ReactDOM...');
-            const ReactDOMModule = await import('https://esm.sh/react-dom@18.3.1/client');
-            window.ReactDOM = ReactDOMModule; // ReactDOM/client uses named exports or default depending on usage
-            console.log('ReactDOMModule loaded:', ReactDOMModule);
-            if (window.ReactDOM && window.ReactDOM.createRoot) console.log('ReactDOM assigned.');
-
             const params = new URLSearchParams(window.location.search);
             const useLocal = params.get('local') === 'true';
             
             // Determine base path for headless-primitives-kit
-            // For CDN: Points to specific version/master and then /dist
-            // For local: Points to ../../dist relative to this HTML file in public/
             const kitVersion = 'b25a89c'; // Or a specific git tag/commit SHA
             const kitRepo = 'lambdaX/headless-primitives-kit';
             const cdnBasePath = `https://cdn.jsdelivr.net/gh/${kitRepo}@${kitVersion}/dist`;
@@ -72,111 +58,105 @@
             const basePath = useLocal ? localBasePath : cdnBasePath;
             console.log(`Base path for headless-primitives-kit: ${basePath}`);
 
-            // Define full paths to the modules
-            // The package.json "exports" field dictates these subpaths.
+            // Load HeadlessButton
             const headlessButtonPath = `${basePath}/components/headless-logic/headless-button.js`;
-            const useHeadlessComponentPath = `${basePath}/hooks/use-headless-component.js`;
-            const headlessComponentPath = `${basePath}/components/headless-logic/headless-component.js`;
-            
-            console.log(`Attempting to load HeadlessComponent from ${headlessComponentPath}`);
-            const { HeadlessComponent } = await import(headlessComponentPath);
-            window.HeadlessComponent = HeadlessComponent;
-            console.log('HeadlessComponent loaded:', HeadlessComponent);
-
-
             console.log(`Attempting to load HeadlessButton from ${headlessButtonPath}`);
             const { HeadlessButton } = await import(headlessButtonPath);
-            window.HeadlessButton = HeadlessButton; // Make it globally available for inspection
+            window.HeadlessButton = HeadlessButton;
             console.log('HeadlessButton loaded:', HeadlessButton);
 
-            console.log(`Attempting to load useHeadlessComponent from ${useHeadlessComponentPath}`);
-            const useHeadlessComponentModule = await import(useHeadlessComponentPath);
-            window.useHeadlessComponentModule = useHeadlessComponentModule; // For inspection
-            const { useHeadlessComponent } = useHeadlessComponentModule;
-            console.log('useHeadlessComponent loaded:', useHeadlessComponent);
-
-
-            if (!window.React || !window.ReactDOM || !window.ReactDOM.createRoot || !HeadlessButton || !useHeadlessComponent) {
-                console.error('Critical dependency failed to load.');
-                document.getElementById('current-state').textContent = 'Error: Critical dependency failed to load.';
+            if (!HeadlessButton) {
+                console.error('Failed to load HeadlessButton');
+                document.getElementById('current-state').textContent = 'Error: Failed to load HeadlessButton';
                 return;
             }
 
-            function MyStyledButton({ label = "Click Me" }) {
-                const { React, useEffect, useState } = window; // Destructure from global React
-                const { component, componentState, cssState, history, undo, redo } = useHeadlessComponent(HeadlessButton);
-                window.headlessButtonInstance = component; // For easy console access
 
-                useEffect(() => {
-                    const handleButtonClick = (event, data) => {
-                        console.log('Button clicked event via subscription!', data);
-                    };
-                    const unsubscribe = component.subscribe('clicked', handleButtonClick);
-                    return () => unsubscribe();
-                }, [component]);
-
-                // Update UI elements based on state for history and current state display
-                useEffect(() => {
+            // Create button element
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.textContent = 'My Styled Button';
+            
+            // Create HeadlessButton instance
+            const headlessButton = new HeadlessButton();
+            window.headlessButtonInstance = headlessButton; // For console access
+            
+            // Function to update button state
+            function updateButtonState(buttonInstance) {
+                // Get the current state from the button instance
+                const componentState = buttonInstance.state;
+                const cssState = buttonInstance.getCSSState ? buttonInstance.getCSSState() : { classes: [], dataAttributes: {} };
+                
+                // Update button attributes and classes
+                button.disabled = componentState.isDisabled || componentState.isLoading;
+                button.setAttribute('aria-disabled', (componentState.isDisabled || componentState.isLoading).toString());
+                button.textContent = componentState.isLoading ? 'Processing...' : 'My Styled Button';
+                
+                // Update classes
+                button.className = [
+                    ...(cssState.classes || []),
+                    componentState.isFocused ? 'focused' : ''
+                ].join(' ').trim();
+                
+                // Update data attributes
+                Object.entries(cssState.dataAttributes || {}).forEach(([key, value]) => {
+                    button.setAttribute(key, value);
+                });
+                
+                // Update history controls if available
+                if (buttonInstance.getHistory) {
+                    const history = buttonInstance.getHistory();
                     document.getElementById('undo-btn').disabled = !history.canUndo;
                     document.getElementById('redo-btn').disabled = !history.canRedo;
-                    document.getElementById('history-status').textContent = `History: ${history.currentPosition + 1}/${history.length}`;
-                    document.getElementById('current-state').textContent = JSON.stringify({
-                        componentState,
-                        cssState
-                    }, null, 2);
-                }, [componentState, cssState, history]);
-
-
-                const buttonElement = React.createElement(
-                    'button',
-                    {
-                        type: 'button',
-                        onClick: (e) => component.click(e),
-                        onMouseEnter: (e) => component.hover(true, e),
-                        onMouseLeave: (e) => component.hover(false, e),
-                        onFocus: (e) => component.focus(true, e),
-                        onBlur: (e) => component.focus(false, e),
-                        onKeyDown: (e) => component.keydown(e),
-                        onMouseDown: () => component.press(true),
-                        onMouseUp: () => component.press(false),
-                        disabled: componentState.isDisabled || componentState.isLoading,
-                        'aria-disabled': componentState.isDisabled || componentState.isLoading,
-                        className: [
-                            ...(cssState.classes || []),
-                            componentState.isFocused ? 'focused' : '',
-                            // Add more dynamic classes based on componentState if needed
-                        ].join(' ').trim(),
-                        ...cssState.dataAttributes,
-                    },
-                    componentState.isLoading ? 'Processing...' : label
-                );
-
-                return buttonElement;
+                    document.getElementById('history-status').textContent = 
+                        `History: ${history.currentPosition + 1}/${history.length}`;
+                }
+                
+                // Update state display
+                document.getElementById('current-state').textContent = JSON.stringify({
+                    componentState,
+                    cssState,
+                    history: buttonInstance.getHistory ? buttonInstance.getHistory() : null
+                }, null, 2);
             }
-
-            const App = () => {
-                const { React } = window;
-                return React.createElement(MyStyledButton, { label: "My Styled Button" });
-            };
-
-            const rootElement = document.getElementById('button-root');
-            const root = window.ReactDOM.createRoot(rootElement);
-            root.render(React.createElement(App));
-
-            // Setup external undo/redo buttons
-            document.getElementById('undo-btn').onclick = () => {
-                if (window.headlessButtonInstance) window.headlessButtonInstance.undo();
-            };
-            document.getElementById('redo-btn').onclick = () => {
-                 if (window.headlessButtonInstance) window.headlessButtonInstance.redo();
-            };
-
+            
+            // Subscribe to state changes
+            headlessButton.subscribe('stateChanged', updateButtonState);
+            
+            // Set up event listeners
+            button.addEventListener('click', (e) => headlessButton.click(e));
+            button.addEventListener('mouseenter', (e) => headlessButton.hover(true, e));
+            button.addEventListener('mouseleave', (e) => headlessButton.hover(false, e));
+            button.addEventListener('focus', (e) => headlessButton.focus(true, e));
+            button.addEventListener('blur', (e) => headlessButton.focus(false, e));
+            button.addEventListener('keydown', (e) => headlessButton.keydown(e));
+            button.addEventListener('mousedown', () => headlessButton.press(true));
+            button.addEventListener('mouseup', () => headlessButton.press(false));
+            
+            // Add button to the DOM
+            const buttonRoot = document.getElementById('button-root');
+            buttonRoot.appendChild(button);
+            
+            // Set up undo/redo buttons
+            document.getElementById('undo-btn').addEventListener('click', () => {
+                if (headlessButton) headlessButton.undo();
+            });
+            
+            document.getElementById('redo-btn').addEventListener('click', () => {
+                if (headlessButton) headlessButton.redo();
+            });
+            
+            // Initial render
+            updateButtonState(headlessButton.getState());
         }
 
+        // Error handling
         main().catch(error => {
             console.error("ERROR in main():", error);
-            document.getElementById('current-state').textContent = `Error during initialization: ${error.message}. Check console for details.`;
-             // Log detailed error including stack if available
+            const errorMessage = error instanceof Error ? error.message : String(error);
+            document.getElementById('current-state').textContent = 
+                `Error during initialization: ${errorMessage}. Check console for details.`;
+            
             if (error.stack) {
                 console.error("Detailed error:", error);
             }
