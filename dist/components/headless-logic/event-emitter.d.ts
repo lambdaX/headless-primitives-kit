@@ -3,7 +3,7 @@
  * @param event The name of the event that occurred.
  * @param data Optional data associated with the event.
  */
-export type EventCallback = (event: string, data?: any) => void;
+export declare type EventCallback = (event: string, data?: any) => void;
 /**
  * A simple event emitter class that allows objects to subscribe to events
  * and be notified when those events occur.

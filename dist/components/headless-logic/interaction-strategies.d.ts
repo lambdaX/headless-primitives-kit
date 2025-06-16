@@ -1,3 +1,4 @@
+/// <reference types="react" />
 import type { HeadlessComponent, BaseComponentState } from './headless-component';
 import type { InputState } from './headless-input';
 import type { HeadlessRadioGroup } from './headless-radio-group';
