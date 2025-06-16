@@ -4,18 +4,17 @@
   "compilerOptions": {
     "target": "ES2020",
     "outDir": "./dist",
-    "rootDir": "./src",
-    "baseUrl": ".",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "rootDir": "./src", 
+    "baseUrl": ".", 
+    "module": "ESNext", 
+    "moduleResolution": "Bundler", 
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
-    "noEmit": false,
+    "noEmit": false, 
     "jsx": "react-jsx",
-    "emitDeclarationOnly": true,  // Changed to true
-    "isolatedModules": false,
-    "allowImportingTsExtensions": true
+    "emitDeclarationOnly": false, 
+    "isolatedModules": false
   },
   "include": [
     "./src/components/headless-logic/**/*.ts",
@@ -35,3 +34,4 @@
     "tests"
   ]
 }
+
