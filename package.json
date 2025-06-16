@@ -129,7 +129,8 @@
     "playwright:install": "npx playwright install --with-deps",
     "start": "next start",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "clean": "rimraf dist"
   },
   "dependencies": {
     "@genkit-ai/googleai": "^1.8.0",

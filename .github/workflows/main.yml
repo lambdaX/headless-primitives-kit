@@ -26,7 +26,7 @@ jobs:
         run: npm ci
 
       - name: Clear dist folder
-        run: rimraf dist
+        run: npm run clean
 
       - name: Build headless logic
         run: npm run build:logic
