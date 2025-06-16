@@ -16,7 +16,7 @@ export class HeadlessCheckbox extends HeadlessComponent {
             isDisabled: false,
             isHovered: false,
             isFocused: false,
-            isPressed: false, // User is actively pressing (e.g. mousedown)
+            isPressed: false,
             error: null,
         };
     }

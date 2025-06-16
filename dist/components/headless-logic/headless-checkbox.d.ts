@@ -1,3 +1,4 @@
+/// <reference types="react" />
 import { HeadlessComponent, BaseComponentState } from './headless-component';
 /**
  * Defines the state properties for a `HeadlessCheckbox` component.

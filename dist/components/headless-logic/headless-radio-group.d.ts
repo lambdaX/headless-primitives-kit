@@ -1,3 +1,4 @@
+/// <reference types="react" />
 import { HeadlessComponent, BaseComponentState } from './headless-component';
 /**
  * Defines the structure for a single radio option within a `HeadlessRadioGroup`.

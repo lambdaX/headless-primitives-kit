@@ -16,9 +16,9 @@ export class HeadlessSlider extends HeadlessComponent {
             max: 100,
             step: 1,
             isDisabled: false,
-            isHovered: false, // Hover state for the slider track or thumb
-            isFocused: false, // Focus state for the slider thumb
-            isPressed: false, // True if the thumb is actively being dragged
+            isHovered: false,
+            isFocused: false,
+            isPressed: false,
             error: null,
         };
     }
