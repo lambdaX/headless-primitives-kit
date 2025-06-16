@@ -4,8 +4,8 @@ import { useState, useEffect, useMemo, useCallback } from 'react';
 // ensure they use .js extension if they are relative paths to other .js files
 // that will be compiled alongside. Aliases to directories (like @/components/headless-logic)
 // usually point to an index.js, which itself should use .js for its internal re-exports.
-import type { HeadlessComponent, BaseComponentState, CssState } from '@/components/headless-logic/headless-component'; 
-import type { CommandHistoryState } from '@/components/headless-logic/command';
+import type { HeadlessComponent, BaseComponentState, CssState } from '../components/headless-logic/headless-component'; 
+import type { CommandHistoryState } from '../components/headless-logic/command';
 
 interface HeadlessHookResult<T extends HeadlessComponent<S>, S extends BaseComponentState> {
   component: T;
@@ -67,3 +67,4 @@ export function useHeadlessComponent<T extends HeadlessComponent<S>, S extends B
 
   return { component, componentState, cssState, history, undo, redo };
 }
+

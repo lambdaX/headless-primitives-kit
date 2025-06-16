@@ -1,20 +1,28 @@
-
 {
-  "extends": "./tsconfig.json",
   "compilerOptions": {
-    "target": "ES2020",
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": false,
+    "esModuleInterop": true,
+    "module": "ES2022",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "incremental": true,
     "outDir": "./dist",
-    "rootDir": "./src", 
-    "baseUrl": ".", 
-    "module": "ESNext", 
-    "moduleResolution": "Bundler", 
+    "rootDir": "./src",
+    "baseUrl": "./",
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
-    "noEmit": false, 
-    "jsx": "react-jsx",
-    "emitDeclarationOnly": false, 
-    "isolatedModules": false
+    "emitDeclarationOnly": false,
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
   "include": [
     "./src/components/headless-logic/**/*.ts",
@@ -30,8 +38,6 @@
     "src/ai",
     "**/*.spec.ts",
     "**/*.test.ts",
-    "public/esm-button-example.html",
-    "tests"
+    "public/esm-button-example.html"
   ]
 }
-

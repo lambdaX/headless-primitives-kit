@@ -49,13 +49,7 @@ export class HeadlessAccordion extends HeadlessComponent {
      * @returns A record of data attributes.
      */
     getDataAttributes() {
-        return {
-            'data-disabled': String(this.state.isDisabled),
-            'data-type': this.state.type,
-            'data-collapsible': String(this.state.collapsible),
-            ...(this.state.error && { 'data-error': 'true' }),
-            'data-focused': String(this.state.isFocused), // For the accordion group
-        };
+        return Object.assign(Object.assign({ 'data-disabled': String(this.state.isDisabled), 'data-type': this.state.type, 'data-collapsible': String(this.state.collapsible) }, (this.state.error && { 'data-error': 'true' })), { 'data-focused': String(this.state.isFocused) });
     }
     // --- Public API methods ---
     /**

@@ -55,12 +55,7 @@ export class HeadlessCheckbox extends HeadlessComponent {
      * @returns A record of data attributes including `data-checked`, `data-indeterminate`.
      */
     getDataAttributes() {
-        return {
-            'data-checked': String(this.state.isChecked),
-            'data-indeterminate': String(this.state.isIndeterminate),
-            'data-disabled': String(this.state.isDisabled),
-            ...(this.state.error && { 'data-error': 'true' }),
-        };
+        return Object.assign({ 'data-checked': String(this.state.isChecked), 'data-indeterminate': String(this.state.isIndeterminate), 'data-disabled': String(this.state.isDisabled) }, (this.state.error && { 'data-error': 'true' }));
     }
     /**
      * Explicitly define notifyObservers to aid type resolution, calling the superclass implementation.

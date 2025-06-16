@@ -81,8 +81,8 @@ export class HeadlessComponent {
      * @returns True if the state was changed, false if the new state was identical to the current state.
      */
     setState(newState) {
-        const previousState = { ...this.state };
-        const nextState = { ...this.state, ...newState };
+        const previousState = Object.assign({}, this.state);
+        const nextState = Object.assign(Object.assign({}, this.state), newState);
         if (JSON.stringify(previousState) === JSON.stringify(nextState)) {
             return false;
         }
@@ -103,7 +103,7 @@ export class HeadlessComponent {
      * @returns The current state object.
      */
     getState() {
-        return { ...this.state };
+        return Object.assign({}, this.state);
     }
     /**
      * Gets the current CSS-related state of the component.
@@ -126,11 +126,7 @@ export class HeadlessComponent {
      * @returns A record of data attributes.
      */
     getDataAttributes() {
-        return {
-            'data-disabled': String(!!this.state.isDisabled),
-            'data-loading': String(!!this.state.isLoading),
-            ...(this.state.error && { 'data-error': 'true' }),
-        };
+        return Object.assign({ 'data-disabled': String(!!this.state.isDisabled), 'data-loading': String(!!this.state.isLoading) }, (this.state.error && { 'data-error': 'true' }));
     }
     /**
      * Handles an interaction by delegating to the appropriate registered strategy.
