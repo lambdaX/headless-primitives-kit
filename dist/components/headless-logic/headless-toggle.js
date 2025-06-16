@@ -15,7 +15,7 @@ export class HeadlessToggle extends HeadlessComponent {
             isDisabled: false,
             isHovered: false,
             isFocused: false,
-            isPressed: false,
+            isPressed: false, // User is actively pressing (e.g. mousedown)
             isLoading: false,
             error: null,
         };
