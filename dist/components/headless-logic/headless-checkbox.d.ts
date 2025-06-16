@@ -34,6 +34,10 @@ export declare class HeadlessCheckbox extends HeadlessComponent<CheckboxState> {
      */
     getDataAttributes(): Record<string, string>;
     /**
+     * Explicitly define notifyObservers to aid type resolution, calling the superclass implementation.
+     */
+    notifyObservers(event: string, data?: any): void;
+    /**
      * Toggles the checkbox state.
      * If indeterminate, it becomes checked. Otherwise, it toggles between checked and unchecked.
      * @param originalEvent Optional. The original browser or React event.
