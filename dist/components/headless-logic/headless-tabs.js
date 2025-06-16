@@ -1,5 +1,5 @@
-import { HeadlessComponent } from './headless-component.js.js';
-import { TabsActivateTabStrategy, FocusStrategy } from './interaction-strategies.js.js';
+import { HeadlessComponent } from './headless-component.js';
+import { TabsActivateTabStrategy, FocusStrategy } from './interaction-strategies.js';
 /**
  * Manages the state and interactions for a tabs component.
  * Tabs allow users to switch between different views or sections of content.

@@ -1,5 +1,5 @@
-import { HeadlessComponent } from './headless-component.js.js';
-import { InputTextStrategy, FocusStrategy } from './interaction-strategies.js.js';
+import { HeadlessComponent } from './headless-component.js';
+import { InputTextStrategy, FocusStrategy } from './interaction-strategies.js';
 /**
  * Manages the state and interactions for a text input component.
  */

@@ -1,5 +1,5 @@
-import { HeadlessComponent } from './headless-component.js.js';
-import { ButtonClickStrategy, HoverStrategy, FocusStrategy, KeyboardStrategy } from './interaction-strategies.js.js';
+import { HeadlessComponent } from './headless-component.js';
+import { ButtonClickStrategy, HoverStrategy, FocusStrategy, KeyboardStrategy } from './interaction-strategies.js';
 /**
  * Manages the state and interactions for a button component.
  * This class provides the logic for button behaviors like click, hover, focus,

@@ -1,5 +1,5 @@
-import { HeadlessComponent } from './headless-component.js.js';
-import { ToggleClickStrategy, HoverStrategy, FocusStrategy, KeyboardStrategy } from './interaction-strategies.js.js';
+import { HeadlessComponent } from './headless-component.js';
+import { ToggleClickStrategy, HoverStrategy, FocusStrategy, KeyboardStrategy } from './interaction-strategies.js';
 /**
  * Manages the state and interactions for a toggle component, such as a switch.
  * Toggles typically have two states: checked (on) and unchecked (off).
