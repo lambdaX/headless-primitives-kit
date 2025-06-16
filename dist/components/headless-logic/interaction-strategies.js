@@ -311,8 +311,8 @@ export class AccordionToggleItemStrategy extends InteractionStrategy {
             context.setState({ openItems: newOpenItems });
             context.notifyObservers('itemToggled', {
                 itemId,
-                isOpen: newOpenItems.includes(itemId),
-                openItems: newOpenItems,
+                isOpen: newOpenItems.includes(itemId), // The new state of the item being toggled
+                openItems: newOpenItems, // The complete list of open items
                 originalEvent: payload.originalEvent,
             });
         }

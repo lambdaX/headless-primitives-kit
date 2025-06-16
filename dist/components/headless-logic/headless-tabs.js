@@ -13,8 +13,8 @@ export class HeadlessTabs extends HeadlessComponent {
         return {
             activeTab: null,
             orientation: 'horizontal',
-            isDisabled: false,
-            isFocused: false,
+            isDisabled: false, // Disables the entire tabs group
+            isFocused: false, // Focus state for the tab list or an active tab
             error: null,
         };
     }
