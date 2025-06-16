@@ -1,5 +1,5 @@
-import { HeadlessComponent } from './headless-component.js.js';
-import { SliderUpdateStrategy, SliderKeyboardStrategy, HoverStrategy, FocusStrategy } from './interaction-strategies.js.js';
+import { HeadlessComponent } from './headless-component.js';
+import { SliderUpdateStrategy, SliderKeyboardStrategy, HoverStrategy, FocusStrategy } from './interaction-strategies.js';
 /**
  * Manages the state and interactions for a slider component.
  * Sliders allow users to select a value from a continuous or discrete range.

@@ -35,10 +35,10 @@ async function patchImports() {
       
       // Replace relative imports ending with .ts to .js
       // Matches patterns like: from './file.ts' or from '../path/file.ts'
-      content = content.replace(/from\s+(['"])(\.\.?\/[^'"]*?)\1/g, "from $1$2.js$1");
+      content = content.replace(/from\s+(['"])(\.\.?\/[^'"]*?)(\.ts|\.tsx|\.js|\.jsx|\.mjs|\.cjs)?\1/g, "from $1$2.js$1");
       
       // Also handle import() dynamic imports
-      content = content.replace(/import\s*\(\s*(['"])(\.\.?\/[^'"]*?)\1/g, "import($1$2.js$1");
+      content = content.replace(/import\s*\(\s*(['"])(\.\.?\/[^'"]*?)(\.ts|\.tsx|\.js|\.jsx|\.mjs|\.cjs)?\1/g, "import($1$2.js$1");
       
       // Write back only if content changed
       if (content !== originalContent) {
