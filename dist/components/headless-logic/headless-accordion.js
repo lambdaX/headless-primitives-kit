@@ -1,5 +1,5 @@
-import { HeadlessComponent } from './headless-component';
-import { AccordionToggleItemStrategy, FocusStrategy } from './interaction-strategies';
+import { HeadlessComponent } from './headless-component.js.js';
+import { AccordionToggleItemStrategy, FocusStrategy } from './interaction-strategies.js.js';
 /**
  * Manages the state and interactions for an accordion component.
  * An accordion allows users to toggle the visibility of content sections.

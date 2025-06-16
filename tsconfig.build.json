@@ -7,6 +7,7 @@
     "strict": true,
     "noEmit": false,
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "module": "ES2022",
     "moduleResolution": "node",
     "resolveJsonModule": true,
@@ -20,6 +21,7 @@
     "declarationMap": true,
     "sourceMap": true,
     "emitDeclarationOnly": false,
+    "removeComments": false,
     "paths": {
       "@/*": ["./src/*"]
     }

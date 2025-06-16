@@ -124,13 +124,14 @@
     "genkit:dev": "genkit start -- tsx src/ai/dev.ts",
     "genkit:watch": "genkit start -- tsx --watch src/ai/dev.ts",
     "build": "npm run build:logic && next build",
-    "build:logic": "tsc -p tsconfig.build.json",
+    "build:logic": "tsc -p tsconfig.build.json && node patch-imports.mjs",
     "test:e2e:local": "npm run build:logic && npx playwright test",
     "playwright:install": "npx playwright install --with-deps",
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "clean": "rimraf dist"
+    "clean": "rimraf dist",
+    "patch-imports": "node patch-imports.mjs"
   },
   "dependencies": {
     "@genkit-ai/googleai": "^1.8.0",

@@ -1,6 +1,6 @@
-import { EventEmitter } from './event-emitter';
-import { Command, CommandInvoker } from './command';
-import { IdleState, HoveredState, FocusedState, PressedState, DisabledState, LoadingState, ErrorState } from './component-states';
+import { EventEmitter } from './event-emitter.js.js';
+import { Command, CommandInvoker } from './command.js.js';
+import { IdleState, HoveredState, FocusedState, PressedState, DisabledState, LoadingState, ErrorState } from './component-states.js.js';
 /**
  * Abstract base class for all headless UI components.
  * It provides core functionality for state management, event emission,

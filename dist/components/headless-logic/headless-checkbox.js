@@ -1,5 +1,5 @@
-import { HeadlessComponent } from './headless-component';
-import { ToggleClickStrategy, HoverStrategy, FocusStrategy, KeyboardStrategy } from './interaction-strategies';
+import { HeadlessComponent } from './headless-component.js.js';
+import { ToggleClickStrategy, HoverStrategy, FocusStrategy, KeyboardStrategy } from './interaction-strategies.js.js';
 /**
  * Manages the state and interactions for a checkbox component.
  * Checkboxes can be checked, unchecked, or indeterminate.

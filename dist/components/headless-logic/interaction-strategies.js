@@ -1,6 +1,6 @@
-import { HeadlessToggle } from './headless-toggle';
-import { HeadlessButton } from './headless-button';
-import { HeadlessCheckbox } from './headless-checkbox';
+import { HeadlessToggle } from './headless-toggle.js.js';
+import { HeadlessButton } from './headless-button.js.js';
+import { HeadlessCheckbox } from './headless-checkbox.js.js';
 /**
  * Base class for all interaction strategies.
  * Interaction strategies define how a `HeadlessComponent` reacts to specific user inputs or events.

@@ -1,5 +1,5 @@
-import { HeadlessComponent } from './headless-component';
-import { RadioItemSelectStrategy, FocusStrategy } from './interaction-strategies';
+import { HeadlessComponent } from './headless-component.js.js';
+import { RadioItemSelectStrategy, FocusStrategy } from './interaction-strategies.js.js';
 /**
  * Manages the state and interactions for a group of radio buttons.
  * Only one radio button in a group can be selected at a time.
